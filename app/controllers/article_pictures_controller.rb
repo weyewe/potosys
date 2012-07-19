@@ -1,0 +1,2 @@
+class ArticlePicturesController < ApplicationController
+end
