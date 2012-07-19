@@ -1,3 +1,13 @@
 <div id="content_right" style="width:184px;" >
- Test some shit
+ <ul class="navigation">
+   <li class="<%= front_page_navigation_class(:home, params) %>">
+     <%= link_to "Homepage", root_url %>
+   </li>
+   <li class="<%= front_page_navigation_class(:blog, params) %>">
+     <%= link_to "Blog", blog_url(Article.where(:is_displayed => true).order("publication_datetime DESC").first.id ) %>
+   </li>
+   <li class="<%= front_page_navigation_class(:login, params) %>">
+     <%= link_to "Client Login", new_user_session_url %>
+   </li>
+ </ul>
 </div>

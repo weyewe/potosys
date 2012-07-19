@@ -5,6 +5,26 @@ module ApplicationHelper
   PREV_BUTTON_TEXT = " &larr; Prev "
   
   
+=begin
+  FRONT_PAGE NAVIGATION 
+=end
+  def front_page_navigation_class(entry_symbol, params)
+    if entry_symbol == :home
+      if params[:controller] == "home" && params[:action] == "homepage"
+        return "active"
+      end
+    end
+    
+    if entry_symbol == :blog
+      if params[:controller] == "home" && params[:action] == "blog"
+        return "active"
+      end
+    end
+    
+    if entry_symbol == :login
+    end
+  end
+  
   
 =begin
   TRANSLOADIT RELATED 
