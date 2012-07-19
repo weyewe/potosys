@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="author" content="ThemeFuse" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+  <meta name="google-site-verification" content="AztCWFNIdH26d4wsUNG_bVrR8eOCYSxdlx8U1-mvcDI" />
+  <title><%= COMPANY_NAME %></title>
+
+  <%= stylesheet_link_tag    "front_page", :media => "all" %>
+  <%#= javascript_include_tag "application" %>
+  <%= yield :additional_css %>
+  <%= csrf_meta_tags %>
+  
+
+  <link rel="shortcut icon" href="<%=asset_path "front_page/favicon.png" %>">
+
+</head>
+<body>
+  <% if params[:action] == 'blog'%>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=338879856124711";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <% end %>
+	
+  <!-- <div id="box">
+    <div id="inner_box">Hey! We've put this bar here so you can put some awesome cool stunning great message!</div>
+    <div id="box_close">x close</div>   
+  </div> -->
+
+  <div id="header">
+    <div id="inner_header">
+      <div id="logo">
+        <a href="index.php">
+          <%= image_tag 'front_page/nomina_logo.png' %>
+        </a>
+      </div>
+      <div id="menu">
+        <ul class="sf-menu">
+          <li class="<%#= menu_item_class(:home, params) %> parent">
+            <%= link_to "Home", root_url %>
+          </li>
+          <li class="<%#= menu_item_class(:portfolio, params) %> parent">
+            <%= link_to "Portfolio", portfolio_url %>
+          </li>
+       
+          <li class="parent">
+            <%= link_to "Client Login", new_user_session_url %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+	<%= yield %>
+	
+	
+	
+	
+	<div id="footer">
+		<div id="inner_footer">
+	    <!-- <div class="footer_col">
+	       <h2 class="white"><span class="yellow">.</span></h2>
+	       
+	     </div>      
+	     <div class="footer_col even">
+	        <h2 class="white"><span class="yellow">.</span></h2>
+	       
+	       <div class="clear"></div>       
+	     </div>        
+	     <div class="footer_col">
+	       <h2 class="white">Contact<span class="yellow">.</span></h2>
+	       <p>Cras dolor aliquet euismod odio tortor viverra. Elit blandit praesent amet risus ligula nullam. Dignissim aliquam adipisci odio sed lorem.</p>
+	       <p><br /><a href="mailto:hello@lovo.com">hello@lovo.com</a></p>
+	     </div> -->
+			
+			<div id="footer_bottom">
+				<div id="logo_klein">
+          <!-- <img src="images/logo_klein.png" alt="lovo logo klein" /> -->
+				</div>
+				<div id="copyright">&copy; 2012 <a href="#">Little Collins Pictures</a> <!-- Design by <a href="http://freshcreations.nl">FreshCreations</a> -->
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+
+  <!-- Le javascript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
+  <%= javascript_include_tag "front_page" %>
+  <%= yield :additional_js %>
+</body>
+</html>
+
+
+
+

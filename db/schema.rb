@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120719134413) do
+ActiveRecord::Schema.define(:version => 20120719155010) do
 
   create_table "article_pictures", :force => true do |t|
     t.string   "name"
@@ -44,21 +44,56 @@ ActiveRecord::Schema.define(:version => 20120719134413) do
     t.text     "description"
     t.text     "teaser"
     t.integer  "project_id"
-    t.integer  "company_id"
+    t.integer  "office_id"
     t.integer  "user_id"
     t.integer  "article_type",         :default => 1
     t.boolean  "has_front_page_image", :default => false
     t.integer  "article_category_id"
     t.boolean  "is_deleted",           :default => false
+    t.datetime "publication_datetime"
+    t.datetime "datetime"
+    t.boolean  "is_displayed",         :default => false
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
   end
 
   create_table "assignments", :force => true do |t|
     t.integer  "role_id"
+    t.integer  "job_attachment_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "job_attachments", :force => true do |t|
+    t.integer  "office_id"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.boolean  "is_active",  :default => false
+    t.boolean  "is_deleted", :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "offices", :force => true do |t|
+    t.string   "name"
+    t.integer  "main_user_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "roles", :force => true do |t|

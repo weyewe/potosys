@@ -1,0 +1,72 @@
+
+<div class="span9 content">
+  <%= create_guide("Create Article", 
+        "Migrate from Finalized Project, or Create New Article").html_safe %>
+  
+  
+  <% if not params[:notice].nil? %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= params[:notice].html_safe %>.
+    </div>
+  <% end %>
+  <%#= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if not params[:error].nil? %>
+    <div class="alert alert-error">
+       <%= params[:error].html_safe %>.
+    </div>
+  <% end %>
+  
+  
+  
+  
+  
+  <div class="row-fluid" id="new_independent_article_wrapper" 
+        style=" margin-bottom:30px;  padding-top:10px;">
+    <div class="span12">
+   
+      
+      <%= simple_form_for(@new_article, :url => create_independent_article_url, :html => {:class => 'form-horizontal' }) do |f| %>
+        <%= f.input :title , :input_html => {:class => "input-xlarge span8"}, 
+        :hint => "Judul dari artikel ini."%>
+        
+        <%= f.input :sub_title , :input_html => {:class => "input-xlarge span8"}, 
+        :hint => "Sub-Judul dari artikel ini."%>
+        <%= f.input :teaser, :input_html => {:rows => 5, :columns => 20, :class => "input-xlarge span10" },
+        :hint => "Deskripsi singkat dari project yang dibahas di artikel ini"%>
+
+        <%= f.input :description , :input_html => {:rows => 5, :columns=>20, :class => "input-xlarge span10"}, 
+        :hint => "Deskripsi lengkap dari project yang dibahas"%>
+
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-primary" %>
+        </div>
+      <% end %>
+      
+      
+    </div><!--/span-->
+
+   
+    
+  </div><!--/row-->
+</div><!--/span-->
+
+<% content_for :additional_js do %>
+  <%= javascript_include_tag "wysihtml5-0.3.0_rc2.min", "bootstrap-wysihtml5-0.0.2.min" %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#article_teaser, #article_description').wysihtml5({
+      	"html": false, //Button which allows you to edit the generated HTML. Default false
+      	"image": false //Button to insert an image. Default true
+      });
+      
+      
+    });
+  </script>
+<% end %>
+
+<% content_for :additional_css do %>
+  <%= stylesheet_link_tag "bootstrap-wysihtml5-0.0.2" %>
+<% end %>
+
+

@@ -1,0 +1,21 @@
+<span class="publication_date">
+  24.5.2012
+</span>
+
+<%= link_to article.title, blog_url(article), :class => "noborder article_title"%>
+<!-- <a class="noborder article_title" href="#"><%= article.title %></a> -->
+<!-- <img src="images/latest_blogs/article_1.jpg" alt="article 1" style="margin:0 auto; display:block;"  /> -->
+  <% article.ordered_blog_article_pictures.each do |pic| %>
+    <p style="margin-bottom:3px;">
+    <%= image_tag  pic.article_image_url ,
+      :style => "margin:0 auto; display:block; width:700px;" %>
+    </p>
+  <% end %>
+
+
+<div style="width:700px; margin:0 auto; font-family: Verdana, Helvetica,Arial,default; margin-top:20px; color:#c7c7c7;">
+  
+  <div><%= article.description.html_safe %></div>	
+  <!-- <div class="readmore black" ><a href="#">Read more</a></div> -->
+</div>
+<div class="spacer"></div>

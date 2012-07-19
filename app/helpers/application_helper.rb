@@ -161,8 +161,8 @@ module ApplicationHelper
       return create_process_nav(STUDENT_PROCESS_LIST, params )
     end
   
-    if symbol == :settings
-      return create_process_nav(SETTINGS_PROCESS_LIST, params )
+    if symbol == :publisher
+      return create_process_nav(PUBLISHER_PROCESS_LIST, params )
     end
   end
   
@@ -223,4 +223,48 @@ module ApplicationHelper
   #####     Start of the process navigation KONSTANT
   #####
   #######################################################
+  
+  PUBLISHER_PROCESS_LIST = {
+    :header_title => "Publisher",
+    :processes => [
+      {
+        :title => "Create Article",
+        :destination_link => "new_independent_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'new'
+          },
+          {
+            :controller => "articles",
+            :action => "new_independent_article"
+          }
+        ]
+      },
+      {
+        :title => "Finalize Article",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'finalize_article'
+          },
+          {
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
+          },
+          {
+            :controller => 'articles',
+            :action => 'edit_publication'
+          }
+        ]
+      }
+    ]
+  }
+  
+  
 end

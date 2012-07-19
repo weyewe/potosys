@@ -1,0 +1,31 @@
+<div id="wrapper">
+	
+	<div id="content">
+    <!-- sum = 584 + 300px -->
+		<div id="content_left" style="width:700px;">
+			
+			
+			<% @articles.each do |article| %>
+			  <%= render :partial => "layouts/front_page/article_entry", :locals => {
+			    :article => article 
+			  } %>
+			<% end %>
+			
+			
+			
+			
+		</div>
+	
+	  <div id="content_right" style="width:184px;" >
+	   Test some shit
+	  </div>
+    			
+    			
+		<div class="clear"></div>
+		<%= paginate @articles, :params => {:controller => 'home', :action => 'homepage'} %>
+		
+		
+		<div class="spacer_footer"></div>
+	</div>		
+  
+</div>

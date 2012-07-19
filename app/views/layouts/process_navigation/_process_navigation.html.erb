@@ -14,9 +14,9 @@
         <%#= get_process_nav( :account_manager , params ).html_safe %> 
       <%# end %>
       
-      <%# if current_user.has_role?(:publisher) %>
-        <%#= get_process_nav( :cashier , params ).html_safe %> 
-      <%# end %>
+      <% if current_user.has_role?(:publisher) %>
+        <%= get_process_nav( :publisher , params ).html_safe %> 
+      <% end %>
       
  
    </div><!--/.well -->

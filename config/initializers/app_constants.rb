@@ -1,9 +1,9 @@
 COMPANY_NAME = "Little Collins"
-
+COMPANY_TITLE = "Little Collins Pictures"
 =begin
   MODEL CONSTANT
 =end
-
+JAKARTA_HOUR_OFFSET = 7 
 USER_ROLE = {
   :admin => "Admin",
   :photographer => "Photographer",
@@ -30,6 +30,7 @@ USER_ROLE = {
   
   # AccountExecutive deals with the communication to clients
   :account_executive => "AccountExecutive",
+  :publisher => "Publisher"
 }
 
 PROJECT_ROLE = {

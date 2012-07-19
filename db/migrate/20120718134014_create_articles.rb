@@ -8,7 +8,7 @@ class CreateArticles < ActiveRecord::Migration
       t.integer :project_id 
       
       
-      t.integer :company_id 
+      t.integer :office_id 
       t.integer :user_id 
       
       t.integer :article_type , :default => ARTICLE_TYPE[:mapped_from_project]
@@ -19,6 +19,9 @@ class CreateArticles < ActiveRecord::Migration
       
       t.boolean :is_deleted , :default => false
       
+      t.datetime :publication_datetime, :datetime 
+      
+      t.boolean :is_displayed, :default => false 
       
       t.timestamps
     end
