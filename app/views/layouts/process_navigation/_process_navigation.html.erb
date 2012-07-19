@@ -1,0 +1,23 @@
+<div class="span3 process-nav" id="process_nav_wrapper">
+   <div class="well sidebar-nav">
+     
+
+      <%# if current_user.has_role?(:admin) %>
+        <%#= get_process_nav( :manager , params ).html_safe %> 
+      <%# end %>
+      
+      <%# if current_user.has_role?(:manager) %>
+        <%#= get_process_nav( :machine_builder , params ).html_safe %> 
+      <%# end %>
+      
+      <%# if current_user.has_role?(:marketing ) %>
+        <%#= get_process_nav( :account_manager , params ).html_safe %> 
+      <%# end %>
+      
+      <%# if current_user.has_role?(:publisher) %>
+        <%#= get_process_nav( :cashier , params ).html_safe %> 
+      <%# end %>
+      
+ 
+   </div><!--/.well -->
+ </div><!--/span-->
