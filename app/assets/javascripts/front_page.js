@@ -1,9 +1,2 @@
 //= require jquery
-//= require jquery_ujs
-//= require front_page/jquery-ui-1.8.21.custom.min
-//= require front_page/jquery.anythingslider.min
-//= require front_page/jquery.colorbox-min
-//= require front_page/twitter
-//= require front_page/hoverIntent
-//= require front_page/superfish
-//= require front_page/jquery.functions
+
