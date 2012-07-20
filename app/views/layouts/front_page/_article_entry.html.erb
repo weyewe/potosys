@@ -1,5 +1,5 @@
 <span class="publication_date">
-  24.5.2012
+  <%= article.publication_datetime.day.to_s  + "." + article.publication_datetime.month.to_s + "." + article.publication_datetime.year.to_s%>
 </span>
 
 <%= link_to article.title, blog_url(article), :class => "noborder article_title"%>
