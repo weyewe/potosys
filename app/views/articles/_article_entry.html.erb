@@ -1,15 +1,15 @@
 <tr id="entry_row_<%= article.id %>">
   <td><%=  article.title %></td>
  
-  <td>
-    <% if article.project.nil? %>
+  <!-- <td>
+    <%# if article.project.nil? %>
       <span class="label">Independent</span>
-    <% else %>
+    <%# else %>
       <span class="label label-info">Project</span>
-    <% end %>
+    <%# end %>
     
   </td>
-  
+   -->
   <td style="text-align:center;">
     
     <!-- edit_article_content -->
@@ -55,8 +55,7 @@
     <% end %>
   </td>
   
-  <td style="text-align:center;">
+  <!-- <td style="text-align:center;">
     <%= link_to "Preview", "#", :class => "btn"%>
-    <!-- <button href="#" class="btn">Preview</button> -->
-  </td>
+  </td> -->
 </tr>
