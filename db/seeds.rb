@@ -145,34 +145,38 @@ important_date_2 = ImportantDate.create_reminder_for_client( client_1, marketing
                                       
                                       
 puts "****************Create Project***************"
-project_1 = Project.create_project_by_marketing( client_1 , marketing_employee_1, 
+sales_order = SalesOrder.create_sales_by_marketing( client_1 , marketing_employee_1, 
                                     selected_package_list, 
                                     final_negotiated_price, 
                                     detail_request ) # detail request, if any == detail of client request
                                     # such as black and white or whatsoever 
-puts "key in the action date"
-selected_package_list.each do |package|
-  package.shoot_date = Date.new( 2012, 12, 25 ) 
-  if package.is_crew_specific_pricing? 
-    package.add_main_photographer( benny ) 
+puts "key in the shooting date"
+
+sales_order.projects.each do |project|
+  project.shoot_date = Date.new( 2012, 12, 25 ) 
+  if project.package.is_crew_specific_pricing? 
+    project.add_main_photographer( benny ) 
   end
 end
 
+puts "adjusting the deliverables"
+first_project =  sales_order.projects.first 
+# first_project.deliverable_items.create()
              
-puts "key in negotiation report"                
-# there is only 1 selected package 
-selected_package_1  = selected_package_list.first
-#  for each selected package, create adjustment 
-selected_package_package_item_1 = selected_package_1.package_items.first 
-selected_package_package_item_1.edit_quantity( 30 )
+             
+puts "finalizing the sales: manifesting the main photographer schedule etc"
+sales_order.finalize_sales( marketing_employee_1 )
 
 puts "\nBACKOFFICE WORK. HEAD PM assigns project manager, assistant photographer, digital imaging team and account executive"
 
-project.assign_role( head_project_manager, project_manager, PROJECT_ROLE[:project_manager] )
-project.assign_role( head_project_manager, account_executive, PROJECT_ROLE[:account_executive] )
-project.assign_role( head_project_manager, graphic_designer, PROJECT_ROLE[:graphic_designer] )
-project.assign_role( head_project_manager, amateur_1, PROJECT_ROLE[:photographer] )
-project.finalize_role_assignment( head_project_manager ) 
+sales_order.projects.each do |project|
+  project.assign_role( head_project_manager, project_manager, PROJECT_ROLE[:project_manager] )
+  project.assign_role( head_project_manager, account_executive, PROJECT_ROLE[:account_executive] )
+  project.assign_role( head_project_manager, graphic_designer, PROJECT_ROLE[:graphic_designer] )
+  project.assign_role( head_project_manager, amateur_1, PROJECT_ROLE[:photographer] )
+  project.finalize_role_assignment( head_project_manager )
+end
+
 
 # DONE, the marketing is done. The next phase is passing the raw files to the Digital Imaging (DI) team
 
@@ -186,30 +190,30 @@ puts "\n************PASSING THE RAW FILES TO THE DI TEAM***********\n"
 # uploading 5GB? that's a lot. ahahaha.
 
 
-project_1.selected_packages.each do |selected_package|
-  selected_package.submitted_raw_data( benny ) # the photographers log in, report that he has passed the data 
+sales_order.projects.each do |project|
+  project.submitted_raw_data( benny ) # the photographers log in, report that he has passed the data 
 end
 
 
 puts "\n******** Account Executive receives raw files******"
-project_1.selected_packages.each do |selected_package|
-  selected_package.approve_raw_data_submission( account_executive )  # the photographers log in, report that he has passed the data 
+sales_order.projects.each do |project|
+  project.approve_raw_data_submission( account_executive )  # the photographers log in, report that he has passed the data 
   # on raw data submission approval, if the package type is video, auto approve selection process. move directly to 
   # the draft-feedback-revision cycle 
 end
 
 # optimized for photo 
 puts "\n********** Start the photo selection work *********"
-photo_package = project_1.selected_packages.joins(:package).where(:package => {:package_medium => PACKAGE_MEDIUM[:photo]}  ).first 
+photo_project = sales_order.projects.joins(:package).where(:package => {:package_medium => PACKAGE_MEDIUM[:photo]}  ).first 
 
 # now, the ball is in the account executive. he has to click "SENT PIC FOR SELECTION + description"
 
 puts "\n******* Get client to select images*********"
 
-photo_package.assign_internal_deadline_for_image_selection( account_executive, Date.new(2012, 10, 20) )
-photo_package.image_selection_start( account_executive)   # at current date 
+photo_project.assign_internal_deadline_for_image_selection( account_executive, Date.new(2012, 10, 20) )
+photo_project.image_selection_start( account_executive)   # at current date 
 # assigning task. # to the account executive. do a call based on that . 
-photo_package.image_selection_end( account_executive ) # at the current Date when it is clicked 
+photo_project.image_selection_end( account_executive ) # at the current Date when it is clicked 
  
 
 #  account executive process the client feedback to graphic_designer-friendly task 
@@ -217,7 +221,7 @@ photo_package.image_selection_end( account_executive ) # at the current Date whe
 puts "\n******* Start the draft-feedback-revision-work*********"
 #  on revision, account executive create contact report 
 # to trace the topics discussed with client 
-draft_1 = photo_package.create_draft( account_executive )
+draft_1 = photo_project.create_draft( account_executive )
 draft_1.add_overall_guideline(account_executive, "Client Message")
 draft_1.assign_deadline( account_executive, Date.new(2012, 10, 30) )
   
@@ -239,8 +243,8 @@ draft_1.assign_actual_review_done_date( account_executive )
 # over here, the account executive can decide: another draft or finalize
 # we are going for finalization 
 
-photo_package.reload!
-photo_package.finalize_production( account_executive ) 
+photo_project.reload!
+photo_project.finalize_production( account_executive ) 
 # we move to deliverables creation 
 
 # Package == template
@@ -267,7 +271,7 @@ photo_package.finalize_production( account_executive )
 
 # latest question: 1 project 1 package. or multiple project multiple package?
 # i prefer the 1 project 1 package. If the client is getting multiple project + negotiation price, how? 
-# 1 order, multiple project. each project => linked to 1 package. that's it.  HAhaha. team has to be assembled for each project. 
-
+# 1 SalesOrder, multiple project. each project => linked to 1 package. that's it.  HAhaha. team has to be assembled for each project. 
+# 1 SalesOrder, 1 price for all the packages selected . 
 
 
