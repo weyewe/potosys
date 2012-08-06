@@ -6,7 +6,10 @@ COMPANY_TITLE = "Little Collins Pictures"
 JAKARTA_HOUR_OFFSET = 7 
 USER_ROLE = {
   :admin => "Admin",
-  :photographer => "Photographer",
+  :pro_photographer => "ProPhotographer",
+  :amateur_photographer => "AmateurPhotographer",
+  :pro_videographer => "ProVideographer",
+  :amateur_videographer => "AmateurVideographer",
   
   # Marketing Team: composed of several marketers  + several marketing head
   #   marketing will add client to crm, add contact report, 
@@ -19,8 +22,8 @@ USER_ROLE = {
   
   # Graphic Team: composed of several graphic heads + several graphic editor 
   # it will create revision: video and pics
-  :graphic_head => "GraphicHead",
-  :graphic => "Graphic",
+  :graphic_designer_head => "GraphicDesignerHead",
+  :graphic_designer => "GraphicDesigner",
   
   # Project Management Team: 
   # oversee the whole development
@@ -35,7 +38,7 @@ USER_ROLE = {
 
 PROJECT_ROLE = {
   :account_executive => "AccountExecutive",
-  :graphic => "Graphic",
+  :graphic_designer => "GraphicDesigner",
   :project_manager => "ProjectManager",
   :photographer => "Photographer"
 }
@@ -48,6 +51,11 @@ ARTICLE_PICTURE_TYPE = {
 ARTICLE_TYPE = {
   :mapped_from_project => 1 , 
   :independent_article =>  2
+}
+
+PACKAGE_MEDIUM = {
+  :photo => 0,
+  :video => 1 
 }
 =begin
   CONSTANT for AJAX
