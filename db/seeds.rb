@@ -133,15 +133,13 @@ contact_report_1 = ContactReport.create_contact_report_for_client( client_1 , ma
                                 )
 
 important_date_1 = ImportantEvent.create_reminder( client_1, marketing_employee_1, 
-                                      :date_of_importance => Date.new(2012, 9, 12),
-                                      :number_of_days_in_advance => 15, 
-                                      :is_repeating => true,
+                                      :event_date => Date.new(2012, 9, 12),
+                                      :is_repeating_annually => true,
                                       :description => "12 September is Jammie (client's son) bday.")
                                       
 important_date_2 = ImportantEvent.create_reminder( client_1, marketing_employee_1, 
-                                      :date_of_importance => Date.new(2012, 10, 12),
-                                      :number_of_days_in_advance => 15, 
-                                      :is_repeating => false,
+                                      :event_date => Date.new(2012, 10, 12),
+                                      :is_repeating_annually => false,
                                       :description => "It is the 1 month anniversary of their son's bday.")
                                       
 selected_package_list = [package_1]

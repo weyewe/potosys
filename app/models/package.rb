@@ -3,4 +3,6 @@ class Package < ActiveRecord::Base
   has_many :projects
   has_many :deliverable_subcriptions
   has_many :deliverables, :through => :deliverable_subcriptions 
+  
+  belongs_to :office 
 end

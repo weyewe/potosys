@@ -1,5 +1,7 @@
 class Office < ActiveRecord::Base
   attr_accessible :name
+  has_many :packages
+  has_many :deliverables 
   
   has_many :users, :through => :job_attachments 
   has_many :job_attachments

@@ -14,6 +14,13 @@ class User < ActiveRecord::Base
   
   validates :email, :presence => true, :email => true
   
+=begin
+  PROJECT SPECIFIC
+=end
+  has_many :project_memberships 
+  has_many :projects, :through => :project_memberships
+  
+    
   def active_job_attachment
     self.job_attachments.where(:is_active => true).first
   end

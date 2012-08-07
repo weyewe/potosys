@@ -43,6 +43,8 @@ PROJECT_ROLE = {
   :photographer => "Photographer"
 }
 
+
+
 ARTICLE_PICTURE_TYPE = {
   :migrated_from_project => 1 ,
   :pure_article_upload => 2 

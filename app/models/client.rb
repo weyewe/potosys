@@ -3,4 +3,5 @@ class Client < ActiveRecord::Base
   belongs_to :office
   has_many :contact_reports 
   has_many :important_events 
+  has_many :sales_orders 
 end
