@@ -4,6 +4,12 @@ class Office < ActiveRecord::Base
   has_many :users, :through => :job_attachments 
   has_many :job_attachments
   
+  has_many :clients 
+  has_many :contact_reports 
+  
+  
+  
+  
   has_many :articles
   
 =begin

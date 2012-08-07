@@ -57,6 +57,21 @@ PACKAGE_MEDIUM = {
   :photo => 0,
   :video => 1 
 }
+
+CONTACT_PURPOSE = {
+  :product_enquiry  => 0, 
+  :planned_follow_up => 1 , 
+  :production_follow_up => 2  ,
+  :after_sales_follow_up  => 3
+} 
+
+
+
+
+
+
+
+
 =begin
   CONSTANT for AJAX
 =end

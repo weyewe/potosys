@@ -122,36 +122,39 @@ client_1 = Client.create_by_marketing(marketing_employee_1,
                                 :bb_pin => "32eaa23",
                                 :email => "jimmy_chan@gmail.com"
                                 )
-contact_report_1 = ContactReport.create_contact_for_client( client_1 , marketing_employee_1, 
+contact_report_1 = ContactReport.create_contact_report_for_client( client_1 , marketing_employee_1, 
                                 :contact_datetime => DateTime.now,
                                 :title => "Request for Wedding Shot",
                                 :date_of_importance => Date.new(2012,9,12),
                                 :description => "The client is asking for wedding shot for 12 September 2012. " + 
                                 "However, he thinks that the quoted " + 
-                                "price is way too expensive."
+                                "price is way too expensive.",
+                                :contact_purpose =>  CONTACT_PURPOSE[:product_enquiry]  
                                 )
 
-important_date_1 = ImportantDate.create_reminder_for_client( client_1, marketing_employee_1, 
+important_date_1 = ImportantEvent.create_reminder( client_1, marketing_employee_1, 
                                       :date_of_importance => Date.new(2012, 9, 12),
                                       :number_of_days_in_advance => 15, 
                                       :is_repeating => true,
                                       :description => "12 September is Jammie (client's son) bday.")
                                       
-important_date_2 = ImportantDate.create_reminder_for_client( client_1, marketing_employee_1, 
+important_date_2 = ImportantEvent.create_reminder( client_1, marketing_employee_1, 
                                       :date_of_importance => Date.new(2012, 10, 12),
                                       :number_of_days_in_advance => 15, 
                                       :is_repeating => false,
                                       :description => "It is the 1 month anniversary of their son's bday.")
                                       
-                                      
+selected_package_list = [package_1]
+final_negotiated_price = BigDecimal("100000")
+detail_request = "The client want it to be black and white, showing love and adoration."                                      
 puts "****************Create Project***************"
 sales_order = SalesOrder.create_sales_by_marketing( client_1 , marketing_employee_1, 
                                     selected_package_list, 
                                     final_negotiated_price, 
                                     detail_request ) # detail request, if any == detail of client request
                                     # such as black and white or whatsoever 
-puts "key in the shooting date"
-
+                                    
+puts "key in the shooting date + key in the crew for crew-specific pricing"
 sales_order.projects.each do |project|
   project.shoot_date = Date.new( 2012, 12, 25 ) 
   if project.package.is_crew_specific_pricing? 
@@ -159,8 +162,15 @@ sales_order.projects.each do |project|
   end
 end
 
-puts "adjusting the deliverables"
+puts "adjusting the deliverables: add deliverable quantity or  add the deliverable sub quantity"
 first_project =  sales_order.projects.first 
+# add / remove deliverable subcription 
+new_deliverable_subcription  = first_project.add_deliverable_subcription( marketing_employee_1, portrait_album_deliverable ) 
+first_project.remove_deliverable_subcription( marketing_employee_1 , new_deliverable_subcription)
+new_deliverable_subcription  = first_project.add_deliverable_subcription( marketing_employee_1, portrait_album_deliverable ) 
+# edit deliverable sub_quantity
+new_deliverable_subcription.set_sub_quantity(marketing_employee_1,  80 )
+
 # first_project.deliverable_items.create()
              
              
@@ -203,18 +213,33 @@ sales_order.projects.each do |project|
 end
 
 # optimized for photo 
+=begin
+  It means that all data entries that are specific to photography industry, must be automated. 
+  Auto Create the Date. whatsoever. 
+=end
+
 puts "\n********** Start the photo selection work *********"
 photo_project = sales_order.projects.joins(:package).where(:package => {:package_medium => PACKAGE_MEDIUM[:photo]}  ).first 
 
 # now, the ball is in the account executive. he has to click "SENT PIC FOR SELECTION + description"
 
-puts "\n******* Get client to select images*********"
+# setup the big picture # auto create reminder 
+pre_production_deadline = photo_project.create_deadline( PROJECT_MILESTONE[:pre_production], project_manager, Date.new(2012, 10, 20) )
+# in photo, preproduction means the process where client selects picture
+production_deadline = photo_project.create_deadline( PROJECT_MILESTONE[:production], project_manager, Date.new(2012, 10, 20) )
+# in photo, productionm means the album creation process
+# at the last step of album creation, the image editing takes place
+post_production_deadline= photo_project.create_deadline( PROJECT_MILESTONE[:post_production], project_manager, Date.new(2012, 10, 20) )
+# post production is the deliverables creation process 
 
-photo_project.assign_internal_deadline_for_image_selection( account_executive, Date.new(2012, 10, 20) )
-photo_project.image_selection_start( account_executive)   # at current date 
+
+puts "\n******* Get client to select images *********"
+photo_project.pre_production_start( account_executive)   # at current date 
 # assigning task. # to the account executive. do a call based on that . 
-photo_project.image_selection_end( account_executive ) # at the current Date when it is clicked 
- 
+photo_project.pre_production_end( account_executive ) # at the current Date when it is clicked 
+# auto create Milestone (actual) -> actual_pre_production finish
+# 2 cases: what if it is  early?  -> shift the future deadline to be earlier 
+#           what if it is late ?  -> shift the future deadline to be later. example? 
 
 #  account executive process the client feedback to graphic_designer-friendly task 
 
@@ -223,7 +248,8 @@ puts "\n******* Start the draft-feedback-revision-work*********"
 # to trace the topics discussed with client 
 draft_1 = photo_project.create_draft( account_executive )
 draft_1.add_overall_guideline(account_executive, "Client Message")
-draft_1.assign_deadline( account_executive, Date.new(2012, 10, 30) )
+draft_1.create_deadline( account_executive, Date.new(2012, 10, 30) )
+# auto create milestone (tentative). milestone will be related to reminder. 
   
  
  
@@ -236,7 +262,7 @@ draft_1_task_2 = draft_1.create_digital_imaging_task( account_executive, "Clean 
 draft_1.propose_finalization( graphic_designer )   # the client return the draft, with some feedbacks 
 draft_1.approve_finalization( graphic_designer_head )
 
-draft_1.assign_internal_deadline_for_client_review(account_executive)
+draft_1.assign_internal_deadline_for_client_review(account_executive) # and pass it to the client 
 # after many calls and reminder 
 draft_1.assign_actual_review_done_date( account_executive )
 
@@ -275,3 +301,23 @@ photo_project.finalize_production( account_executive )
 # 1 SalesOrder, 1 price for all the packages selected . 
 
 
+=begin
+  POST PRODUCTION 
+=end
+
+# start deliverable, send to supplier 
+photo_project.deliverable_items.each do |deliverable|
+  deliverable.start_production(account_executive)
+end
+
+photo_project.reload!
+photo_project.deliverable_items.each do |deliverable|
+  deliverable.approve_finish_production(account_executive)
+end
+
+photo_project.reload!
+photo_project.deliverable_items.each do |deliverable|
+  deliverable.deliver_to_client(account_executive)
+end
+
+photo_project.finish_project( project_manager )
