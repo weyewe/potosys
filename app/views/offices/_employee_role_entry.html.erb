@@ -1,0 +1,93 @@
+<tr>
+  <td>
+    <%= link_to employee.email , show_role_for_employee_url(employee) %>
+  </td>
+  <td>
+    <% if employee.has_role?(:admin)%>
+      <span class="label label-success">Yes</span>
+    <% else %>
+      <span class="label">No</span>
+    <% end %>
+  </td>
+  
+  
+  <td>
+    <% if not employee.has_role?(:pro_photographer) and not employee.has_role?(:amateur_photographer)%>
+      <span class="label">No</span>
+    <% else %>
+      <% if employee.has_role?(:pro_photographer)  %>
+        <span class="label label-success">Pro</span>
+      <% end %>
+    
+      <% if employee.has_role?(:amateur_photographer) and not employee.has_role?(:pro_photographer)%>
+        <span class="label label-success">Amateur</span>
+      <% end %>
+    <% end %>
+  </td>
+  
+  
+  <td>
+    <% if not employee.has_role?(:pro_videographer) and not employee.has_role?(:amateur_videographer)%>
+      <span class="label">No</span>
+    <% else %>
+      <% if employee.has_role?(:pro_videographer) %>
+        <span class="label label-success">Pro</span>
+      <% end %>
+    
+      <% if employee.has_role?(:amateur_videographer) and not employee.has_role?(:pro_videographer)%>
+        <span class="label label-success">Amateur</span>
+      <% end %>
+    <% end %>
+  </td>
+  
+  
+  <td>
+    <% if not employee.has_role?(:marketing_head) and not employee.has_role?(:marketing)%>
+      <span class="label">No</span>
+    <% else %>
+      <% if employee.has_role?(:marketing_head)  %>
+        <span class="label label-success">Head</span> 
+      <% end %>
+    
+      <% if employee.has_role?(:marketing) and not employee.has_role?(:marketing_head)%>
+        <span class="label label-success">Yes</span> 
+      <% end %>
+    <% end %>
+  </td>
+  
+  <td>
+    <% if not employee.has_role?(:project_management_head) and not employee.has_role?(:project_management)%>
+      <span class="label">No</span>
+    <% else %>
+      <% if employee.has_role?(:project_management_head)  %>
+        <span class="label label-success">Head</span> 
+      <% end %>
+    
+      <% if employee.has_role?(:project_management) and not employee.has_role?(:project_management_head)%>
+        <span class="label label-success">Yes</span> 
+      <% end %>
+    <% end %>
+  </td>
+  
+  <td>
+    <% if not employee.has_role?(:graphic_designer_head) and not employee.has_role?(:graphic_designer)%>
+      <span class="label">No</span>
+    <% else %>
+      <% if employee.has_role?(:graphic_designer_head)  %>
+        <span class="label label-success">Head</span> 
+      <% end %>
+    
+      <% if employee.has_role?(:graphic_designer) and not employee.has_role?(:graphic_designer_head)%>
+        <span class="label label-success">Yes</span> 
+      <% end %>
+    <% end %>
+  </td>
+  
+  <td>
+    <% if employee.has_role?(:account_executive)%>
+      <span class="label label-success">Yes</span>
+    <% else %>
+      <span class="label">No</span>
+    <% end %>
+  </td>
+</tr>

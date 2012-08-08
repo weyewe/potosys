@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  skip_before_filter :authenticate_user!, :only => [:homepage , :blog, :portfolio]
+  skip_before_filter :authenticate_user!#, :only => [:homepage , :blog, :portfolio]
   def dashboard
     redirect_to deduce_after_sign_in_url
   end

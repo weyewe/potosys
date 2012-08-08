@@ -6,6 +6,63 @@ CollinsPotosys::Application.routes.draw do
   resources :articles do 
     resources :article_pictures 
   end
+  
+  resources :deliverables 
+  
+=begin
+  SETUP, Create User +  Office Role
+=end
+  
+  match 'new_employee_creation' => "offices#new_employee_creation", :as => :new_employee_creation
+  match 'create_employee' => "offices#create_employee" , :as => :create_employee, :method => :post 
+  match 'show_role_for_employee/:employee_id' => "offices#show_role_for_employee" , :as => :show_role_for_employee
+  match 'assign_role_for_employee' => "offices#assign_role_for_employee" , :as => :assign_role_for_employee, :method => :post
+  
+  
+  
+=begin
+  MASTER DATA, company specific
+  CREATE DELIVERABLE  + PACKAGE
+=end
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 =begin
   Article Publishing
 =end

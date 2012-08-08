@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
 
   layout :layout_by_resource
-  helper_method  :deduce_after_sign_in_url
+  helper_method :current_office , :deduce_after_sign_in_url
   
   def layout_by_resource
     if devise_controller? && resource_name == :user && action_name == 'new'
@@ -13,10 +13,22 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def current_office
+    if @office.nil?
+      if current_user.nil?
+        return nil
+      end
+    
+      @office = current_user.active_job_attachment.office
+    end
+    
+    return @office
+  end
+  
   def deduce_after_sign_in_url
-    # if current_user.has_role?( :manager )
-    #   return new_employee_creation_url
-    # end
+    if current_user.has_role?( :manager )
+      return new_employee_creation_url
+    end
     # 
     # if current_user.has_role?(:machine_builder )
     #   return new_machine_category_url  
@@ -26,10 +38,17 @@ class ApplicationController < ActionController::Base
     #   return new_client_url  
     # end
     # 
+    
+    if current_user.has_role?(:admin )
+      return new_employee_creation_url  
+    end
+    
+    
     if current_user.has_role?(:publisher )
       return finalize_article_url  
     end
     
+    return destroy_user_session_url
   end
   
   def after_sign_in_path_for(resource)

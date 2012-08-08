@@ -67,6 +67,13 @@ module ApplicationHelper
   end
   
 =begin
+  For printing numbers (money)
+=end
+
+  def print_money(value)
+    number_with_delimiter( value , :delimiter => ",")
+  end
+=begin
   Date helper
 =end
 
@@ -243,6 +250,45 @@ module ApplicationHelper
   #####     Start of the process navigation KONSTANT
   #####
   #######################################################
+  
+  COMPANY_ADMIN_MANAGEMENT_PROCESS_LIST = {
+    :header_title => "Manager",
+    :processes => [
+      {
+        :title => "Add Employee",
+        :destination_link => "new_employee_creation_url",
+        :conditions => [
+          {
+            :controller => 'offices',
+            :action => 'new_employee_creation'
+          },
+          {
+            :controller => "offices",
+            :action => 'create_employee'
+          },
+          {
+            :controller => 'offices',
+            :action => 'show_role_for_employee'
+          }
+        ]
+      } ,
+      {
+        :title => "Create Deliverable",
+        :destination_link => 'new_deliverable_url',
+        :conditions => [
+          {
+            :controller => 'deliverables',
+            :action => 'new'
+          },
+          {
+            :controller => "deliverables",
+            :action => "create"
+          }
+        ]
+        
+      }
+    ]
+  }
   
   PUBLISHER_PROCESS_LIST = {
     :header_title => "Publisher",

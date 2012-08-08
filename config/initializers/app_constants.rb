@@ -1,5 +1,5 @@
-COMPANY_NAME = "Little Collins"
-COMPANY_TITLE = "Little Collins Pictures"
+COMPANY_NAME = "potosys"
+COMPANY_TITLE = "potosys"
 =begin
   MODEL CONSTANT
 =end
@@ -66,7 +66,6 @@ CONTACT_PURPOSE = {
   :production_follow_up => 2  ,
   :after_sales_follow_up  => 3
 } 
-
 
 
 

@@ -11,6 +11,10 @@ $(document).ajaxSend(function(event, request, settings) {
 $(document).ready(function(){
   jQuery('.prevent_double_submit').preventDoubleSubmit();
   
+  $(".default-hidden-toggler").click(function(){
+    $("form.default-hidden").toggle();
+    return false;
+  });
   
   $("#loading_uploader_notification").fadeOut();
   $("#upload_picture").fadeIn();

@@ -2,9 +2,9 @@
    <div class="well sidebar-nav">
      
 
-      <%# if current_user.has_role?(:admin) %>
-        <%#= get_process_nav( :manager , params ).html_safe %> 
-      <%# end %>
+      <% if current_user.has_role?(:admin) %>
+        <%= get_process_nav( :company_admin_management , params ).html_safe %> 
+      <% end %>
       
       <%# if current_user.has_role?(:manager) %>
         <%#= get_process_nav( :machine_builder , params ).html_safe %> 

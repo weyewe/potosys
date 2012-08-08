@@ -1,0 +1,133 @@
+
+<div class="span9 content">
+  <%= create_guide("Create Deliverable", 
+        "Office: <b>#{current_office.name}</b>"  ).html_safe %>
+  
+  <%#= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+  <div class="row-fluid">
+    <div class="span12">
+      
+      
+      <!-- <button href="#" class="btn"></button> -->
+      <%= link_to "Add New Deliverable", '#', :class => " btn btn-primary default-hidden-toggler"  %>
+      <%= simple_form_for(@new_deliverable, :html => {:class => 'form-horizontal prevent_double_submit default-hidden' }) do |f| %>
+        
+        
+        <%#= f.input :machine_id, :hint => "Select Machine", :label => "Machine" do %>
+           <%#= f.select :machine_id, 
+               current_office.all_machines %>
+         <%# end %>
+         
+         
+        <%= f.input :name , :input_html => {:class => "input-xlarge span5"}, 
+         :label => "Deliverable Name", :hint => "Canvas? Album?" %>
+         
+        <%= f.input :description , :input_html => {:rows => 5, :columns => 20, :class => "input-xlarge span5"}, 
+          :label => "Description", :hint => "Details about this deliverable" %>
+          
+        <%= f.input :independent_price , :input_html => {:class => "input-xlarge span5"}, 
+          :label => "Deliverable Price", :hint => "Independent Price, if it is counted as add-on" %>
+          
+        <%= f.input :has_sub_item , 
+          :label => "Has Sub Item?", :hint => "If yes, check the box. " %>
+          
+        <%= f.input :sub_item_name , :input_html => {:class => "input-xlarge span5"}, 
+          :label => "Sub Item Name", :hint => "CD with 40 edited image. Edited image is the sub item." %>
+
+        <%= f.input :sub_item_quantity , :input_html => {:class => "input-xlarge span5"}, 
+          :label => "Sub Item Quantity", :hint => "If there are sub items, such as: album with 50 edited photo." + 
+                " Edited photo is the sub item. 50 is the quantity" %>
+                
+        <%= f.input :independent_sub_item_price , :input_html => {:class => "input-xlarge span5"}, 
+          :label => "Additional Sub Item Price", :hint => "Independent Price, if it is counted as add-on" %>
+
+        
+
+
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-primary", :text=> "Create Component" %>
+        </div>
+      <% end %>
+      
+      
+     
+      
+    </div> 
+      
+      
+      
+    
+  </div><!--/row-->
+   <hr />
+  <div class="row-fluid">
+    <div id="data_list">
+      <h2>Total Deliverable for office  <%= @office.name %>: <%= @office.deliverables.count  %> </h2>
+      
+      
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Deliverable Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Sub Item Name</th>
+            <th>Sub Item Quantity</th>
+            <th>Sub Item Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @office.deliverables.order("created_at DESC").each do |deliverable| %>
+            <tr>
+              <td><%= deliverable.name  %></td>
+              <td><%= deliverable.description  %></td>
+              <td><%= print_money( deliverable.independent_price )   %></td>
+              
+              <% if deliverable.has_sub_item == false %>
+                <td colspan='3' style="text-align:center;"><span class="label">No Sub Item</span></td>
+              <% else %>
+              <td><%= deliverable.sub_item_name  %></td>
+              <td><%= deliverable.sub_item_quantity  %></td>
+              <td><%= print_money( deliverable.independent_sub_item_price )   %></td>
+              <% end %>
+              
+              
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

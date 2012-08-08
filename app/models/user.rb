@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
   
   def valid_role_updating_info?(office, employee)
-    if not employee.has_role?(:manager)
+    if not employee.has_role?(:admin)
       return false
     end
     
@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
   
   def add_role( role, office, employee)
     if not valid_role_updating_info?(office, employee)
+      puts "invalid role updating info"
       return nil
     end
     
@@ -81,7 +82,7 @@ class User < ActiveRecord::Base
     })
     
     if job_attachment.roles.map{|x| x.id}.include?(role.id)
-      if self.id == office.main_user_id && role.id == Role.find_by_name(USER_ROLE[:manager]).id
+      if self.id == office.main_user_id && role.id == Role.find_by_name(USER_ROLE[:admin]).id
         puts "has the role id , but it is the main user"
         return nil
       end

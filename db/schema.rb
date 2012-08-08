@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120719155010) do
+ActiveRecord::Schema.define(:version => 20120807141916) do
 
   create_table "article_pictures", :force => true do |t|
     t.string   "name"
@@ -64,6 +64,32 @@ ActiveRecord::Schema.define(:version => 20120719155010) do
     t.datetime "updated_at",        :null => false
   end
 
+  create_table "clients", :force => true do |t|
+    t.integer  "office_id"
+    t.integer  "creator_id"
+    t.string   "name"
+    t.text     "address"
+    t.string   "mobile"
+    t.string   "home_phone"
+    t.string   "bb_pin"
+    t.string   "email"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "contact_reports", :force => true do |t|
+    t.integer  "office_id"
+    t.integer  "user_id"
+    t.integer  "client_id"
+    t.integer  "project_id"
+    t.integer  "contact_purpose",  :default => 0
+    t.string   "summary"
+    t.text     "description"
+    t.datetime "contact_datetime"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0
@@ -79,6 +105,64 @@ ActiveRecord::Schema.define(:version => 20120719155010) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "deliverable_items", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "deliverable_id"
+    t.integer  "default_sub_item_quantity"
+    t.integer  "final_sub_item_quantity"
+    t.text     "project_specific_description"
+    t.boolean  "is_extra_deliverable_item",    :default => false
+    t.boolean  "is_started",                   :default => false
+    t.text     "producer_info"
+    t.integer  "starter_id"
+    t.date     "start_date"
+    t.boolean  "is_finished",                  :default => false
+    t.integer  "finisher_id"
+    t.date     "finish_date"
+    t.boolean  "is_delivered",                 :default => false
+    t.integer  "deliverer_id"
+    t.date     "delivery_date"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+  end
+
+  create_table "deliverable_subcriptions", :force => true do |t|
+    t.integer  "package_id"
+    t.integer  "deliverable_id"
+    t.integer  "package_specific_sub_item_quantity"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  create_table "deliverables", :force => true do |t|
+    t.integer  "office_id"
+    t.string   "name"
+    t.text     "description"
+    t.string   "sub_item_name"
+    t.boolean  "has_sub_item",                                              :default => false
+    t.integer  "sub_item_quantity"
+    t.decimal  "independent_price",          :precision => 11, :scale => 2, :default => 0.0
+    t.decimal  "independent_sub_item_price", :precision => 11, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                                   :null => false
+    t.datetime "updated_at",                                                                   :null => false
+  end
+
+  create_table "drafts", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "important_events", :force => true do |t|
+    t.date     "event_date"
+    t.string   "title"
+    t.text     "description"
+    t.boolean  "is_repeating_annually", :default => false
+    t.integer  "creator_id"
+    t.integer  "client_id"
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
 
   create_table "job_attachments", :force => true do |t|
     t.integer  "office_id"
@@ -96,13 +180,65 @@ ActiveRecord::Schema.define(:version => 20120719155010) do
     t.datetime "updated_at",   :null => false
   end
 
+  create_table "packages", :force => true do |t|
+    t.integer  "office_id"
+    t.string   "title"
+    t.text     "description"
+    t.decimal  "independent_price", :precision => 12, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                        :null => false
+    t.datetime "updated_at",                                                        :null => false
+  end
+
+  create_table "project_assignments", :force => true do |t|
+    t.integer  "project_membership_id"
+    t.integer  "project_role_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  create_table "project_memberships", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "project_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "project_roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "projects", :force => true do |t|
+    t.integer  "package_id"
+    t.string   "title"
+    t.text     "project_guideline"
+    t.date     "shoot_date"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
+  create_table "sales_orders", :force => true do |t|
+    t.integer  "creator_id"
+    t.integer  "client_id"
+    t.decimal  "total_transaction_amount", :precision => 11, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                               :null => false
+    t.datetime "updated_at",                                                               :null => false
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "users", :force => true do |t|
+    t.string   "name"
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
