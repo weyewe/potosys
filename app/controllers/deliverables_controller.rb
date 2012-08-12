@@ -16,10 +16,6 @@ class DeliverablesController < ApplicationController
     else
       flash[:error] = "Hey, do something better"
       
-      # add_breadcrumb "Select Client", 'select_client_to_create_asset_url'
-      # set_breadcrumb_for @client, 'new_client_asset_url' + "(#{@client.id})", 
-      #             "New Asset"
-                  
       render :file => "deliverables/new"
     end
   end

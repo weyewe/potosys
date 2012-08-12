@@ -82,8 +82,21 @@ amateur_2 = office.create_user( [amateur_photographer_role],
 puts "\n************ MASTER DATA: Package + Deliverables ************"
 puts "\n creating deliverable"
 #  for photos
-portrait_album_deliverable = office.create_deliverable(admin_employee,  :name => "Portrait Album", :has_sub_item => true)
-cd_high_res_pics_deliverable = office.create_deliverable( admin_employee,:name => "CD with high res pics", :has_sub_item => false)
+portrait_album_deliverable = office.create_deliverable(admin_employee,  
+                      :name => "Portrait Album", 
+                      :independent_price => "5000000",
+                      :has_sub_item => true,
+                      :sub_item_name => "Edited Pic",
+                      :sub_item_quantity => '40',
+                      :independent_sub_item_price => "100000")
+                      
+cd_high_res_pics_deliverable = office.create_deliverable( admin_employee,
+              :name => "CD with high res pics", 
+              :independent_price => "500000",
+              :has_sub_item => true,
+              :sub_item_name => "Edited Pic",
+              :sub_item_quantity => '30',
+              :independent_sub_item_price => '70000')
 framed_canvas_60_x_40_deliverable = office.create_deliverable(admin_employee,  :name => "Framed Canvas 60x40cm", :has_sub_item => false)
 photoclip_deliverable = office.create_deliverable( admin_employee, :name => "Photoclip with selected photos", :has_sub_item => false)
 
@@ -91,8 +104,8 @@ photoclip_deliverable = office.create_deliverable( admin_employee, :name => "Pho
 original_video_copy = office.create_deliverable(admin_employee, :office_id => office.id, :name => "Original Video Copy", :has_sub_item => false)
 
 # puts "\n creating package"
-# package_1 = office.create_package( admin_employee, :title => "Junia Candid Photo Sessions", 
-#               :standard_price => BigDecimal("5000000"),
+# package_1 = office.create_package( admin_employee, :name => "Junia Candid Photo Sessions", 
+#               :base_price => BigDecimal("5000000"),
 #               :number_of_crew => 2,  
 #               :is_crew_specific_pricing => true ) # if it is crew specific, the client can choose the main crew 
 # 

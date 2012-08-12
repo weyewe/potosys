@@ -151,6 +151,16 @@ module ApplicationHelper
     return element
   end
   
+  
+=begin
+  UTILITY CLASS FOR HIDING FORM 
+=end
+  def add_default_hidden(params)
+    if params[:action] != 'create'
+      return  'default-hidden'
+    end
+  end
+  
 =begin
   PROCESS NAVIGATION
 =end
@@ -285,7 +295,20 @@ module ApplicationHelper
             :action => "create"
           }
         ]
-        
+      },
+      {
+        :title => "Create Package",
+        :destination_link => 'new_package_url',
+        :conditions => [
+          {
+            :controller => 'packages',
+            :action => 'new'
+          },
+          {
+            :controller => "packages",
+            :action => 'create'
+          }
+        ]
       }
     ]
   }

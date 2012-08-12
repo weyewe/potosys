@@ -182,11 +182,13 @@ ActiveRecord::Schema.define(:version => 20120807141916) do
 
   create_table "packages", :force => true do |t|
     t.integer  "office_id"
-    t.string   "title"
+    t.string   "name"
     t.text     "description"
-    t.decimal  "independent_price", :precision => 12, :scale => 2, :default => 0.0
-    t.datetime "created_at",                                                        :null => false
-    t.datetime "updated_at",                                                        :null => false
+    t.decimal  "base_price",               :precision => 12, :scale => 2, :default => 0.0
+    t.boolean  "is_crew_specific_pricing",                                :default => false
+    t.integer  "number_of_crew",                                          :default => 1
+    t.datetime "created_at",                                                                 :null => false
+    t.datetime "updated_at",                                                                 :null => false
   end
 
   create_table "project_assignments", :force => true do |t|
@@ -214,8 +216,9 @@ ActiveRecord::Schema.define(:version => 20120807141916) do
     t.string   "title"
     t.text     "project_guideline"
     t.date     "shoot_date"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.boolean  "is_project_started", :default => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
   create_table "roles", :force => true do |t|

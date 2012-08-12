@@ -8,7 +8,7 @@ CollinsPotosys::Application.routes.draw do
   end
   
   resources :deliverables 
-  
+  resources :packages
 =begin
   SETUP, Create User +  Office Role
 =end

@@ -87,7 +87,7 @@ class Office < ActiveRecord::Base
       end
     end
       
-    
+    # only validate the sub_item if it is declared as having sub item 
     if deliverable_params[:has_sub_item] == true 
       if not Deliverable.valid_price_string?(deliverable_params[:independent_price])
         deliverable.errors.add(  :independent_price , "Invalid Price")
@@ -123,6 +123,27 @@ class Office < ActiveRecord::Base
     # check deliverable.persisted? 
     # check whether there is error 
     # result.errors.messages.length
+  end
+  
+  def create_package( employee, package_params)
+    package = Package.new(deliverable_params)
+    if not employee.has_role?(:admin)
+      package.errors.add(  :authentication , "Wrong Role: No admin role")
+      return package
+    end
+    
+    #  cleaning up the boolean 
+    if not ( package_params[:is_crew_specific_pricing].class == TrueClass or package_params[:is_crew_specific_pricing].class == FalseClass )
+      if package_params[:is_crew_specific_pricing].to_i == TRUE_CHECK
+        package_params[:is_crew_specific_pricing] = true
+      else
+        package_params[:is_crew_specific_pricing] = false
+      end
+    end
+    
+    package_params[:base_price] = Package.parse_price(deliverable_params[:independent_price] )  
+    
+    
   end
 
   

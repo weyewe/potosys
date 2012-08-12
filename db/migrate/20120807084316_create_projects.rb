@@ -8,7 +8,7 @@ class CreateProjects < ActiveRecord::Migration
       
       t.date :shoot_date 
       
-      
+      t.boolean :is_project_started, :default => false 
       
       
       
