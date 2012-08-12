@@ -8,7 +8,9 @@ CollinsPotosys::Application.routes.draw do
   end
   
   resources :deliverables 
-  resources :packages
+  resources :packages do 
+    resources :package_assignments 
+  end
 =begin
   SETUP, Create User +  Office Role
 =end
@@ -24,7 +26,9 @@ CollinsPotosys::Application.routes.draw do
   MASTER DATA, company specific
   CREATE DELIVERABLE  + PACKAGE
 =end
-  
+
+  match 'create_package_assignment' => 'package_assignments#create_package_assignment', :as => :create_package_assignment, :method => :post 
+  match 'edit_price_package/:package_id/crew/:crew_id' => 'package_assignments#edit_crew_specific_package_price', :as => :edit_crew_specific_package_price, :method => :post 
   
   
   

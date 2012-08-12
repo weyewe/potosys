@@ -307,6 +307,10 @@ module ApplicationHelper
           {
             :controller => "packages",
             :action => 'create'
+          },
+          {
+            :controller => "package_assignments",
+            :action => "new"
           }
         ]
       }

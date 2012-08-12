@@ -25,7 +25,7 @@
       
       <!-- <button href="#" class="btn"></button> -->
       <%= link_to "Add New Package", '#', :class => " btn btn-primary default-hidden-toggler"  %>
-      <%= simple_form_for(@new_package, :html => {:class => 'form-horizontal prevent_double_submit default-hidden' }) do |f| %>
+      <%= simple_form_for(@new_package, :html => {:class => "form-horizontal prevent_double_submit form-toggler  #{add_default_hidden(params)}" }) do |f| %>
         
         
         <%#= f.input :machine_id, :hint => "Select Machine", :label => "Machine" do %>
@@ -44,10 +44,10 @@
           :label => "Base Price", :hint => "Base Price, for non-crew specific package" %>
           
         <%= f.input :is_crew_specific_pricing , 
-          :label => "Crew Specific Pricing?", :hint => "Different Crew, different price?" %>
+          :label => "Crew Specific Pricing?", :hint => "Check if Different Crew -> different price?" %>
           
         <%= f.input :number_of_crew , :input_html => {:class => "input-xlarge span5"}, 
-          :label => "Number of Crew", :hint => "Liputan wedding, 2 photographers" %>
+          :label => "Number of Crew", :hint => "" %>
 
   
         
@@ -79,8 +79,10 @@
           <tr>
             <th>Package Name</th>
             <th>Description</th>
-            <th>Base Price</th>
+            <th>Is Crew Specific?</th>
+            <th>Price</th>
             <th>Total Crew</th>
+            <th>Assigned Crew</th>
           </tr>
         </thead>
         <tbody>
@@ -88,17 +90,27 @@
             <tr>
               <td><%= package.name  %></td>
               <td><%= package.description  %></td>
+              
               <td>
                   <% if package.is_crew_specific_pricing == true %>
-                    <%= link_to "Crew Specific", root_url, :class => 'btn btn-mini' %>
+                    <span class="label label-success">Yes</span>
                   <% else %>
-                    <%= print_money( package.independent_price )   %>
+                    <span class="label label-important">No</span>
+                  <% end %>
+              </td>
+              
+              
+              <td>
+                  <% if package.is_crew_specific_pricing == true %>
+                    <%= link_to "Crew Specific", new_package_package_assignment_url(package), :class => 'btn btn-mini' %>
+                  <% else %>
+                    <%= print_money( package.base_price )   %>
                   <% end %>
               </td>
               
       
               <td><%= package.number_of_crew  %></td>
-              
+              <td><%= package.users.count  %></td>
               
             </tr>
           <% end %>

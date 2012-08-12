@@ -1,0 +1,9 @@
+$(document).ready(function(){
+
+  <% new_row = escape_javascript(  render :partial => "package_assignments/entry", :locals => {
+            :package => @package,
+            :employee => @user
+          }) %>
+          
+  $("#crew_id-<%= @user.id %>").replaceWith('<%= new_row %>');
+});

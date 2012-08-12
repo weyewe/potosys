@@ -14,6 +14,14 @@ class User < ActiveRecord::Base
   
   validates :email, :presence => true, :email => true
   
+  
+=begin
+  PACKAGE SPECIFIC 
+=end
+  
+  has_many :package_assignments 
+  has_many :packages, :through => :package_assignments 
+
 =begin
   PROJECT SPECIFIC
 =end

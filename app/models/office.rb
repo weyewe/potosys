@@ -126,14 +126,16 @@ class Office < ActiveRecord::Base
   end
   
   def create_package( employee, package_params)
-    package = Package.new(deliverable_params)
+    package = Package.new(package_params)
     if not employee.has_role?(:admin)
       package.errors.add(  :authentication , "Wrong Role: No admin role")
       return package
     end
     
     #  cleaning up the boolean 
-    if not ( package_params[:is_crew_specific_pricing].class == TrueClass or package_params[:is_crew_specific_pricing].class == FalseClass )
+    if not ( package_params[:is_crew_specific_pricing].class == TrueClass or 
+        package_params[:is_crew_specific_pricing].class == FalseClass  or 
+        package_params[:is_crew_specific_pricing].nil?)
       if package_params[:is_crew_specific_pricing].to_i == TRUE_CHECK
         package_params[:is_crew_specific_pricing] = true
       else
@@ -141,11 +143,40 @@ class Office < ActiveRecord::Base
       end
     end
     
-    package_params[:base_price] = Package.parse_price(deliverable_params[:independent_price] )  
+    package_params[:base_price] = Package.parse_price(package_params[:base_price] )  
     
+    package.update_attributes package_params
+    package.office_id = self.id 
+    package.save
+    
+    
+    return package 
     
   end
+  
+=begin
+  PACKAGE ASSIGNMENT, selecting crew: videographer, photographer
+=end
 
+  def Office.crew_role_id_list
+    Role.where(:name => [
+        USER_ROLE[:pro_photographer],
+        # USER_ROLE[:amateur_photographer],
+        USER_ROLE[:pro_videographer]
+        # USER_ROLE[:amateur_videographer]
+      ]
+    ).map{|x| x.id }
+  end
+
+  def crews
+    #  select all users with company role: photographer (pro + amateur)
+    # and videographer (pro + amateur) 
+    
+    # Category.includes(:posts => [{:comments => :guest}, :tags]).find(1)
+    self.users.joins(:job_attachments => :assignments ).
+            where(:job_attachments => { :assignments => { :role_id => Office.crew_role_id_list }  } ).
+            order("created_at DESC") 
+  end
   
   
   

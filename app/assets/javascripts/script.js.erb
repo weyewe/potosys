@@ -212,17 +212,18 @@ $(document).ready(function(){
     
     
     var $entry_wrapper =  $this.parents("tr");
-    var current_part_code = $("td.part_code", $entry_wrapper).text();
+    // var current_part_code = $("td.part_code", $entry_wrapper).text();
+    var current_email = $("td.email", $entry_wrapper).text();
     var current_price =$("td.price", $entry_wrapper).text();
     
     $(".edit_model").show();
     $("#modal_notification").hide();
     $form.attr("action", action_url);
     
-    var header_text = $(".header_text", $entry_wrapper).text();
-    summonModalEdit("Edit: " + header_text, "myModal");
+    // var header_text = $(".header_text", $entry_wrapper).text();
+    summonModalEdit("Edit: " + current_email, "myModal");
     
-    $("#current_part_code").attr('value', current_part_code );
+    // $("#current_part_code").attr('value', current_part_code );
     $("#current_price").attr( 'value', current_price );
     
     
