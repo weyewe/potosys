@@ -6,7 +6,7 @@
         "Total office clients: <b>#{@total_client_count}</b>"  + "<br />" + 
         "Your Client: <b>#{@employee_specific_clients.count}</b>").html_safe %>
   
-  <%#= create_breadcrumb(@breadcrumbs).html_safe %>
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
   <% if flash[:notice] %>
     <div class="alert alert-success">
       <a data-dismiss="alert" class="close">×</a>
@@ -46,7 +46,7 @@
           :label => "Address", :hint => "The client contact address" %>
           
         <%= f.input :mobile , :input_html => {:class => "input-xlarge span5"}, 
-          :label => "Mobile Phone Number", :hint => "Client's mobile numbe" %>
+          :label => "Mobile Phone Number", :hint => "Client's mobile number" %>
           
         <%= f.input :home_phone , 
           :label => "Home Number", :hint => "Client's landline" %>
@@ -106,9 +106,9 @@
               <td><%= client.home_phone  %></td>
               <td><%= client.bb_pin  %></td>
               <td><%= client.email  %></td>
-              <td><%= client.contact_reports.count  %></td>
-              <td><%= client.sales_orders.count  %></td>
-              <td><%= client.important_events.count   %></td>
+              <td><%= link_to  client.contact_reports.count, client_contact_reports_url(client)  %></td>
+              <td><%= link_to client.sales_orders.count , client_sales_orders_url(client) %></td>
+              <td><%= link_to client.important_events.count , client_important_events_url(client)   %></td>
             
               
               

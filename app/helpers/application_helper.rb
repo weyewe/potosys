@@ -335,33 +335,23 @@ module ApplicationHelper
           {
             :controller => "clients",
             :action => "create"
+          },
+          {
+            :controller => "contact_reports",
+            :action => "index"
+          },
+          {
+            :controller => "sales_orders",
+            :action => 'index'
+          },
+          {
+            :controller => "important_events",
+            :action => "index"
           }
         ]
       },
       {
-        :title => "Contact Report",
-        :destination_link => "finalize_article_url",
-        :conditions => [
-          {
-            :controller =>'articles',
-            :action => 'finalize_article'
-          },
-          {
-            :controller => "articles",
-            :action => 'edit_article_content'
-          },
-          {
-            :controller => "articles",
-            :action => "edit_image_ordering"
-          },
-          {
-            :controller => 'articles',
-            :action => 'edit_publication'
-          }
-        ]
-      },
-      {
-        :title => "Client History",
+        :title => "Search Client",
         :destination_link => "finalize_article_url",
         :conditions => [
           {

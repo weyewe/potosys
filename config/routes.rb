@@ -12,7 +12,12 @@ CollinsPotosys::Application.routes.draw do
     resources :package_assignments 
   end
   
-  resources :clients
+  resources :clients do
+    resources :contact_reports
+    resources :important_events
+    resources :sales_orders
+  end
+  
 =begin
   SETUP, Create User +  Office Role
 =end

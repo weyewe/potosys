@@ -1,0 +1,2 @@
+module ContactReportsHelper
+end

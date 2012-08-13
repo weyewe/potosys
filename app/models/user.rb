@@ -14,7 +14,8 @@ class User < ActiveRecord::Base
   
   validates :email, :presence => true, :email => true
   
-  
+  has_many :contact_reports
+
 =begin
   PACKAGE SPECIFIC 
 =end
@@ -109,4 +110,11 @@ class User < ActiveRecord::Base
     end
     
   end
+  
+  
+=begin
+  
+=end
+
+
 end
