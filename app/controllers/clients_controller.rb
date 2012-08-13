@@ -4,10 +4,18 @@ class ClientsController < ApplicationController
     @employee_specific_clients = current_office.clients_created_by_employee( current_user ).limit(10)
     @total_client_count = current_office.clients.count 
     add_breadcrumb "New Client", 'new_client_url'
-    # set_breadcrumb_for @package, 'new_package_package_assignment_url' + "(#{@package.id})", 
-    #               "Create Package Assignment"
-                
-                
+  end
+  
+  def search_client_for_marketing_interaction
+    @office = current_office
+    @clients = [] 
+    if not  params[:client_name].nil?  and not params[:client_name].length == 0 
+      name_query = '%' + params[:client_name] + '%'
+      office = @office
+      @clients = @office.clients.where{ (name =~ name_query)  }
+    end
+    
+    add_breadcrumb "Search Client", 'search_client_for_marketing_interaction_url'
   end
   
   def create

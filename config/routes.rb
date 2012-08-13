@@ -39,7 +39,10 @@ CollinsPotosys::Application.routes.draw do
   
   
   
-  
+=begin
+  SEARCH CLIENT TO CREATE CONTACT REPORT, SALES ORDER, or Important Event
+=end
+  match 'search_client_for_marketing_interaction' => 'clients#search_client_for_marketing_interaction', :as => :search_client_for_marketing_interaction
   
   
   

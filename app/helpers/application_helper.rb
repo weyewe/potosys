@@ -325,7 +325,7 @@ module ApplicationHelper
     :header_title => "Marketing",
     :processes => [
       {
-        :title => "Add Client",
+        :title => "Client",
         :destination_link => "new_client_url",
         :conditions => [
           {
@@ -351,25 +351,13 @@ module ApplicationHelper
         ]
       },
       {
-        :title => "Search Client",
-        :destination_link => "finalize_article_url",
+        :title => "Create Marketing Interaction",
+        :destination_link => "search_client_for_marketing_interaction_url",
         :conditions => [
           {
-            :controller =>'articles',
-            :action => 'finalize_article'
-          },
-          {
-            :controller => "articles",
-            :action => 'edit_article_content'
-          },
-          {
-            :controller => "articles",
-            :action => "edit_image_ordering"
-          },
-          {
-            :controller => 'articles',
-            :action => 'edit_publication'
-          }
+            :controller =>'clients',
+            :action => 'search_client_for_marketing_interaction'
+          } 
         ]
       },
       {
