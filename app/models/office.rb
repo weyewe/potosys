@@ -179,5 +179,28 @@ class Office < ActiveRecord::Base
   end
   
   
+=begin
+  Create CLIENT 
+=end
+  def create_client( employee, client_params)
+    client = Client.new(client_params)
+    if not ( employee.has_role?(:marketing) or employee.has_role?(:marketing_head) ) 
+      client.errors.add(  :authentication , "Wrong Role: No admin role")
+      return client
+    end
+    
+    client.save 
+    
+    client.office_id = self.id 
+    client.creator_id = employee.id 
+    client.save
+    
+    return client 
+  end
+  
+  def clients_created_by_employee( employee )
+    self.clients.where(:creator_id => employee.id).order("created_at DESC")
+  end
+  
   
 end

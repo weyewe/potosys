@@ -326,15 +326,15 @@ module ApplicationHelper
     :processes => [
       {
         :title => "Add Client",
-        :destination_link => "new_independent_article_url",
+        :destination_link => "new_client_url",
         :conditions => [
           {
-            :controller =>'articles',
+            :controller =>'clients',
             :action => 'new'
           },
           {
-            :controller => "articles",
-            :action => "new_independent_article"
+            :controller => "clients",
+            :action => "create"
           }
         ]
       },
