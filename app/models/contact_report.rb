@@ -1,5 +1,5 @@
 class ContactReport < ActiveRecord::Base
-  attr_accessible :summary, :description, :contact_datetime
+  attr_accessible :summary, :description #, :contact_datetime
   belongs_to :client 
   belongs_to :user 
   belongs_to :office 
@@ -7,6 +7,8 @@ class ContactReport < ActiveRecord::Base
   validates_presence_of :summary , :contact_datetime
   
   def self.create_by_employee( employee, client , contact_report_params)
+    contact_report_params.delete(:contact_datetime)
+    contact_report_params.delete(:contact_hour)
     contact_report = ContactReport.new(contact_report_params)
     
     
@@ -39,7 +41,7 @@ class ContactReport < ActiveRecord::Base
     if params_hour.nil? || params_hour.length ==0  
       hour = 0
     else
-      hour = params_hour.to_i
+      hour = (params_hour.to_i) %24
     end
     
     minute = 0 

@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(:version => 20120812134046) do
     t.boolean  "is_repeating_annually", :default => false
     t.integer  "creator_id"
     t.integer  "client_id"
+    t.integer  "yday"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
   end

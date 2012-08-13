@@ -9,6 +9,7 @@ class CreateImportantEvents < ActiveRecord::Migration
       
       t.integer :creator_id # employee_id  
       t.integer :client_id
+      t.integer :yday 
       
       
       t.timestamps

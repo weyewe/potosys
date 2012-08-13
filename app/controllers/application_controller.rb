@@ -43,6 +43,10 @@ class ApplicationController < ActionController::Base
       return new_employee_creation_url  
     end
     
+    if current_user.has_role?(:marketing )
+      return new_client_url   
+    end
+    
     
     if current_user.has_role?(:publisher )
       return finalize_article_url  

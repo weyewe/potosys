@@ -104,10 +104,20 @@ photoclip_deliverable = office.create_deliverable( admin_employee, :name => "Pho
 original_video_copy = office.create_deliverable(admin_employee, :office_id => office.id, :name => "Original Video Copy", :has_sub_item => false)
 
 # puts "\n creating package"
-# package_1 = office.create_package( admin_employee, :name => "Junia Candid Photo Sessions", 
-#               :base_price => BigDecimal("5000000"),
-#               :number_of_crew => 2,  
-#               :is_crew_specific_pricing => true ) # if it is crew specific, the client can choose the main crew 
+puts "create package"
+package_1 = office.create_package( admin_employee, :name => "Junia Candid Photo Sessions", 
+              :base_price => "5000000",
+              :number_of_crew => 2,  
+              :is_crew_specific_pricing => true ) # if it is crew specific, the client can choose the main crew 
+              
+package_1.assign_crew_to_package( max , admin_employee )
+package_1.edit_crew_specific_pricing(max, admin_employee, '15000000' )
+
+
+package_1.assign_crew_to_package( rere , admin_employee )
+package_1.edit_crew_specific_pricing(rere, admin_employee, '10000000' )
+
+
 # 
 # # package has many deliverables through package_items 
 # # deliverable has many packages through package_items
@@ -124,35 +134,49 @@ original_video_copy = office.create_deliverable(admin_employee, :office_id => of
 # package_1.add_crew(max, BigDecimal("7600000") )
 # package_1.add_crew(rere, BigDecimal("7000000") )
 # 
-# puts "\n************Creating Client***********"
-# 
-# client_1 = Client.create_by_marketing(marketing_employee_1, 
-#                                 :name => "Jimmy Chandra", 
-#                                 :address => "Jl. Martimbang 3 no 1, Senayan",
-#                                 :mobile => "082125573759",
-#                                 :home_phone => "021 535 6369",
-#                                 :bb_pin => "32eaa23",
-#                                 :email => "jimmy_chan@gmail.com"
-#                                 )
-# contact_report_1 = ContactReport.create_contact_report_for_client( client_1 , marketing_employee_1, 
-#                                 :contact_datetime => DateTime.now,
-#                                 :title => "Request for Wedding Shot",
-#                                 :date_of_importance => Date.new(2012,9,12),
-#                                 :description => "The client is asking for wedding shot for 12 September 2012. " + 
-#                                 "However, he thinks that the quoted " + 
-#                                 "price is way too expensive.",
-#                                 :contact_purpose =>  CONTACT_PURPOSE[:product_enquiry]  
-#                                 )
-# 
-# important_date_1 = ImportantEvent.create_reminder( client_1, marketing_employee_1, 
-#                                       :event_date => Date.new(2012, 9, 12),
-#                                       :is_repeating_annually => true,
-#                                       :description => "12 September is Jammie (client's son) bday.")
-#                                       
-# important_date_2 = ImportantEvent.create_reminder( client_1, marketing_employee_1, 
-#                                       :event_date => Date.new(2012, 10, 12),
-#                                       :is_repeating_annually => false,
-#                                       :description => "It is the 1 month anniversary of their son's bday.")
+puts "\n************Creating Client***********"
+
+client_1 = office.create_client( marketing_employee_1, 
+                :name => "Jimmy Chandra", 
+                :address => "Jl. Martimbang 3 no 1, Senayan",
+                :mobile => "082125573759",
+                :home_phone => "021 535 6369",
+                :bb_pin => "32eaa23",
+                :email => "jimmy_chan@gmail.com")
+
+
+puts "\n************Creating Contact Report***********"
+
+contact_report_1 = ContactReport.create_by_employee( marketing_employee_1 , client_1 , 
+                                :contact_datetime => "8/5/2012" ,
+                                :contact_hour => 15, 
+                                :summary => "Request for Wedding Shot",
+                                :description => "The client is asking for wedding shot for 12 September 2012. " + 
+                                "However, he thinks that the quoted " + 
+                                "price is way too expensive." 
+                                )
+                                
+                        
+contact_report_2 = ContactReport.create_by_employee( marketing_employee_1 , client_1 , 
+                                :contact_datetime => "8/5/2012" ,
+                                :contact_hour => 10, 
+                                :summary => "Follow Up for Wedding Shot request",
+                                :description => "We negotiated for 20% discount. The base price is 30 million, with Beny as the photographer. " + 
+                                "This client's point is agreeable since it is the low season." 
+                                )
+                                
+                                # self.create_by_employee( employee, client , important_event_params)
+                                
+puts "creating important event"                
+important_event_1 = ImportantEvent.create_by_employee( marketing_employee_1, client_1,  
+                                      :event_date => '9/20/2012',
+                                      :is_repeating_annually => true,
+                                      :title => "12 September is Jammie (client's son) bday.")
+                                      
+important_event_2 = ImportantEvent.create_by_employee( marketing_employee_1, client_1,  
+                                      :event_date => '12/15/2012',
+                                      :is_repeating_annually => false,
+                                      :title => "It is the 1 month anniversary of their son's bday.")
 #                                       
 # selected_package_list = [package_1]
 # final_negotiated_price = BigDecimal("100000")

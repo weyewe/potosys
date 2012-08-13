@@ -32,13 +32,16 @@ class ImportantEvent < ActiveRecord::Base
       end
     end
     
-    
-    important_event.event_date = ImportantEvent.extract_event_date( important_event_params[:event_date] )
+    new_event_date = ImportantEvent.extract_event_date( important_event_params[:event_date] )
+    important_event.event_date = new_event_date
     important_event.save
     
-    
+    if not new_event_date.nil?
+      important_event.yday = new_event_date.yday 
+    end
     important_event.creator_id = employee.id 
     important_event.client_id = client.id 
+    
     important_event.save
     
     return important_event 
@@ -51,12 +54,35 @@ class ImportantEvent < ActiveRecord::Base
     
     time_array = params_deadline_datetime.split("/")
     
-    DateTime.new(time_array[2].to_i, time_array[0].to_i, time_array[1].to_i,
-                  0, 0, 0,
-                  Rational(DEFAULT_TIME_OFFSET, 24) ) # Rational( utc_offset, 24)
+    Date.new(time_array[2].to_i, time_array[0].to_i, time_array[1].to_i) 
   end
   
   def local_event_date
     self.event_date + DEFAULT_TIME_OFFSET.hour
+  end
+  
+  def self.important_events_within_n_days_from_now( number_of_days , office )
+    # date#yday => returns the day of the year 
+    # 1-366 
+    # => Date.new(2001,2,3).yday           #=> 34
+    today_yday = DateTime.now.to_date.yday
+    total_yday = today_yday + number_of_days 
+    
+    excess_yday = total_yday - MAX_YDAY 
+    if excess_yday != 0 
+      ImportantEvent.joins(:client).where{
+        ( client.office_id.eq office.id ) & 
+        (
+            ( (yday.gte today_yday) & (yday.lte MAX_YDAY) )  |
+            ( (yday.gte MIN_YDAY) & (yday.lte excess_yday) )  
+        )
+      }
+    else
+      ImportantEvent.joins(:client).where{
+        (client.office_id.eq office.id ) & 
+        ( (yday.gte today_yday)  & (yday.lte total_yday)  ) 
+      }
+    end
+    
   end
 end
