@@ -82,9 +82,9 @@
               <td><%= client.home_phone  %></td>
               <td><%= client.bb_pin  %></td>
               <td><%= client.email  %></td>
-              <td><%= link_to  client.contact_reports.count, client_contact_reports_url(client)  %></td>
-              <td><%= link_to client.sales_orders.count , client_sales_orders_url(client) %></td>
-              <td><%= link_to client.important_events.count , client_important_events_url(client)   %></td>
+              <td><%= link_to  client.contact_reports.count, new_client_contact_report_url(client)  %></td>
+              <td><%= link_to client.sales_orders.count , new_client_sales_order_url(client) %></td>
+              <td><%= link_to client.important_events.count , new_client_important_event_url(client)   %></td>
             
               
               

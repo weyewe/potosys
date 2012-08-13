@@ -68,6 +68,8 @@ CONTACT_PURPOSE = {
 } 
 
 
+DEFAULT_TIMEZONE = "Jakarta"
+DEFAULT_TIME_OFFSET = 7 
 
 
 

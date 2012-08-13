@@ -1,0 +1,131 @@
+
+<div class="span9 content">
+  <%= create_guide("Contact Reports", 
+        "Office: <b>#{current_office.name}</b>"  + "<br />" + 
+        "Employee: <b>#{current_user.email}</b>" + "<br />" + 
+        "Client: <b>#{@client.name}</b>"  + "<br />" + 
+        "Total Contact Report: <b>#{@total_contact_report}</b>"   ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  
+  
+  <div class="row-fluid">
+    <div class="span12">
+      
+      
+      <!-- <button href="#" class="btn"></button> -->
+      
+      <%= link_to "Add New Contact Report", '#', :class => " btn btn-primary default-hidden-toggler"  %>
+      <%= simple_form_for([ @client,@new_contact_report ], :html => {:class => "form-horizontal prevent_double_submit form-toggler  #{add_default_hidden(params)}" }) do |f| %>
+        
+         
+        <%= f.input :summary , :input_html => {:class => "input-xlarge span5"}, 
+         :label => "Contact Summary", :hint => "Summary of the contact. E.g.: follow up pre-wedding price list request" %>
+         
+        <%= f.input :description , :input_html => {:rows => 5, :columns => 20, :class => "input-xlarge span8"}, 
+          :label => "Contact Report Details", :hint => "Details about the contact" %>
+          
+          
+        <% if @new_contact_report.contact_datetime.nil? %>
+          <%= f.input :contact_datetime , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Contact  Date", :hint => "Contact Date (MM/DD/YYYY)", :as => :text, 
+              :input_html => {
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          }
+           %>
+        <% else %>
+          <%= f.input :contact_datetime , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Contact  Date", :hint => "Contact Date (MM/DD/YYYY)", :as => :text, 
+              :input_html => {
+                :value => format_date_from_datetime(@new_contact_report.local_contact_datetime), 
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          } %>
+        <% end %>
+        
+          
+        <!-- <div class="control-group">
+           <%= f.label :contact_datetime, "Contact Date" %>
+           <div class="controls">
+             <%= f.text_field :contact_datetime, :class=>"input-xlarge"  ,'data-datepicker'=>'datepicker'  %>
+             <p class="help-block"></p>
+           </div>
+         </div> -->
+
+
+        <div class="control-group">
+          <%= label_tag :contact_hour, "Contact Hour" %>
+          <div class="controls">
+            <%= select_tag "contact_hour", 
+              select_hour_options.html_safe %>
+            <p class="help-block">The time of contact (hour)</p>
+          </div>
+        </div>
+
+     
+        
+
+
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-primary", :text=> "Create Contact Report" %>
+        </div>
+      <% end %>
+      
+      
+     
+      
+    </div> 
+      
+      
+      
+    
+  </div><!--/row-->
+   <hr />
+   
+   
+  <div class="row-fluid">
+    <div id="data_list">
+      
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Summary</th>
+            <th>Description</th>
+            <th>Contact DateTime (MM/DD/YYYY)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        
+      
+          
+          
+        <tbody>
+          <% @contact_reports.each do |contact_report| %>
+            <%= render :partial => "contact_reports/new/entry" , :locals => {
+              :contact_report => contact_report 
+            }%>
+            
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+
+
+
+
+
+
+
+

@@ -85,6 +85,16 @@ module ApplicationHelper
   end
   
   
+  
+  def select_hour_options
+    array = ""
+    (0..23).each do |x|
+      array << "<option>#{x}</option>"
+    end
+    return array 
+  end
+  
+  
 =begin
   Utility methods
 =end
@@ -174,8 +184,8 @@ module ApplicationHelper
       return create_process_nav(MARKETING_PROCESS_LIST, params )
     end
   
-    if symbol == :project_setup
-      return create_process_nav(PROJECT_SETUP_PROCESS_LIST, params )
+    if symbol == :sales_order_creation
+      return create_process_nav(SALES_ORDER_PROCESS_LIST, params )
     end
   
     if symbol == :project_management
@@ -351,13 +361,29 @@ module ApplicationHelper
         ]
       },
       {
-        :title => "Create Marketing Interaction",
+        :title => "Marketing Interaction",
         :destination_link => "search_client_for_marketing_interaction_url",
         :conditions => [
           {
             :controller =>'clients',
             :action => 'search_client_for_marketing_interaction'
-          } 
+          } ,
+          {
+            :controller => 'contact_reports',
+            :action =>'new'
+          },
+          {
+            :controller => "contact_reports",
+            :action => 'create'
+          },
+          {
+            :controller => "important_events",
+            :action => "new"
+          },
+          {
+            :controller => "important_events",
+            :action => "create"
+          }
         ]
       },
       {
@@ -384,6 +410,50 @@ module ApplicationHelper
       }
     ]
   }
+  
+  
+  SALES_ORDER_PROCESS_LIST = {
+    :header_title => "Sales Order",
+    :processes => [
+      {
+        :title => "Create Sales Order",
+        :destination_link => "new_independent_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'new'
+          },
+          {
+            :controller => "articles",
+            :action => "new_independent_article"
+          }
+        ]
+      },
+      {
+        :title => "Crew Calendar",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'finalize_article'
+          },
+          {
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
+          },
+          {
+            :controller => 'articles',
+            :action => 'edit_publication'
+          }
+        ]
+      }
+    ]
+  }
+  
   
   
   

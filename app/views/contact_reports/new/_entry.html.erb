@@ -1,0 +1,9 @@
+<tr id="contact_report-<%= contact_report.id %>">
+  <td><%= contact_report.user.email  %></td>
+  <td><%= contact_report.summary   %></td>
+  <td><%= contact_report.description  %></td>
+  <td><%= format_date_from_datetime( contact_report.local_contact_datetime ) %> 
+    <br />
+    <%= "hour: " +  "#{contact_report.local_contact_datetime.hour}"   %></td>
+  <td>Edit | Delete </td>
+</tr>

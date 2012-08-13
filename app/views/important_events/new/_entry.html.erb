@@ -1,0 +1,21 @@
+<!-- <th>Creator</th>
+<th>Title</th>
+<th>Description</th>
+<th>Event Date</th>
+<th>Annual Event?</th> -->
+
+
+<tr id="important_event-<%= important_event.id %>">
+  <td><%= important_event.creator.email  %></td>
+  <td><%= important_event.title   %></td>
+  <td><%= important_event.description  %></td>
+  <td><%= format_date_from_datetime( important_event.event_date )   %></td>
+  <td>
+    <% if important_event.is_repeating_annually == true %>
+      <span class="label label-success">Yes</span>
+    <% else %>
+     	<span class="label label-important">No</span>
+    <% end %>
+  </td>
+  <td>Edit | Delete </td>
+</tr>
