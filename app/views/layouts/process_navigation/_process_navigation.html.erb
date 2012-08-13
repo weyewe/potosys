@@ -6,6 +6,10 @@
         <%= get_process_nav( :company_admin_management , params ).html_safe %> 
       <% end %>
       
+      <% if current_user.has_role?(:marketing) or  current_user.has_role?(:marketing_head)   %> 
+        <%= get_process_nav( :marketing , params ).html_safe %> 
+      <% end %>
+      
       <%# if current_user.has_role?(:manager) %>
         <%#= get_process_nav( :machine_builder , params ).html_safe %> 
       <%# end %>

@@ -11,6 +11,8 @@ CollinsPotosys::Application.routes.draw do
   resources :packages do 
     resources :package_assignments 
   end
+  
+  resources :clients
 =begin
   SETUP, Create User +  Office Role
 =end

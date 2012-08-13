@@ -169,6 +169,10 @@ module ApplicationHelper
     if symbol == :company_admin_management
       return create_process_nav(COMPANY_ADMIN_MANAGEMENT_PROCESS_LIST, params )
     end
+    
+    if symbol == :marketing
+      return create_process_nav(MARKETING_PROCESS_LIST, params )
+    end
   
     if symbol == :project_setup
       return create_process_nav(PROJECT_SETUP_PROCESS_LIST, params )
@@ -316,6 +320,94 @@ module ApplicationHelper
       }
     ]
   }
+  
+  MARKETING_PROCESS_LIST = {
+    :header_title => "Marketing",
+    :processes => [
+      {
+        :title => "Add Client",
+        :destination_link => "new_independent_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'new'
+          },
+          {
+            :controller => "articles",
+            :action => "new_independent_article"
+          }
+        ]
+      },
+      {
+        :title => "Contact Report",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'finalize_article'
+          },
+          {
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
+          },
+          {
+            :controller => 'articles',
+            :action => 'edit_publication'
+          }
+        ]
+      },
+      {
+        :title => "Client History",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'finalize_article'
+          },
+          {
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
+          },
+          {
+            :controller => 'articles',
+            :action => 'edit_publication'
+          }
+        ]
+      },
+      {
+        :title => "Event Reminder",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'finalize_article'
+          },
+          {
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
+          },
+          {
+            :controller => 'articles',
+            :action => 'edit_publication'
+          }
+        ]
+      }
+    ]
+  }
+  
+  
   
   PUBLISHER_PROCESS_LIST = {
     :header_title => "Publisher",

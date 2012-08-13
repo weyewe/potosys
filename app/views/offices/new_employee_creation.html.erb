@@ -32,7 +32,7 @@
       <%= link_to "Add New Employee", '#', :class => " btn btn-primary default-hidden-toggler"  %>
 
       <%= simple_form_for( @new_employee, :url => create_employee_url,
-        :html => {:class => 'form-horizontal prevent_double_submit default-hidden' }) do |f| %>
+        :html => {:class => "form-horizontal prevent_double_submit form-toggler  #{add_default_hidden(params)}" }) do |f| %>
 
         <%= f.input :email , :input_html => {:class => "input-xlarge span5"}, 
         :label => "Email" %>

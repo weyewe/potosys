@@ -34,7 +34,7 @@ publisher_employee = office.create_user( [publisher_role],
                   :password_confirmation => 'willy1234'  )
           
 marketing_employee_1 =   office.create_user( [marketing_role], 
-                    :email => 'publisher@gmail.com',
+                    :email => 'marketing_1@gmail.com',
                     :password => 'willy1234',
                     :password_confirmation => 'willy1234'  )
                     
