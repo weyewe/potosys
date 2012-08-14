@@ -9,6 +9,7 @@ class CreateProjects < ActiveRecord::Migration
       t.date :shoot_date 
       t.date :starting_date 
       t.date :ending_date  
+      t.string :shoot_location
       
       t.boolean :is_project_started, :default => false  # will be started when the sales order is confirmed 
       t.boolean :is_supply_finished , :default => false 

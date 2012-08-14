@@ -123,14 +123,12 @@ module ApplicationHelper
       breadcrumbs_result = ""
       breadcrumbs_result << "<ul class='breadcrumb'>"
       
-      puts "After the first"
       
       
       breadcrumbs[0..-2].each do |txt, path|
         breadcrumbs_result  << create_breadcrumb_element(    link_to( txt, path ) ) 
       end 
       
-      puts "After the loop"
       
       last_text = breadcrumbs.last.first
       last_path = breadcrumbs.last.last
@@ -430,6 +428,10 @@ module ApplicationHelper
           {
             :controller => "projects",
             :action => 'book_crew_for_single_package_sales_order'
+          },
+          {
+            :controller => "projects",
+            :action => 'select_crew_to_be_booked'
           },
           {
             :controller => 'projects', 

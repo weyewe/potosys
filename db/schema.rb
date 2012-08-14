@@ -240,7 +240,9 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.string   "title"
     t.text     "project_guideline"
     t.date     "shoot_date"
+    t.date     "starting_date"
     t.date     "ending_date"
+    t.string   "shoot_location"
     t.boolean  "is_project_started",          :default => false
     t.boolean  "is_supply_finished",          :default => false
     t.boolean  "is_pre_production_finished",  :default => false

@@ -2,10 +2,13 @@
 <div class="span9 content">
   <%= create_guide("Select Package", 
         "Office: <b>#{current_office.name}</b>"  + "<br />" + 
-        "For Client: <b>#{@client.name}</b>").html_safe %>
+        "For Client: <b>#{@client.name}</b>" + "<br />" + 
+        "Package: <b>#{@package.name}</b>" + "<br />"+ 
+        "Crew:  <b>#{@user.email}</b>"  + "<br />" +
+        "Price: <b>#{print_money( @package.package_assignment_for( @user ) .price ) }</b>"  ).html_safe %>
   
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
-  
+
   <% if flash[:notice] %>
     <div class="alert alert-success">
       <a data-dismiss="alert" class="close">×</a>
@@ -28,8 +31,9 @@
       <!-- <button href="#" class="btn"></button> -->
       <%= link_to "Create Sales Order", '#', :class => " btn btn-primary default-hidden-toggler"  %>
       <%= simple_form_for(@new_project, 
-        :url => execute_crew_booking_for_single_package_sales_order_url(@package, @client), 
-        :html => {:class => "form-horizontal prevent_double_submit form-toggler  #{add_default_hidden(params)}" }) do |f| %>
+        :url => execute_crew_booking_for_single_package_sales_order_url(@package, @client, @user), 
+        :html => {:class => "form-horizontal prevent_double_submit form-toggler  " + 
+                  "#{add_default_hidden_book_crew_single_package_sales_order(params)}" }) do |f| %>
         
         
         <%#= f.input :machine_id, :hint => "Select Machine", :label => "Machine" do %>
@@ -41,8 +45,11 @@
         <%= f.input :title , :input_html => {:class => "input-xlarge span5"}, 
          :label => "Project Title", :hint => "e.g. Sarah & Jimmy Pre-wedding" %>
          
-        <%#= f.input :project_guideline , :input_html => {:rows => 5, :columns => 20, :class => "input-xlarge span5"}, 
-          :label => "Description", :hint => "Details about this package" %>
+        <%= f.input :project_guideline , :input_html => {:rows => 5, :columns => 20, :class => "input-xlarge span5"}, 
+          :label => "Project Guideline", :hint => "Notes/Special request for this project" %>
+        
+        <%= f.input :shoot_location , :input_html => {:rows => 5, :columns => 20, :class => "input-xlarge span5"}, 
+          :label => "Shoot Location", :hint => "e.g. London, UK or San Francisco, California, USA" %>
           
         <% if @new_project.shoot_date.nil? %>
           <%= f.input :shoot_date , :input_html => { :rows => 1, 
@@ -67,7 +74,7 @@
         <% if @new_project.starting_date.nil? %>
           <%= f.input :ending_date , :input_html => { :rows => 1, 
               :class => "input-xlarge"}, 
-              :label => "Starting  Date", :hint => "Starting Date (MM/DD/YYYY)", :as => :text, 
+              :label => "Starting  Date", :hint => "Starting Date (MM/DD/YYYY) <br /> starting date <= shoot date <br /> starting_date <= ending date", :as => :text, 
               :input_html => {
                 :rows => 1, 
                 'data-datepicker' => 'datepicker'
@@ -76,7 +83,7 @@
         <% else %>
           <%= f.input :ending_date , :input_html => { :rows => 1, 
               :class => "input-xlarge"}, 
-              :label => "Starting  Date", :hint => "Starting Date (MM/DD/YYYY)", :as => :text, 
+              :label => "Starting  Date", :hint => "Starting Date (MM/DD/YYYY) <br /> starting date <= shoot date <br /> starting_date <= ending date", :as => :text, 
               :input_html => {
                 :value => format_date_from_datetime( @new_project.starting_date ), 
                 :rows => 1, 
@@ -90,7 +97,7 @@
         <% if @new_project.ending_date.nil? %>
           <%= f.input :ending_date , :input_html => { :rows => 1, 
               :class => "input-xlarge"}, 
-              :label => "Ending  Date", :hint => "Ending Date (MM/DD/YYYY)", :as => :text, 
+              :label => "Ending  Date", :hint => "Ending Date (MM/DD/YYYY) <br /> ending date >= shoot date <br /> starting_date <= ending date", :as => :text, 
               :input_html => {
                 :rows => 1, 
                 'data-datepicker' => 'datepicker'
@@ -99,7 +106,7 @@
         <% else %>
           <%= f.input :ending_date , :input_html => { :rows => 1, 
               :class => "input-xlarge"}, 
-              :label => "Ending  Date", :hint => "Ending Date (MM/DD/YYYY)",:as => :text, 
+              :label => "Ending  Date", :hint => "Ending Date (MM/DD/YYYY) <br /> ending date >= shoot date <br /> starting_date <= ending date",:as => :text, 
               :input_html => {
                 :value => format_date_from_datetime( @new_project.ending_date ), 
                 :rows => 1, 

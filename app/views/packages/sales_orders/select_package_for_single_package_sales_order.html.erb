@@ -45,7 +45,7 @@
             <tr>
               <td>
                 <% if package.is_crew_specific_pricing == true %>
-                  <%= link_to package.name, book_crew_for_single_package_sales_order_url(package, @client)   %>
+                  <%= link_to package.name, select_crew_to_be_booked_url(package, @client)   %>
                 <% else %>
                   <%= package.name %>
                 <% end %>
