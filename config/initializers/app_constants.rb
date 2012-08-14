@@ -75,8 +75,20 @@ MIN_YDAY = 1
 MAX_YDAY = 366
 
 
+DEFAULT_IMPORTANT_EVENT_PERIOD = 60
 
-
+JOB_REQUEST_SOURCE = {
+  # photographers 1-40
+  :crew_booking => 1, 
+  :crew_day_off => 2 , 
+  :transportation_off_day => 3, 
+  # account executive  41 - 80
+  :follow_up_draft => 41, 
+  
+  # graphic designer 81 - 120
+  :revision_creation => 81
+  
+}
 
 =begin
   CONSTANT for AJAX

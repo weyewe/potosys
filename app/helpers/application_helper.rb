@@ -388,11 +388,11 @@ module ApplicationHelper
       },
       {
         :title => "Event Reminder",
-        :destination_link => "finalize_article_url",
+        :destination_link => "all_important_events_url",
         :conditions => [
           {
-            :controller =>'articles',
-            :action => 'finalize_article'
+            :controller =>'important_events',
+            :action => 'all_important_events'
           },
           {
             :controller => "articles",
@@ -416,38 +416,39 @@ module ApplicationHelper
     :header_title => "Sales Order",
     :processes => [
       {
-        :title => "Create Sales Order",
-        :destination_link => "new_independent_article_url",
+        :title => "Single Package Sales Order",
+        :destination_link => "search_client_for_single_package_sales_order_url",
         :conditions => [
           {
-            :controller =>'articles',
-            :action => 'new'
+            :controller =>'clients',
+            :action => 'search_client_for_single_package_sales_order'
           },
           {
-            :controller => "articles",
-            :action => "new_independent_article"
+            :controller => "packages",
+            :action => "select_package_for_single_package_sales_order"
+          },
+          {
+            :controller => "projects",
+            :action => 'book_crew_for_single_package_sales_order'
+          },
+          {
+            :controller => 'projects', 
+            :action => 'execute_crew_booking_for_single_package_sales_order'
           }
         ]
       },
+      
       {
         :title => "Crew Calendar",
-        :destination_link => "finalize_article_url",
+        :destination_link => "select_crew_to_view_calendar_url",
         :conditions => [
           {
-            :controller =>'articles',
-            :action => 'finalize_article'
-          },
+            :controller =>'offices',
+            :action => 'select_crew_to_view_calendar'
+          } ,
           {
-            :controller => "articles",
-            :action => 'edit_article_content'
-          },
-          {
-            :controller => "articles",
-            :action => "edit_image_ordering"
-          },
-          {
-            :controller => 'articles',
-            :action => 'edit_publication'
+            :controller => 'job_requests', 
+            :action => 'crew_schedule'
           }
         ]
       }

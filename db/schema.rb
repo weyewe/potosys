@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120812134046) do
+ActiveRecord::Schema.define(:version => 20120814011747) do
 
   create_table "article_pictures", :force => true do |t|
     t.string   "name"
@@ -174,6 +174,21 @@ ActiveRecord::Schema.define(:version => 20120812134046) do
     t.datetime "updated_at",                    :null => false
   end
 
+  create_table "job_requests", :force => true do |t|
+    t.integer  "source_id"
+    t.string   "source_type"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "user_id"
+    t.integer  "job_request_source", :default => 1
+    t.date     "starting_date"
+    t.integer  "number_of_days"
+    t.integer  "yday"
+    t.integer  "year"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
   create_table "offices", :force => true do |t|
     t.string   "name"
     t.integer  "main_user_id"
@@ -225,9 +240,15 @@ ActiveRecord::Schema.define(:version => 20120812134046) do
     t.string   "title"
     t.text     "project_guideline"
     t.date     "shoot_date"
-    t.boolean  "is_project_started", :default => false
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
+    t.date     "ending_date"
+    t.boolean  "is_project_started",          :default => false
+    t.boolean  "is_supply_finished",          :default => false
+    t.boolean  "is_pre_production_finished",  :default => false
+    t.boolean  "is_production_finished",      :default => false
+    t.boolean  "is_post_production_finished", :default => false
+    t.boolean  "is_finished",                 :default => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -240,8 +261,14 @@ ActiveRecord::Schema.define(:version => 20120812134046) do
     t.integer  "creator_id"
     t.integer  "client_id"
     t.decimal  "total_transaction_amount", :precision => 11, :scale => 2, :default => 0.0
-    t.datetime "created_at",                                                               :null => false
-    t.datetime "updated_at",                                                               :null => false
+    t.boolean  "is_down_payment_paid",                                    :default => false
+    t.decimal  "down_payment_amount",      :precision => 11, :scale => 2, :default => 0.0
+    t.boolean  "is_confirmed",                                            :default => false
+    t.boolean  "is_canceled",                                             :default => false
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",                                                                 :null => false
+    t.datetime "updated_at",                                                                 :null => false
   end
 
   create_table "tasks", :force => true do |t|

@@ -4,6 +4,8 @@ class CreateProjectAssignments < ActiveRecord::Migration
       t.integer :project_membership_id
       t.integer :project_role_id
       
+      
+      
       t.timestamps  
     end
   end

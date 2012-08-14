@@ -1,0 +1,156 @@
+
+<div class="span9 content">
+  <%= create_guide("Select Package", 
+        "Office: <b>#{current_office.name}</b>"  + "<br />" + 
+        "For Client: <b>#{@client.name}</b>").html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+  <div class="row-fluid">
+    <div class="span12">
+      
+      
+      <!-- <button href="#" class="btn"></button> -->
+      <%= link_to "Create Sales Order", '#', :class => " btn btn-primary default-hidden-toggler"  %>
+      <%= simple_form_for(@new_project, 
+        :url => execute_crew_booking_for_single_package_sales_order_url(@package, @client), 
+        :html => {:class => "form-horizontal prevent_double_submit form-toggler  #{add_default_hidden(params)}" }) do |f| %>
+        
+        
+        <%#= f.input :machine_id, :hint => "Select Machine", :label => "Machine" do %>
+           <%#= f.select :machine_id, 
+               current_office.all_machines %>
+         <%# end %>
+         
+         
+        <%#= f.input :name , :input_html => {:class => "input-xlarge span5"}, 
+         :label => "Package Name", :hint => "Foto Maternity?" %>
+         
+        <%#= f.input :description , :input_html => {:rows => 5, :columns => 20, :class => "input-xlarge span5"}, 
+          :label => "Description", :hint => "Details about this package" %>
+          
+        <%#= f.input :base_price , :input_html => {:class => "input-xlarge span5"}, 
+          :label => "Base Price", :hint => "Base Price, for non-crew specific package" %>
+          
+        <%#= f.input :is_crew_specific_pricing , 
+          :label => "Crew Specific Pricing?", :hint => "Check if Different Crew -> different price?" %>
+          
+        <%#= f.input :number_of_crew , :input_html => {:class => "input-xlarge span5"}, 
+          :label => "Number of Crew", :hint => "" %>
+
+  
+        
+
+
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-primary", :value => "Create Sales Order" %>
+        </div>
+      <% end %>
+      
+      
+     
+      
+    </div> 
+      
+      
+      
+    
+  </div><!--/row-->
+   <hr />
+   
+   
+  <div class="row-fluid">
+    
+    <%#= link_to "Create Booking", root_url , :class => " btn btn-primary "%>
+    <div id="calendar_wrapper">
+   
+    </div><!-- end of #data_list -->
+  </div>
+ 
+
+</div><!--/span-->
+
+
+
+
+
+
+
+
+<% content_for :additional_css do %>
+  <%= stylesheet_link_tag "fullcalendar"%>
+<% end %>
+
+<% content_for :additional_js do %>
+  <%#= stylesheet_link_tag "uploadifive"%>
+  <%= javascript_include_tag "fullcalendar.min" %>
+  <script type='text/javascript'>
+    $(document).ready(function() {
+
+        $('#calendar_wrapper').fullCalendar({
+          
+          eventSources: [
+
+                  // your event source
+                  {
+                      events: [
+                          {
+                              title  : 'event1',
+                              start  : '2012-08-08',
+                              description : "Fun day hahaha"
+                          },
+                          {
+                              title  : 'event2',
+                              start  : '2012-08-08',
+                              end    : '2012-08-12',
+                              description : "Fun day hahaha"
+                          },
+                          {
+                              title  : 'event3',
+                              start  : '2012-08-09 12:30:00',
+                              description : "Fun day hahaha",
+                              allDay : false // will make the time show
+                          }
+                      ],
+                      color: 'light-blue',     // an option!
+                      textColor: 'white' // an option!
+                  }
+
+                  // any other event sources...
+
+              ]
+              
+              
+            
+          
+        });
+
+    });
+  </script>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+

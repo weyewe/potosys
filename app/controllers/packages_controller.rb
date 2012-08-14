@@ -19,4 +19,21 @@ class PackagesController < ApplicationController
       render :file => "packages/new"
     end
   end
+  
+  
+=begin
+  Sales Order creation: single package
+=end
+  def select_package_for_single_package_sales_order
+    @client = Client.find_by_id params[:client_id]
+    @packages = current_office.packages.order("name ASC")
+    
+    add_breadcrumb "Search Client", 'search_client_for_single_package_sales_order_url'
+    set_breadcrumb_for @client, 'select_package_for_single_package_sales_order_url' + "(#{@client.id})", 
+          "Select Package"
+    
+    render :file => "packages/sales_orders/select_package_for_single_package_sales_order"
+  end
+  
 end
+

@@ -7,4 +7,7 @@ class SalesOrdersController < ApplicationController
     set_breadcrumb_for @client, 'client_sales_orders_url' + "(#{@client.id})", 
                   "Purchase History"
   end
+  
+
+  
 end

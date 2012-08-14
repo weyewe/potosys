@@ -18,6 +18,8 @@ CollinsPotosys::Application.routes.draw do
     resources :sales_orders
   end
   
+  
+  
 =begin
   SETUP, Create User +  Office Role
 =end
@@ -45,9 +47,33 @@ CollinsPotosys::Application.routes.draw do
   match 'search_client_for_marketing_interaction' => 'clients#search_client_for_marketing_interaction', :as => :search_client_for_marketing_interaction
   
   
+=begin
+  SEE Important Events in the office
+=end
+
+  match 'all_important_events' => 'important_events#all_important_events', :as => :all_important_events 
+  
+=begin
+  See crew's calendar
+=end
+
+  match 'select_crew_to_view_calendar' => 'offices#select_crew_to_view_calendar', :as => :select_crew_to_view_calendar
+  match 'crew_schedule/:user_id' => 'job_requests#crew_schedule', :as => :crew_schedule
   
   
+=begin
+  Create Sales Order 
+=end
+
+  match 'search_client_for_single_package_sales_order' => 'clients#search_client_for_single_package_sales_order', :as => :search_client_for_single_package_sales_order
+  match 'select_package_for_single_package_sales_order/:client_id' => 'packages#select_package_for_single_package_sales_order', :as => :select_package_for_single_package_sales_order
+  # for the crew-specific-pricing, we need to book the crew
+    match 'book_crew_for_single_package_sales_order/:package_id/for_client/:client_id' => 'projects#book_crew_for_single_package_sales_order', :as => :book_crew_for_single_package_sales_order
+    match 'execute_crew_booking_for_single_package_sales_order/:package_id/for_client/:client_id' => 'projects#execute_crew_booking_for_single_package_sales_order', :as => :execute_crew_booking_for_single_package_sales_order, :method => :post 
   
+  # for non-crew-specific-pricing, just create the project / sales order 
+  
+  # then, confirm the sales order. By confirming, it means we can't reduce the number of deliveable items. adding is fine. 
   
   
   

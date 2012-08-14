@@ -57,4 +57,15 @@ class OfficesController < ApplicationController
       format.js
     end
   end
+  
+  def test_crew_calendar
+    @office = current_office
+    @crews = current_office.crews 
+  end
+  
+  def select_crew_to_view_calendar
+    @office = current_office
+    @crews = current_office.crews
+    add_breadcrumb "Select Crew", select_crew_to_view_calendar_url
+  end
 end

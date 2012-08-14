@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   validates :email, :presence => true, :email => true
   
   has_many :contact_reports
+  has_many :job_requests
 
 =begin
   PACKAGE SPECIFIC 

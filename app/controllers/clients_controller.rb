@@ -36,4 +36,21 @@ class ClientsController < ApplicationController
       render :file => "clients/new"
     end
   end
+  
+=begin
+  SALES ORDER CREATION
+=end
+
+  def search_client_for_single_package_sales_order
+    @office = current_office
+    @clients = [] 
+    if not  params[:client_name].nil?  and not params[:client_name].length == 0 
+      name_query = '%' + params[:client_name] + '%'
+      office = @office
+      @clients = @office.clients.where{ (name =~ name_query)  }
+    end
+    
+    add_breadcrumb "Search Client", 'search_client_for_single_package_sales_order_url'
+    render :file => "clients/sales_orders/search_client_for_single_package_sales_order"
+  end
 end

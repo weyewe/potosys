@@ -65,23 +65,55 @@ class ImportantEvent < ActiveRecord::Base
     # date#yday => returns the day of the year 
     # 1-366 
     # => Date.new(2001,2,3).yday           #=> 34
-    today_yday = DateTime.now.to_date.yday
-    total_yday = today_yday + number_of_days 
     
+    today_date = DateTime.now.to_date
+    final_date = today_date + number_of_days.days 
+    
+    today_yday = today_date.yday
+    total_yday = today_yday + number_of_days 
     excess_yday = total_yday - MAX_YDAY 
+    
+     
+    
     if excess_yday != 0 
+      # ImportantEvent.joins(:client).where{
+      #   ( client.office_id.eq office.id ) & 
+      #   (
+      #       ( (yday.gte today_yday) & (yday.lte MAX_YDAY) )  |
+      #       ( (yday.gte MIN_YDAY) & (yday.lte excess_yday) )  
+      #   )
+      # }
+      
       ImportantEvent.joins(:client).where{
-        ( client.office_id.eq office.id ) & 
+        (client.office_id.eq office.id ) & 
         (
-            ( (yday.gte today_yday) & (yday.lte MAX_YDAY) )  |
-            ( (yday.gte MIN_YDAY) & (yday.lte excess_yday) )  
+          (
+            ( is_repeating_annually.eq true ) & 
+            (
+              ( (yday.gte today_yday) & (yday.lte MAX_YDAY) )  |
+              ( (yday.gte MIN_YDAY) & (yday.lte excess_yday) )
+            )
+          ) | (
+            ( is_repeating_annually.eq false ) & 
+            (event_date.gte today_date)  & (event_date.lte final_date)
+          )
         )
-      }
+      }.order("yday ASC")
+      
+      
     else
       ImportantEvent.joins(:client).where{
         (client.office_id.eq office.id ) & 
-        ( (yday.gte today_yday)  & (yday.lte total_yday)  ) 
-      }
+        (
+          (
+            ( is_repeating_annually.eq true ) & 
+            (yday.gte today_yday)  & (yday.lte total_yday)
+          ) | (
+            ( is_repeating_annually.eq false ) & 
+            (event_date.gte today_date)  & (event_date.lte final_date)
+          )
+        )
+      }.order("yday ASC")
     end
     
   end

@@ -30,9 +30,17 @@ class ImportantEventsController < ApplicationController
                     "Client Important Event"
       render :file => "important_events/new"
     end
-    
-    
-    
+  end
+  
+  def all_important_events
+    if ( params[:important_event_period].nil? or params[:important_event_period].length == 0  ) and 
+          not   ImportantEvent.is_numeric?(params[:important_event_period]) 
+      @important_event_period = DEFAULT_IMPORTANT_EVENT_PERIOD 
+      @important_events = ImportantEvent.important_events_within_n_days_from_now( DEFAULT_IMPORTANT_EVENT_PERIOD , current_office )
+    else
+      @important_event_period = params[:important_event_period].to_i  
+      @important_events = ImportantEvent.important_events_within_n_days_from_now( @important_event_period , current_office )
+    end
   end
   
   
