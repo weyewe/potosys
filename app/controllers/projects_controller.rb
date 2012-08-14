@@ -58,7 +58,7 @@ class ProjectsController < ApplicationController
 
     if  @new_project.persisted?
       flash[:notice] = "The component '#{@new_project.title}' has been created." 
-      redirect_to single_package_sales_order_summary_url(@new_project.sales_order ) 
+      redirect_to single_package_sales_order_finalization_url(@new_project.sales_order ) 
       return 
     else
       flash[:error] = "Hey, do something better"

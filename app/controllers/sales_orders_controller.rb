@@ -8,6 +8,10 @@ class SalesOrdersController < ApplicationController
                   "Purchase History"
   end
   
-
+  def single_package_sales_order_finalization
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @project = @sales_order.projects.first 
+    
+  end
   
 end

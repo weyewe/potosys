@@ -75,8 +75,10 @@ CollinsPotosys::Application.routes.draw do
   # for non-crew-specific-pricing, just Finalize the project / sales order 
   
   # then, confirm the sales order. By confirming, it means we can't reduce the number of deliverable items. adding is fine. 
+  match 'single_package_sales_order_finalization/:sales_order_id' => 'sales_orders#single_package_sales_order_finalization', :as => :single_package_sales_order_finalization
   
   # for now, create the basic version: no add/reduce the deliverable item 
+  
   
   
   
