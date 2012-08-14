@@ -323,6 +323,10 @@ module ApplicationHelper
           {
             :controller => "package_assignments",
             :action => "new"
+          },
+          {
+            :controller => 'deliverable_subcriptions',
+            :action => 'new'
           }
         ]
       }

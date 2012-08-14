@@ -155,6 +155,28 @@ class Office < ActiveRecord::Base
   end
   
 =begin
+  Create Package's Deliverable
+=end
+
+  def all_deliverables
+    deliverables  = self.deliverables.order("name ASC")
+    result = []
+    deliverables.each do |deliverable|
+      if deliverable.has_sub_item == true 
+        result << [ "#{deliverable.name} -- SubItem: #{deliverable.sub_item_name} "+
+                "-- Default SubItem Quantity: #{deliverable.sub_item_quantity} "+
+                "-- Additional Extra SubItem Price: #{deliverable.independent_sub_item_price}" , 
+                        deliverable.id ]
+      else
+        result << [ "#{deliverable.name}" , 
+                        deliverable.id ]
+      end
+          
+    end
+    return result
+  end
+  
+=begin
   PACKAGE ASSIGNMENT, selecting crew: videographer, photographer
 =end
 
@@ -202,5 +224,6 @@ class Office < ActiveRecord::Base
     self.clients.where(:creator_id => employee.id).order("created_at DESC")
   end
   
+
   
 end

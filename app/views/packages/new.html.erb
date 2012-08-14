@@ -112,7 +112,8 @@
       
               <td><%= package.number_of_crew  %></td>
               <td><%= package.users.count  %></td>
-              <td><%= package.deliverable_subcriptions.count  %></td>
+              <td><%= package.deliverable_subcriptions.count  %> 
+                <%= link_to "Edit", new_package_deliverable_subcription_url(package), :class => 'btn btn-mini' %></td>
             </tr>
           <% end %>
 
