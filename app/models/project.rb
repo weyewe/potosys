@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :title, :shoot_date, :ending_date
+  attr_accessible :title, :shoot_date, :starting_date,  :ending_date
   belongs_to :package
   has_many :deliverables, :through => :deliverable_items
   has_many :deliverable_items
@@ -10,6 +10,6 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :project_memberships
   
   
-  validates_presence_of :title, :shoot_date, :ending_date 
+  validates_presence_of :title, :shoot_date, :starting_date, :ending_date 
   
 end

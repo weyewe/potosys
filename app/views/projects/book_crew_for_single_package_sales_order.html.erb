@@ -38,23 +38,74 @@
          <%# end %>
          
          
-        <%#= f.input :name , :input_html => {:class => "input-xlarge span5"}, 
-         :label => "Package Name", :hint => "Foto Maternity?" %>
+        <%= f.input :title , :input_html => {:class => "input-xlarge span5"}, 
+         :label => "Project Title", :hint => "e.g. Sarah & Jimmy Pre-wedding" %>
          
-        <%#= f.input :description , :input_html => {:rows => 5, :columns => 20, :class => "input-xlarge span5"}, 
+        <%#= f.input :project_guideline , :input_html => {:rows => 5, :columns => 20, :class => "input-xlarge span5"}, 
           :label => "Description", :hint => "Details about this package" %>
           
-        <%#= f.input :base_price , :input_html => {:class => "input-xlarge span5"}, 
-          :label => "Base Price", :hint => "Base Price, for non-crew specific package" %>
-          
-        <%#= f.input :is_crew_specific_pricing , 
-          :label => "Crew Specific Pricing?", :hint => "Check if Different Crew -> different price?" %>
-          
-        <%#= f.input :number_of_crew , :input_html => {:class => "input-xlarge span5"}, 
-          :label => "Number of Crew", :hint => "" %>
+        <% if @new_project.shoot_date.nil? %>
+          <%= f.input :shoot_date , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Shoot  Date", :hint => "Shoot Date (MM/DD/YYYY)", :as => :text, 
+              :input_html => {
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          }
+           %>
+        <% else %>
+          <%= f.input :shoot_date , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Shoot  Date", :hint => "Shoot Date (MM/DD/YYYY)",:as => :text, 
+              :input_html => {
+                :value => format_date_from_datetime( @new_project.shoot_date  ), 
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          } %>
+        <% end %>
+        
+        <% if @new_project.starting_date.nil? %>
+          <%= f.input :ending_date , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Starting  Date", :hint => "Starting Date (MM/DD/YYYY)", :as => :text, 
+              :input_html => {
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          }
+           %>
+        <% else %>
+          <%= f.input :ending_date , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Starting  Date", :hint => "Starting Date (MM/DD/YYYY)", :as => :text, 
+              :input_html => {
+                :value => format_date_from_datetime( @new_project.starting_date ), 
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          } %>
+        <% end %>
+        
+        
 
   
-        
+        <% if @new_project.ending_date.nil? %>
+          <%= f.input :ending_date , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Ending  Date", :hint => "Ending Date (MM/DD/YYYY)", :as => :text, 
+              :input_html => {
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          }
+           %>
+        <% else %>
+          <%= f.input :ending_date , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Ending  Date", :hint => "Ending Date (MM/DD/YYYY)",:as => :text, 
+              :input_html => {
+                :value => format_date_from_datetime( @new_project.ending_date ), 
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          } %>
+        <% end %>
 
 
         <div class="form-actions">

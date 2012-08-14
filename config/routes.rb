@@ -71,9 +71,11 @@ CollinsPotosys::Application.routes.draw do
     match 'book_crew_for_single_package_sales_order/:package_id/for_client/:client_id' => 'projects#book_crew_for_single_package_sales_order', :as => :book_crew_for_single_package_sales_order
     match 'execute_crew_booking_for_single_package_sales_order/:package_id/for_client/:client_id' => 'projects#execute_crew_booking_for_single_package_sales_order', :as => :execute_crew_booking_for_single_package_sales_order, :method => :post 
   
-  # for non-crew-specific-pricing, just create the project / sales order 
+  # for non-crew-specific-pricing, just Finalize the project / sales order 
   
-  # then, confirm the sales order. By confirming, it means we can't reduce the number of deliveable items. adding is fine. 
+  # then, confirm the sales order. By confirming, it means we can't reduce the number of deliverable items. adding is fine. 
+  
+  # for now, create the basic version: no add/reduce the deliverable item 
   
   
   
