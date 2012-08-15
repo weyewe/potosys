@@ -327,6 +327,10 @@ module ApplicationHelper
           {
             :controller => 'deliverable_subcriptions',
             :action => 'new'
+          },
+          {
+            :controller => 'deliverable_subcriptions',
+            :action => 'create'
           }
         ]
       }

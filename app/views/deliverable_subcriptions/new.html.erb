@@ -1,6 +1,6 @@
 
 <div class="span9 content">
-  <%= create_guide("Add Deliverable", 
+  <%= create_guide("Assign Deliverable", 
         "Office: <b>#{current_office.name}</b>"  + "<br />" +
         "Package: <b>#{@package.name}</b>"  + "<br />" + 
         "Assigned Deliverable: <b>#{@deliverable_subcriptions.count}</b>" 
@@ -62,15 +62,11 @@
             class="table table-striped table-bordered" id="example">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Mobile Phone</th>
-            <th>Home</th>
-            <th>BB Pin</th>
-            <th>Email</th>
-            <th>Contact History</th>
-            <th>Purchase History</th>
-            <th>Important Event</th>
+            <th>Deliverable Name</th>
+            <th>Price</th>
+            <th>Sub Item</th>
+            <th>Sub Item Quantity</th>
+            <th>Sub Item Price (each)</th>
           </tr>
         </thead>
         
@@ -78,22 +74,15 @@
           
           
         <tbody>
-          <%# @employee_specific_clients.each do |client| %>
+          <% @deliverable_subcriptions.each do |deliverable_subcrition| %>
             <tr>
-              <td><%#= client.name  %></td>
-              <td><%#= client.address  %></td>
-              <td><%#= client.mobile  %></td>
-              <td><%#= client.home_phone  %></td>
-              <td><%#= client.bb_pin  %></td>
-              <td><%#= client.email  %></td>
-              <td><%#= link_to  client.contact_reports.count, client_contact_reports_url(client)  %></td>
-              <td><%#= link_to client.sales_orders.count , client_sales_orders_url(client) %></td>
-              <td><%#= link_to client.important_events.count , client_important_events_url(client)   %></td>
-            
-              
-              
+              <td><%= deliverable_subcrition.deliverable.name   %></td>
+              <td><%= print_money( deliverable_subcrition.deliverable.independent_price ) %></td>
+              <td><%= deliverable_subcrition.deliverable.sub_item_name  %></td>
+              <td><%= deliverable_subcrition.package_specific_sub_item_quantity  %></td>
+              <td><%= print_money( deliverable_subcrition.deliverable.independent_sub_item_price ) %></td>
             </tr>
-          <%# end %>
+          <% end %>
 
         </tbody>
       </table>

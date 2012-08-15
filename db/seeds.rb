@@ -103,6 +103,9 @@ photoclip_deliverable = office.create_deliverable( admin_employee, :name => "Pho
 # for videos
 original_video_copy = office.create_deliverable(admin_employee, :office_id => office.id, :name => "Original Video Copy", :has_sub_item => false)
 
+
+puts "Assign deliverable to Package"
+
 # puts "\n creating package"
 puts "create package"
 package_1 = office.create_package( admin_employee, :name => "Junia Candid Photo Sessions", 
@@ -110,6 +113,9 @@ package_1 = office.create_package( admin_employee, :name => "Junia Candid Photo 
               :number_of_crew => 2,  
               :is_crew_specific_pricing => true ) # if it is crew specific, the client can choose the main crew 
               
+package_1.assign_deliverable(admin_employee, :deliverable_id => cd_high_res_pics_deliverable.id, :package_specific_sub_item_quantity => '15' )
+package_1.assign_deliverable(admin_employee, :deliverable_id => framed_canvas_60_x_40_deliverable.id, :package_specific_sub_item_quantity => '15' )
+
 package_1.assign_crew_to_package( max , admin_employee )
 package_1.edit_crew_specific_pricing(max, admin_employee, '15000000' )
 

@@ -69,4 +69,33 @@ class Package < ActiveRecord::Base
     return package_assignment
   end
   
+=begin
+  Assigning DeliverableSubcription 
+=end
+
+  def assign_deliverable(employee, deliverable_subcription_params )
+    deliverable_subcription = DeliverableSubcription.new(deliverable_subcription_params)
+    
+    if not( employee.has_role?(:admin)  and self.office_id == employee.active_job_attachment.office_id )
+      return deliverable_subcription
+    end
+    
+    deliverable = Deliverable.find_by_id deliverable_subcription_params[:deliverable_id]
+    if deliverable.has_sub_item == true 
+      if deliverable_subcription.package_specific_sub_item_quantity.nil? or 
+          deliverable_subcription.package_specific_sub_item_quantity <= 0 
+        
+        deliverable_subcription.errors.add(  :package_specific_sub_item_quantity , "Sub Item Quantity has to be present, and greater than 0")
+        return deliverable_subcription
+      end
+    else
+      deliverable_subcription.package_specific_sub_item_quantity =  0
+    end
+    
+    deliverable_subcription.package_id = self.id
+    deliverable_subcription.save 
+     
+    
+    return deliverable_subcription 
+  end
 end
