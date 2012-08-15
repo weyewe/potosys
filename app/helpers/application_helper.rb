@@ -452,6 +452,14 @@ module ApplicationHelper
           {
             :controller => 'sales_orders',
             :action => 'create_new_deliverable_item_from_single_package_sales_order_finalization'
+          },
+          {
+            :controller => 'sales_orders',
+            :action => 'finalize_sales_order_single_package'
+          },
+          {
+            :controller => 'sales_orders',
+            :action => 'single_package_sales_order_finalized'
           }
         ]
       },

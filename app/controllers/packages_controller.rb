@@ -26,6 +26,12 @@ class PackagesController < ApplicationController
 =end
   def select_package_for_single_package_sales_order
     @client = Client.find_by_id params[:client_id]
+    
+    if @client.has_unconfirmed_sales_order?(current_office)
+      redirect_to single_package_sales_order_finalization_url( @client.pending_sales_order_confirmation(current_office))
+      return 
+    end
+    
     @packages = current_office.packages.order("name ASC")
     
     add_breadcrumb "Search Client", 'search_client_for_single_package_sales_order_url'

@@ -6,6 +6,12 @@ class ProjectsController < ApplicationController
 
   def select_crew_to_be_booked
     @client = Client.find_by_id params[:client_id]
+    if @client.has_unconfirmed_sales_order?(current_office)
+      redirect_to single_package_sales_order_finalization_url( @client.pending_sales_order_confirmation(current_office))
+      return 
+    end
+    
+    
     @package = Package.find_by_id params[:package_id]
     if @package.office_id != current_office.id or @client.office_id != current_office.id 
       redirect_to deduce_after_sign_in_url
@@ -25,6 +31,11 @@ class ProjectsController < ApplicationController
   
   def book_crew_for_single_package_sales_order
     @client = Client.find_by_id params[:client_id]
+    if @client.has_unconfirmed_sales_order?(current_office)
+      redirect_to single_package_sales_order_finalization_url( @client.pending_sales_order_confirmation(current_office))
+      return 
+    end
+    
     @package = Package.find_by_id params[:package_id]
     @user = User.find_by_id params[:user_id]
     if @package.office_id != current_office.id or @client.office_id != current_office.id or 
@@ -48,6 +59,12 @@ class ProjectsController < ApplicationController
 
   def execute_crew_booking_for_single_package_sales_order
     @client = Client.find_by_id params[:client_id]
+    if @client.has_unconfirmed_sales_order?(current_office)
+      redirect_to single_package_sales_order_finalization_url( @client.pending_sales_order_confirmation(current_office))
+      return 
+    end
+    
+    
     @package = Package.find_by_id params[:package_id]
     @user = User.find_by_id params[:user_id]
     if @package.office_id != current_office.id or @client.office_id != current_office.id

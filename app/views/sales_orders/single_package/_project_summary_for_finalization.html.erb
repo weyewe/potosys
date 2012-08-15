@@ -54,6 +54,18 @@
           </td>
         </tr>
         
+        
+        <% if project.package.is_crew_specific_pricing == true %>
+        <tr>
+          <td> 
+            <b>Selected Pro Crew</b>
+          </td>
+          <td>
+            <%=   project.selected_pro_crew.email   %>
+          </td>
+        </tr>
+        <% end %>
+        
 
       </tbody>
     </table>

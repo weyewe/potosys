@@ -10,6 +10,8 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :project_memberships
   belongs_to :sales_order
   
+  has_many :job_requests
+  
   validates_presence_of :title, :shoot_date, :starting_date, :ending_date , :shoot_location 
   after_create :assign_deliverable_items, :create_corresponding_sales_order
   
@@ -150,6 +152,7 @@ class Project < ActiveRecord::Base
     sales_order = SalesOrder.new
     sales_order.creator_id = self.creator_id 
     sales_order.client_id = self.client_id 
+    sales_order.office_id = self.creator.active_job_attachment.office_id  
     sales_order.title = self.title
     sales_order.description = self.project_guideline
     sales_order.save 
@@ -167,6 +170,18 @@ class Project < ActiveRecord::Base
     end
   end
   
+  
+=begin
+  ON CANCELATIOn 
+=end
+  def cancel_associated_job_requests(employee)
+    self.job_requests.each do |job_request|
+      job_request.is_canceled = true 
+      job_request.canceller_id = employee.id
+      job_request.save 
+    end
+  end
+
 =begin
   UTILITY METHODS 
 =end
@@ -178,6 +193,14 @@ class Project < ActiveRecord::Base
     time_array = params_deadline_datetime.split("/")
     
     Date.new(time_array[2].to_i, time_array[0].to_i, time_array[1].to_i) 
+  end
+  
+  def creator
+    User.find_by_id self.creator_id 
+  end
+  
+  def selected_pro_crew
+    User.find_by_id self.selected_pro_crew_id
   end
   
 end

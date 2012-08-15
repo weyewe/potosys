@@ -184,8 +184,10 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.integer  "number_of_days"
     t.integer  "yday"
     t.integer  "year"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.boolean  "is_cancelled",       :default => false
+    t.integer  "canceller_id"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
   create_table "offices", :force => true do |t|
@@ -252,6 +254,8 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.integer  "selected_pro_crew_id"
     t.integer  "creator_id"
     t.integer  "client_id"
+    t.boolean  "is_canceled",                 :default => false
+    t.integer  "canceller_id"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
   end
@@ -269,9 +273,12 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.boolean  "is_down_payment_paid",                                    :default => false
     t.decimal  "down_payment_amount",      :precision => 11, :scale => 2, :default => 0.0
     t.boolean  "is_confirmed",                                            :default => false
+    t.integer  "confirmer_id"
     t.boolean  "is_canceled",                                             :default => false
+    t.integer  "canceller_id"
     t.string   "title"
     t.text     "description"
+    t.integer  "office_id"
     t.datetime "created_at",                                                                 :null => false
     t.datetime "updated_at",                                                                 :null => false
   end

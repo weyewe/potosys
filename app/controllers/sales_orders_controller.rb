@@ -10,11 +10,16 @@ class SalesOrdersController < ApplicationController
   
   def single_package_sales_order_finalization
     @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @client = @sales_order.client
     @project = @sales_order.projects.first 
     @package = @project.package
     @deliverable_items = @project.deliverable_items.order("created_at DESC")
     
     @new_deliverable_item = DeliverableItem.new 
+    
+    add_breadcrumb "Search Client", 'search_client_for_single_package_sales_order_url'
+    set_breadcrumb_for @client, 'single_package_sales_order_finalization_url' + "(#{@client.id})", 
+          "Confirm Sales Order"
     
     
   end
@@ -44,11 +49,43 @@ class SalesOrdersController < ApplicationController
 
   def finalize_sales_order_single_package
     @sales_order = SalesOrder.find_by_id params[:sales_order_id]
-    @sales_order.confirm_sales_order( current_user ) 
+    @project = @sales_order.projects.first 
+    @package = @project.package
+    @deliverable_items = @project.deliverable_items.order("created_at DESC")
+    @new_deliverable_item = DeliverableItem.new 
+    
+    @sales_order.confirm_sales_order( current_user, params[:sales_order] ) 
     
     
-    redirect_to 
-    
+    if @sales_order.is_confirmed == false 
+      render :file => "sales_orders/single_package_sales_order_finalization"
+    else
+      redirect_to single_package_sales_order_finalized_url(@sales_order)
+    end
   end
   
+  def single_package_sales_order_finalized
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @project = @sales_order.projects.first 
+    @package = @project.package
+    @deliverable_items = @project.deliverable_items.order("created_at DESC")
+    
+    render :file => "sales_orders/single_package/single_package_sales_order_finalized"
+  end
+  
+=begin
+  CANCEL SINGLE PACKAGE SALES ORDER
+=end
+  def cancel_single_package_sales_order
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    
+    @sales_order.cancel_single_package_sales_order( current_user ) 
+    
+    if @sales_order.is_canceled == true 
+      redirect_to search_client_for_single_package_sales_order_url 
+      return
+    else
+      redirect_to finalize_sales_order_single_package_url(@sales_order)
+    end
+  end
 end

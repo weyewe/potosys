@@ -10,10 +10,16 @@ class CreateSalesOrders < ActiveRecord::Migration
       
       
       t.boolean :is_confirmed, :default => false 
+      t.integer :confirmer_id 
+      
       t.boolean :is_canceled , :default => false 
+      t.integer :canceller_id 
       
       t.string :title 
       t.text :description 
+      
+      t.integer :office_id
+      
       
       t.timestamps
     end

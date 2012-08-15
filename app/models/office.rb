@@ -13,6 +13,7 @@ class Office < ActiveRecord::Base
   
   
   has_many :articles
+  has_many :sales_orders 
   
 =begin
   CREATING USER

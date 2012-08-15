@@ -10,7 +10,26 @@
         "Project: <b>#{@project.title}</b>"   
           ).html_safe %>
   
-  <%#= create_breadcrumb(@breadcrumbs).html_safe %>
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  
+  <% if @sales_order.errors.messages.length != 0  %>
+    <div class="alert alert-error">
+      <strong>Confirm FAIL!</strong> Possible errors: <br />
+      
+      <ul>
+        <% @sales_order.errors.messages.each do |key, value | %>
+          <% @sales_order.errors.messages[key].each do |text|  %>
+          <li>
+            <%= text %>
+          </li>
+          <% end %>
+        <% end %>
+        
+      </ul>
+    </div>
+  <% end %>
+  
   
   <div class="alert alert-success">
     <a data-dismiss="alert" class="close">×</a>
@@ -141,6 +160,28 @@
       <% end %>
     </div>
   </div><!--/row-->
+  
+  
+  <br />
+  
+  <hr />
+  <h2>Cancel Sales Order</h2>
+  <div class="row-fluid" id="sales_order_finalizer">
+    <div class="span12">
+      <%= simple_form_for(@sales_order, 
+        :url => cancel_single_package_sales_order_url(@sales_order),
+        :html => {:class => "form-horizontal prevent_double_submit form-toggler "  }) do |f| %>
+      
+  
+
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-danger", :value=> "CANCEL Sales Order" %>
+        </div>
+      <% end %>
+    </div>
+  </div><!--/row-->
+  
+  
   
 </div><!--/span-->
 

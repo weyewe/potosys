@@ -4,6 +4,8 @@ class CreateJobRequests < ActiveRecord::Migration
       t.integer :source_id  
       t.string :source_type   
       
+      t.integer :project_id 
+      
       t.string :title
       t.text :description 
       
@@ -17,6 +19,9 @@ class CreateJobRequests < ActiveRecord::Migration
       
       t.integer :yday
       t.integer :year 
+      
+      t.boolean :is_cancelled , :default => false 
+      t.integer :canceller_id 
 
       t.timestamps
     end

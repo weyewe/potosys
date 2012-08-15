@@ -26,6 +26,8 @@ class CreateProjects < ActiveRecord::Migration
       t.integer :client_id  
       
       
+      t.boolean :is_canceled, :default => false 
+      t.integer :canceller_id 
       
       
       

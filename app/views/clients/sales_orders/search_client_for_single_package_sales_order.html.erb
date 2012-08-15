@@ -80,7 +80,16 @@
               <td><%= client.home_phone  %></td>
               <td><%= client.bb_pin  %></td>
               <td><%= client.email  %></td>
-              <td><%= link_to  "Create Sales Order", select_package_for_single_package_sales_order_url(client), :class => "btn btn-primary"  %></td>
+              <td>
+                <% if not client.has_unconfirmed_sales_order?(current_office) %>
+                  <%= link_to  "Create Sales Order", select_package_for_single_package_sales_order_url(client), 
+                    :class => "btn btn-primary"  %>
+                <% else %>
+                  <%= link_to  "Pending Confirmation",
+                   single_package_sales_order_finalization_url(client.pending_sales_order_confirmation(current_office)), 
+                  :class => "btn btn-danger"  %>   
+                <% end %>
+              </td>
             
               
               
