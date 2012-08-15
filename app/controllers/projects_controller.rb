@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
       redirect_to deduce_after_sign_in_url
     end
 
-    @new_project = Project.create_single_package_project( current_user, @client, @package, params[:project])
+    @new_project = Project.create_single_package_project( current_user, @client, @package, @user, params[:project])
 
     if  @new_project.persisted?
       flash[:notice] = "The component '#{@new_project.title}' has been created." 

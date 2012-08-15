@@ -1,0 +1,168 @@
+
+<div class="span9 content">
+  <%= create_guide("Confirm Sales Order",
+        "You can adjust the deliverables. If you wish to change the shoot date, you have to cancel this sales order" + 
+          "<br />" + 
+        "Office: <b>#{current_office.name}</b>"  + "<br />" +
+        "Package: <b>#{@package.name}</b>"  + "<br />" + 
+        "Total Deliverables: <b>#{@deliverable_items.count}</b>"  + "<br />" +  
+        "Client: <b>#{@sales_order.client.name}</b>"  + "<br />" + 
+        "Project: <b>#{@project.title}</b>"   
+          ).html_safe %>
+  
+  <%#= create_breadcrumb(@breadcrumbs).html_safe %>
+  
+  <div class="alert alert-success">
+    <a data-dismiss="alert" class="close">×</a>
+    <strong>Well done!</strong> Sales Order booking for project <b><%= @project.title %></b> has been created.
+    <br /> <br />
+    <strong>Now, you can finalize the the sales order by entering the final price + adjusting deliverables.</strong>
+    <br />
+    This booking is active for <b>3 hours</b>. <br />
+  
+    If the Sales Order is not finalized by then, it will be <b>cancelled</b>. 
+  </div>
+
+  <%= render :partial => 'sales_orders/single_package/project_summary_for_finalization', :locals => {
+    :project => @project
+  }%>
+
+  
+  
+  
+  
+  <hr />
+  <div class="row-fluid">
+    <div class="span12">
+      <%= link_to "Add  Deliverable", '#', :class => " btn btn-primary default-hidden-toggler"  %>
+      <%= simple_form_for(@new_deliverable_item, 
+        :url => create_new_deliverable_item_from_single_package_sales_order_finalization_url(@sales_order),
+        :html => {:class => "form-horizontal prevent_double_submit form-toggler " + 
+          "  #{add_default_hidden_book_crew_single_package_sales_order_finalization(params)}" }) do |f| %>
+      
+      
+        <%= f.input :deliverable_id, :hint => "Select Deliverable",     :label => "Deliverable"   do %>
+           <%= f.select :deliverable_id, 
+               current_office.all_deliverables %>
+         <% end %>
+       
+       
+        <%= f.input :sub_item_quantity , :input_html => {:class => "input-xlarge span5"}, 
+         :label => "SubItem Quantity", :hint => "Leave it blank if there is not any sub item" %>
+       
+        <%= f.input :project_specific_description , :input_html => { :rows => 3,:class => "input-xlarge span5"}, 
+          :label => "Project Specific Description/Note", :hint => "Description of this extra deliverable" %>
+     
+
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-primary", :value=> "Add Deliverable" %>
+        </div>
+      <% end %>
+    </div>
+  </div><!--/row-->
+  
+  
+  <div class="row-fluid">
+    <div id="data_list">
+      
+      <h2>Deliverables:</h2>
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th style="width:20%;">Deliverable Name</th>
+            <th style="width:20%;">Description</th>
+            <th>Basic Price</th>
+            <th>Sub Item</th>
+            <th>Project's Sub Item Quantity</th>
+            <th>Default Sub Item Quantity</th>
+            <th>Extra Sub Item Price (each)</th>
+            <% if @sales_order.is_confirmed == false %>
+              <th colspan='2'>Action</th>
+            <% end %>
+          </tr>
+        </thead>
+        
+      
+          
+          
+        <tbody>
+          <% @deliverable_items.each do |deliverable_item| %>
+            <tr>
+              <td><%= deliverable_item.deliverable.name   %></td>
+              <td><%= deliverable_item.project_specific_description  %></td>
+              <td><%= print_money( deliverable_item.deliverable.independent_price ) %></td>
+              
+              <% if deliverable_item.deliverable.has_sub_item == true %>
+                <td><%= deliverable_item.deliverable.sub_item_name  %></td>
+                <td><%= deliverable_item.sub_item_quantity  %></td>
+                <td><%= deliverable_item.deliverable.sub_item_quantity  %></td>
+                <td><%= print_money( deliverable_item.deliverable.independent_sub_item_price ) %></td>
+                
+              <% else %>
+                <td colspan='4' style='text-align:center;'><span class="label label-important">No Sub Item</span> </td>
+              <% end %>
+              
+              
+                <td>
+                  Edit
+                </td>
+                <td>
+                  <a href="#" class="btn propose action"
+                      id="finalize-<%= deliverable_item.id %>">Remove</a> 
+                </td>
+              
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- end of #data_list -->
+  </div>
+  <br />
+  
+  <hr />
+  <h2>Finalize Sales Order</h2>
+  <div class="row-fluid" id="sales_order_finalizer">
+    <div class="span12">
+      <%= simple_form_for(@sales_order, 
+        :url => finalize_sales_order_single_package_url(@sales_order),
+        :html => {:class => "form-horizontal prevent_double_submit form-toggler "  }) do |f| %>
+      
+  
+        <%= f.input :total_transaction_amount , :input_html => { :rows => 3,:class => "input-xlarge span5"}, 
+          :label => "Final Negotiated Amount", :hint => "The stated <b>base price</b> for this project: " + 
+                  " <b>#{print_money( @project.project_price)}</b>" %>
+     
+
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-primary", :value=> "Finalize Sales Order" %>
+        </div>
+      <% end %>
+    </div>
+  </div><!--/row-->
+  
+</div><!--/span-->
+
+
+
+
+
+
+
+<div class=" hidden" id="approve_propose_form_wrapper">
+  <%= form_for DeliverableItem.new, :url => execute_destroy_deliverable_item_single_package_sales_order_url    do |f| %>
+    <%= hidden_field_tag 'entity_id' , ''  %>
+    <%= hidden_field_tag 'action_role', '' %>
+    <%= hidden_field_tag 'action_value', '' %>
+  <% end %>
+</div>
+
+
+
+
+
+
+
+
+

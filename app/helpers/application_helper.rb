@@ -444,10 +444,45 @@ module ApplicationHelper
           {
             :controller => 'projects', 
             :action => 'execute_crew_booking_for_single_package_sales_order'
+          },
+          {
+            :controller => 'sales_orders',
+            :action => 'single_package_sales_order_finalization'
+          },
+          {
+            :controller => 'sales_orders',
+            :action => 'create_new_deliverable_item_from_single_package_sales_order_finalization'
           }
         ]
       },
-      
+      {
+        :title => "Pending Confirmation",
+        :destination_link => "select_crew_to_view_calendar_url",
+        :conditions => [
+          {
+            :controller =>'offices',
+            :action => 'select_crew_to_view_calendar'
+          } ,
+          {
+            :controller => 'job_requests', 
+            :action => 'crew_schedule'
+          }
+        ]
+      },
+      {
+        :title => "Confirmed",
+        :destination_link => "select_crew_to_view_calendar_url",
+        :conditions => [
+          {
+            :controller =>'offices',
+            :action => 'select_crew_to_view_calendar'
+          } ,
+          {
+            :controller => 'job_requests', 
+            :action => 'crew_schedule'
+          }
+        ]
+      },
       {
         :title => "Crew Calendar",
         :destination_link => "select_crew_to_view_calendar_url",

@@ -1,0 +1,2 @@
+class DeliverableItemsController < ApplicationController
+end

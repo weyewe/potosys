@@ -97,8 +97,8 @@ cd_high_res_pics_deliverable = office.create_deliverable( admin_employee,
               :sub_item_name => "Edited Pic",
               :sub_item_quantity => '30',
               :independent_sub_item_price => '70000')
-framed_canvas_60_x_40_deliverable = office.create_deliverable(admin_employee,  :name => "Framed Canvas 60x40cm", :has_sub_item => false)
-photoclip_deliverable = office.create_deliverable( admin_employee, :name => "Photoclip with selected photos", :has_sub_item => false)
+framed_canvas_60_x_40_deliverable = office.create_deliverable(admin_employee,  :name => "Framed Canvas 60x40cm", :independent_price => "1500000", :has_sub_item => false)
+photoclip_deliverable = office.create_deliverable( admin_employee, :name => "Photoclip with selected photos", :independent_price => "50000",:has_sub_item => false)
 
 # for videos
 original_video_copy = office.create_deliverable(admin_employee, :office_id => office.id, :name => "Original Video Copy", :has_sub_item => false)
@@ -123,23 +123,6 @@ package_1.edit_crew_specific_pricing(max, admin_employee, '15000000' )
 package_1.assign_crew_to_package( rere , admin_employee )
 package_1.edit_crew_specific_pricing(rere, admin_employee, '10000000' )
 
-
-# 
-# # package has many deliverables through package_items 
-# # deliverable has many packages through package_items
-# # #add_deliverable( deliverable,  sub_item_quantity)
-# package_1.add_deliverable(portrait_album_deliverable,  40 )
-# package_1.add_deliverable(cd_high_res_pics_deliverable,  0)
-# package_1.add_deliverable(framed_canvas_60_x_40_deliverable,  0)
-# package_1.add_deliverable(photoclip_deliverable, 0)
-# 
-# 
-# # package has many users through package_prices
-# # user has many packages through package_prices
-# package_1.add_crew(benny, BigDecimal("9600000") ) 
-# package_1.add_crew(max, BigDecimal("7600000") )
-# package_1.add_crew(rere, BigDecimal("7000000") )
-# 
 puts "\n************Creating Client***********"
 
 client_1 = office.create_client( marketing_employee_1, 

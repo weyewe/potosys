@@ -109,12 +109,10 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
   create_table "deliverable_items", :force => true do |t|
     t.integer  "project_id"
     t.integer  "deliverable_id"
-    t.integer  "default_sub_item_quantity"
-    t.integer  "final_sub_item_quantity"
+    t.integer  "sub_item_quantity"
     t.text     "project_specific_description"
-    t.boolean  "is_extra_deliverable_item",    :default => false
     t.boolean  "is_started",                   :default => false
-    t.text     "producer_info"
+    t.text     "supplier_info"
     t.integer  "starter_id"
     t.date     "start_date"
     t.boolean  "is_finished",                  :default => false
@@ -182,6 +180,7 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.integer  "user_id"
     t.integer  "job_request_source", :default => 1
     t.date     "starting_date"
+    t.date     "ending_date"
     t.integer  "number_of_days"
     t.integer  "yday"
     t.integer  "year"
@@ -237,6 +236,7 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
 
   create_table "projects", :force => true do |t|
     t.integer  "package_id"
+    t.integer  "sales_order_id"
     t.string   "title"
     t.text     "project_guideline"
     t.date     "shoot_date"
@@ -249,6 +249,9 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.boolean  "is_production_finished",      :default => false
     t.boolean  "is_post_production_finished", :default => false
     t.boolean  "is_finished",                 :default => false
+    t.integer  "selected_pro_crew_id"
+    t.integer  "creator_id"
+    t.integer  "client_id"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
   end

@@ -7,17 +7,17 @@ class CreateDeliverableItems < ActiveRecord::Migration
       
       # perhaps, 1 album, 40 pics.. then, the client and marketing negotiated. Decided to ask for more sub item quantity. 
       # default_sub_item_quantity is inferred from the corresponding deliverable_subcription 
-      t.integer :default_sub_item_quantity  # can't be edited , migrated from deliverable subcription (package specific)
-      t.integer :final_sub_item_quantity  # edited
+      #t.integer :default_sub_item_quantity  # can't be edited , migrated from deliverable subcription (package specific)
+      #t.integer :final_sub_item_quantity  # edited
       # the difference == extra cost. if it is going to that direction. :)
-      
+      t.integer :sub_item_quantity
       t.text :project_specific_description 
       
-      t.boolean :is_extra_deliverable_item, :default => false 
+      # t.boolean :is_extra_deliverable_item, :default => false 
       
       
       t.boolean :is_started , :default => false
-      t.text :producer_info # if it is outsourced
+      t.text :supplier_info # if it is outsourced
       t.integer :starter_id 
       t.date :start_date
       

@@ -1,0 +1,61 @@
+<div class="row-fluid">
+  <div id="data_list">
+    
+    <table cellpadding="0" cellspacing="0" border="0" 
+          class="table table-striped table-bordered" id="example">
+      <thead>
+        <tr>
+          <th colspan="2" style="text-align:center;">Project Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td> 
+            <b>Title</b>
+          </td>
+          <td>
+            <%= project.title %>
+          </td>
+        </tr>
+        
+        <tr>
+          <td> 
+            <b>Description/Special Request</b>
+          </td>
+          <td>
+            <%= project.project_guideline %>
+          </td>
+        </tr>
+        
+        <tr>
+          <td> 
+            <b>Shoot date (MM/DD/YYYY)</b>
+          </td>
+          <td>
+            <%= format_date_from_datetime( project.shoot_date ) %>
+          </td>
+        </tr>
+        
+        <tr>
+          <td> 
+            <b>Starting Date (MM/DD/YYYY)</b>
+          </td>
+          <td>
+            <%= format_date_from_datetime( project.starting_date )  %>
+          </td>
+        </tr>
+        
+        <tr>
+          <td> 
+            <b>Ending Date (MM/DD/YYYY)</b>
+          </td>
+          <td>
+            <%= format_date_from_datetime( project.ending_date ) %>
+          </td>
+        </tr>
+        
+
+      </tbody>
+    </table>
+  </div><!-- end of #data_list -->
+</div>

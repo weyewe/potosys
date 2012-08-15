@@ -12,6 +12,7 @@ class CreateJobRequests < ActiveRecord::Migration
       # draft revision
       
       t.date :starting_date 
+      t.date :ending_date 
       t.integer :number_of_days
       
       t.integer :yday

@@ -72,7 +72,7 @@
         <% end %>
         
         <% if @new_project.starting_date.nil? %>
-          <%= f.input :ending_date , :input_html => { :rows => 1, 
+          <%= f.input :starting_date , :input_html => { :rows => 1, 
               :class => "input-xlarge"}, 
               :label => "Starting  Date", :hint => "Starting Date (MM/DD/YYYY) <br /> starting date <= shoot date <br /> starting_date <= ending date", :as => :text, 
               :input_html => {
@@ -81,7 +81,7 @@
           }
            %>
         <% else %>
-          <%= f.input :ending_date , :input_html => { :rows => 1, 
+          <%= f.input :starting_date , :input_html => { :rows => 1, 
               :class => "input-xlarge"}, 
               :label => "Starting  Date", :hint => "Starting Date (MM/DD/YYYY) <br /> starting date <= shoot date <br /> starting_date <= ending date", :as => :text, 
               :input_html => {

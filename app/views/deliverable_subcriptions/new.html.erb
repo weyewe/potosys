@@ -74,13 +74,13 @@
           
           
         <tbody>
-          <% @deliverable_subcriptions.each do |deliverable_subcrition| %>
+          <% @deliverable_subcriptions.each do |deliverable_subcription| %>
             <tr>
-              <td><%= deliverable_subcrition.deliverable.name   %></td>
-              <td><%= print_money( deliverable_subcrition.deliverable.independent_price ) %></td>
-              <td><%= deliverable_subcrition.deliverable.sub_item_name  %></td>
-              <td><%= deliverable_subcrition.package_specific_sub_item_quantity  %></td>
-              <td><%= print_money( deliverable_subcrition.deliverable.independent_sub_item_price ) %></td>
+              <td><%= deliverable_subcription.deliverable.name   %></td>
+              <td><%= print_money( deliverable_subcription.deliverable.independent_price ) %></td>
+              <td><%= deliverable_subcription.deliverable.sub_item_name  %></td>
+              <td><%= deliverable_subcription.package_specific_sub_item_quantity  %></td>
+              <td><%= print_money( deliverable_subcription.deliverable.independent_sub_item_price ) %></td>
             </tr>
           <% end %>
 
