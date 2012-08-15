@@ -114,8 +114,35 @@ class User < ActiveRecord::Base
   
   
 =begin
-  
+  CREATE BOOKING FOR CREW
 =end
+  def is_available_for_booking?( request_starting_date, request_ending_date , office)
+    
+    job_requests_between( request_starting_date, request_ending_date , office).count == 0  
+            
+  end
+  
+  def job_requests_between( request_starting_date, request_ending_date , office)
+    self.job_requests.where{
+      (job_request_source.eq JOB_REQUEST_SOURCE[:crew_booking]) & 
+      (is_canceled.eq false) & 
+      (office_id.eq office.id ) & 
+      (starting_date.gte request_starting_date) & 
+      (ending_date.lte request_ending_date)
+    }
+  end
+  
+  def booked_job_requests(office)
+    request_starting_date = DateTime.now.yesterday.to_date
+    self.job_requests.where{
+      (job_request_source.eq JOB_REQUEST_SOURCE[:crew_booking]) & 
+      (is_canceled.eq false) & 
+      (office_id.eq office.id ) & 
+      (ending_date.gte request_starting_date)
+    }
+  end
+  
+  
 
 
 end

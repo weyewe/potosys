@@ -16,10 +16,17 @@
     </div>
   <% end %>
   
-  <% if flash[:error] %>
+  <% if not @new_project.errors.messages[:booking_date_crashed].nil? and
+      @new_project.errors.messages[:booking_date_crashed].count > 0 %>
     <div class="alert alert-error">
-      <a data-dismiss="alert" class="close">×</a>
-      <strong>Create Failure!</strong> Please fill in all fields.
+      <strong>Create Failure!</strong> The following days are taken:
+      <ul>
+        <% @new_project.errors.messages[:booking_date_crashed].each do |text| %>
+          <li>
+            <%= text %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   <% end %>
   
@@ -145,7 +152,15 @@
 
 
 
-
+<ul id='previous_booking_info' style="display:none;">
+  <% @current_bookings.each do |job_request| %>
+    <li>
+      <span class='title'><%= job_request.title %></span>
+      <span class='start_date'><%= job_request.starting_date %></span>
+      <span class='end_date'><%= job_request.ending_date %></span>
+    </li>
+  <% end %>
+</ul>
 
 
 
@@ -159,44 +174,72 @@
   <%= javascript_include_tag "fullcalendar.min" %>
   <script type='text/javascript'>
     $(document).ready(function() {
+      var event_array  = [];
+      $("ul#previous_booking_info li").each(function(){
+        var $this = $(this);
+        var title_text = $("span.title", $this).text();
+        var start_date  = $("span.start_date", $this).text();
+        var end_date  = $("span.end_date", $this).text();
+        
+        event_array.push({
+          title : title_text, 
+          start : start_date, 
+          end   : end_date 
+        })
+      });
+      
+      $('#calendar_wrapper').fullCalendar({
+        
+        
+        eventSources: [
 
-        $('#calendar_wrapper').fullCalendar({
-          
-          eventSources: [
+                // your event source
+                {
+                    events: event_array ,
+                    color: 'light-blue',     // an option!
+                    textColor: 'white' // an option!
+                }
 
-                  // your event source
-                  {
-                      events: [
-                          {
-                              title  : 'event1',
-                              start  : '2012-08-08',
-                              description : "Fun day hahaha"
-                          },
-                          {
-                              title  : 'event2',
-                              start  : '2012-08-08',
-                              end    : '2012-08-12',
-                              description : "Fun day hahaha"
-                          },
-                          {
-                              title  : 'event3',
-                              start  : '2012-08-09 12:30:00',
-                              description : "Fun day hahaha",
-                              allDay : false // will make the time show
-                          }
-                      ],
-                      color: 'light-blue',     // an option!
-                      textColor: 'white' // an option!
-                  }
+                // any other event sources...
 
-                  // any other event sources...
-
-              ]
-              
-              
-            
-          
-        });
+            ]
+      });
+            // 
+            // 
+            // $('#calendar_wrapper').fullCalendar({
+            //   
+            //   
+            //   eventSources: [
+            // 
+            //           // your event source
+            //           {
+            //               events: [
+            //                   {
+            //                       title  : 'event1',
+            //                       start  : '2012-08-08',
+            //                       description : "Fun day hahaha"
+            //                   },
+            //                   {
+            //                       title  : 'event2',
+            //                       start  : '2012-08-08',
+            //                       end    : '2012-08-12',
+            //                       description : "Fun day hahaha"
+            //                   },
+            //                   {
+            //                       title  : 'event3',
+            //                       start  : '2012-08-09 12:30:00',
+            //                       description : "Fun day hahaha",
+            //                       allDay : false // will make the time show
+            //                   }
+            //               ],
+            //               color: 'light-blue',     // an option!
+            //               textColor: 'white' // an option!
+            //           }
+            // 
+            //           // any other event sources...
+            // 
+            //       ]
+            // });
 
     });
   </script>

@@ -45,7 +45,8 @@ class Project < ActiveRecord::Base
     
     
     if not(  starting_date.nil? or shoot_date.nil? or ending_date.nil? ) and 
-          ( starting_date <= shoot_date  and  shoot_date <= ending_date  and starting_date<= ending_date)
+          ( starting_date <= shoot_date  and  shoot_date <= ending_date  and starting_date<= ending_date) and 
+           selected_pro_crew.is_available_for_booking?( starting_date, ending_date, office )
           # and the crew assigned is free on that date
         # if the dates are OK 
       
@@ -59,8 +60,18 @@ class Project < ActiveRecord::Base
       project.creator_id = employee.id 
       project.save
 
+      project.create_corresponding_job_request_for_crew_specific_pricing 
+      
       return project
     else
+      
+      if not selected_pro_crew.is_available_for_booking?( starting_date, ending_date, office )
+        selected_pro_crew.job_requests_between( starting_date, ending_date , office).each do |job_request|
+          project.errors.add(  :booking_date_crashed , "The slot between #{job_request.starting_date} and #{job_request.ending_date} is booked")
+        end
+        return project 
+      end
+      
       if starting_date > shoot_date 
         puts "234 error 1"
         project.errors.add(  :starting_date , "Starting date has to be earlier than or equal  shoot date")
@@ -168,6 +179,23 @@ class Project < ActiveRecord::Base
     else
       return project.base_price 
     end
+  end
+  
+  def create_corresponding_job_request_for_crew_specific_pricing
+    job_request =  self.job_requests.new 
+    job_request.starting_date      = self.starting_date 
+    job_request.ending_date        = self.ending_date
+    job_request.job_request_source = JOB_REQUEST_SOURCE[:crew_booking]
+    job_request.office_id          = self.sales_order.office_id 
+    job_request.user_id            = self.selected_pro_crew_id 
+    job_request.title              = "#{self.title}, location: #{self.shoot_location}"
+    job_request.number_of_days     = (ending_date-starting_date).numerator
+    job_request.year               = starting_date.year
+    job_request.yday               = starting_date.yday 
+    job_request.save 
+    
+    
+    
   end
   
   

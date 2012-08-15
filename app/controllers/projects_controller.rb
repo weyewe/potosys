@@ -36,12 +36,16 @@ class ProjectsController < ApplicationController
       return 
     end
     
+    
+    
     @package = Package.find_by_id params[:package_id]
     @user = User.find_by_id params[:user_id]
     if @package.office_id != current_office.id or @client.office_id != current_office.id or 
       @user.active_job_attachment.office_id != current_office.id 
       redirect_to deduce_after_sign_in_url
     end
+    
+    @current_bookings = @user.booked_job_requests(current_office)
 
     @new_project = Project.new 
 
@@ -78,6 +82,7 @@ class ProjectsController < ApplicationController
       redirect_to single_package_sales_order_finalization_url(@new_project.sales_order ) 
       return 
     else
+      @current_bookings = @user.booked_job_requests(current_office)
       flash[:error] = "Hey, do something better"
 
       set_breadcrumb_for @client, 'select_package_for_single_package_sales_order_url' + "(#{@client.id})", 

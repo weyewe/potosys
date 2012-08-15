@@ -174,7 +174,9 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
 
   create_table "job_requests", :force => true do |t|
     t.integer  "source_id"
+    t.integer  "office_id"
     t.string   "source_type"
+    t.integer  "project_id"
     t.string   "title"
     t.text     "description"
     t.integer  "user_id"
@@ -184,7 +186,7 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.integer  "number_of_days"
     t.integer  "yday"
     t.integer  "year"
-    t.boolean  "is_cancelled",       :default => false
+    t.boolean  "is_canceled",        :default => false
     t.integer  "canceller_id"
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
