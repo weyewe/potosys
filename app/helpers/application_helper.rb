@@ -468,13 +468,9 @@ module ApplicationHelper
         :destination_link => "select_crew_to_view_calendar_url",
         :conditions => [
           {
-            :controller =>'offices',
-            :action => 'select_crew_to_view_calendar'
-          } ,
-          {
-            :controller => 'job_requests', 
-            :action => 'crew_schedule'
-          }
+            :controller =>'',
+            :action => ''
+          } 
         ]
       },
       {
@@ -482,13 +478,9 @@ module ApplicationHelper
         :destination_link => "select_crew_to_view_calendar_url",
         :conditions => [
           {
-            :controller =>'offices',
-            :action => 'select_crew_to_view_calendar'
-          } ,
-          {
-            :controller => 'job_requests', 
-            :action => 'crew_schedule'
-          }
+            :controller =>'',
+            :action => ''
+          } 
         ]
       },
       {

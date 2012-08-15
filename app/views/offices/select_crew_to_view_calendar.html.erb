@@ -30,12 +30,14 @@
         <thead>
           <tr>
             <th>Crew</th>
+            <th>Booked Jobs</th>
           </tr>
         </thead>
         <tbody>
           <% @crews.each do |crew| %>
             <tr>
               <td><%= link_to crew.email , crew_schedule_url( crew ) %></td>
+              <td><%= crew.booked_job_requests(current_office).count %></td>
               
             </tr>
           <% end %>

@@ -166,6 +166,51 @@ important_event_2 = ImportantEvent.create_by_employee( marketing_employee_1, cli
                                       :event_date => '12/15/2012',
                                       :is_repeating_annually => false,
                                       :title => "It is the 1 month anniversary of their son's bday.")
+                                      
+puts "\n****************Create Project***************\n" 
+
+today_date = DateTime.now.yesterday.to_date
+
+puts "today date is #{today_date}"
+project_shoot_date = today_date + 15.days
+project_starting_date = project_shoot_date - 1.days
+project_ending_date = project_shoot_date + 1.days
+
+project_1_params = {"title".to_sym                                 =>"Check This OUt", 
+                    "project_guideline".to_sym =>"ahahaha", 
+                    "shoot_location".to_sym           =>"Jakarta, INdonesia", 
+                    "shoot_date".to_sym               =>  "#{project_shoot_date.month}/#{project_shoot_date.day}/#{project_shoot_date.year}", 
+                    "starting_date".to_sym           => "#{project_starting_date.month}/#{project_starting_date.day}/#{project_starting_date.year}", 
+                    "ending_date".to_sym         =>"#{project_ending_date.month}/#{project_ending_date.day}/#{project_ending_date.year}"}  
+                 
+                 
+puts "gona create project1 "
+project_1 = Project.create_single_package_project( marketing_employee_1, client_1, package_1, max, 
+              project_1_params)
+
+              
+  
+puts "done creating project 1 "
+sales_order_1 = project_1.sales_order
+puts "done create project_1"
+
+
+project_shoot_date = today_date + 30.days
+project_starting_date = project_shoot_date - 1.days
+project_ending_date = project_shoot_date + 1.days
+
+project_2_params = {"title".to_sym                                 =>" AWESOME GRACE", 
+                    "project_guideline".to_sym =>"ahahaha", 
+                    "shoot_location".to_sym           =>"London, UK", 
+                    "shoot_date".to_sym               =>  "#{project_shoot_date.month}/#{project_shoot_date.day}/#{project_shoot_date.year}", 
+                    "starting_date".to_sym           => "#{project_starting_date.month}/#{project_starting_date.day}/#{project_starting_date.year}", 
+                    "ending_date".to_sym         =>"#{project_ending_date.month}/#{project_ending_date.day}/#{project_ending_date.year}"}
+project_2 = Project.create_single_package_project( marketing_employee_1, client_1, package_1, rere, 
+              project_2_params)
+sales_order_2 = project_2.sales_order
+
+              
+              
 #                                       
 # selected_package_list = [package_1]
 # final_negotiated_price = BigDecimal("100000")

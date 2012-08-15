@@ -128,7 +128,7 @@ class User < ActiveRecord::Base
       (is_canceled.eq false) & 
       (office_id.eq office.id ) & 
       (starting_date.gte request_starting_date) & 
-      (ending_date.lte request_ending_date)
+      (ending_date.lte request_ending_date) 
     }
   end
   

@@ -16,6 +16,8 @@ class Project < ActiveRecord::Base
   after_create :assign_deliverable_items, :create_corresponding_sales_order
   
   def Project.create_single_package_project( employee , client, package, selected_pro_crew,  project_params )
+    
+    puts "The params is #{project_params}"
     project = Project.new project_params 
     
     if not (employee.has_role?(:marketing) or employee.has_role?(:marketing_head) )
@@ -39,6 +41,9 @@ class Project < ActiveRecord::Base
     project.selected_pro_crew_id =selected_pro_crew.id
     
     
+    puts "shoot_date= #{project_params[:shoot_date]}"
+    puts "starting_date= #{project_params[:starting_date]}"
+    puts "ending_date= #{project_params[:ending_date]}"
     shoot_date = Project.extract_event_date(project_params[:shoot_date])
     starting_date = Project.extract_event_date(project_params[:starting_date])
     ending_date = Project.extract_event_date(project_params[:ending_date])
@@ -64,6 +69,7 @@ class Project < ActiveRecord::Base
       
       return project
     else
+      puts "99999999999 DAMN SHIT, it is nil!"
       
       if not selected_pro_crew.is_available_for_booking?( starting_date, ending_date, office )
         selected_pro_crew.job_requests_between( starting_date, ending_date , office).each do |job_request|
