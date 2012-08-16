@@ -186,8 +186,8 @@ module ApplicationHelper
       return create_process_nav(SALES_ORDER_PROCESS_LIST, params )
     end
   
-    if symbol == :project_management
-      return create_process_nav(PROJECT_MANAGEMENT_PROCESS_LIST, params )
+    if symbol == :project_management_head
+      return create_process_nav(PROJECT_MANAGEMENT_HEAD_PROCESS_LIST, params )
     end
   
     if symbol == :collaboration 
@@ -502,6 +502,56 @@ module ApplicationHelper
   
   
   
+  
+  PROJECT_MANAGEMENT_HEAD_PROCESS_LIST = {
+    :header_title => "Head Project Manager",
+    :processes => [
+      {
+        :title => "Employee Assignment",
+        :destination_link => "select_project_for_project_membership_assignment_url",
+        :conditions => [
+          {
+            :controller =>'projects',
+            :action => 'select_project_for_project_membership_assignment'
+          },
+          {
+            :controller => 'projects',
+            :action => 'select_role_to_assign_employee'
+          },
+          {
+            :controller => "project_memberships",
+            :action => 'new'
+          },
+          {
+            :controller => "project_memberships",
+            :action => 'assign_member_with_selected_project_role_to_project'
+          }
+        ]
+      },
+      {
+        :title => "Monitor Projects",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'finalize_article'
+          },
+          {
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
+          },
+          {
+            :controller => 'articles',
+            :action => 'edit_publication'
+          }
+        ]
+      }
+    ]
+  }
   
   PUBLISHER_PROCESS_LIST = {
     :header_title => "Publisher",

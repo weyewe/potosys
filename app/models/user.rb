@@ -143,6 +143,37 @@ class User < ActiveRecord::Base
   end
   
   
+=begin
+  PROJECT MEMBERSHIP ASSIGNMENT
+=end
+
+  def active_projects
+    self.project_memberships.joins(:project).where(
+      :project => { :is_canceled => false, :is_finished => false}
+    )
+  end
+  
+  def past_projects 
+    self.project_memberships.joins(:project).where(
+      :project => { :is_canceled => false, :is_finished => true}
+    )
+  end
+  
+  def project_membership_for(project)
+    ProjectMembership.where(:user_id => self.id , :project_id => project.id ).first
+  end
+  
+  def has_project_membership?(project)
+    not project_membership_for(project).nil? 
+  end
+  
+  def has_project_role?( project, project_role)
+    self.has_project_membership?(project) and 
+        self.project_membership_for(project).has_assigned_project_role?(project_role)
+  end
+  
+  
+  
 
 
 end

@@ -94,9 +94,28 @@ class ProjectsController < ApplicationController
             
       render :file => "projects/book_crew_for_single_package_sales_order"
     end
-
-
   end
   
+  
+=begin
+  BEGINNING OF BACKOFFICE WORK , PROJECT MANAGEMENT HEAD
+=end
+  def select_project_for_project_membership_assignment
+    @projects = current_office.active_projects
     
+    add_breadcrumb "Select Project", 'select_project_for_project_membership_assignment_url'
+    render :file => "projects/project_memberships/select_project_for_project_membership_assignment"
+  end
+  
+  def select_role_to_assign_employee
+    @project = Project.find_by_id params[:project_id]
+    @package = @project.package
+    @project_roles = ProjectRole.order("created_at DESC")
+    
+    add_breadcrumb "Select Project", 'select_project_for_project_membership_assignment_url'
+    set_breadcrumb_for @project, 'select_role_to_assign_employee_url' + "(#{@project.id})", 
+          "Select Role"
+          
+    render :file => "projects/project_memberships/select_role_to_assign_employee"
+  end
 end

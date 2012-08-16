@@ -31,6 +31,9 @@ USER_ROLE = {
   :project_management_head => "ProjectManagementHead",
   :project_management => "ProjectManagement",
   
+  :post_production_head => "PostProductionHead",
+  :post_production => "PostProduction",
+  
   # AccountExecutive deals with the communication to clients
   :account_executive => "AccountExecutive",
   :publisher => "Publisher"
@@ -39,8 +42,9 @@ USER_ROLE = {
 PROJECT_ROLE = {
   :account_executive => "AccountExecutive",
   :graphic_designer => "GraphicDesigner",
-  :project_manager => "ProjectManager",
-  :photographer => "Photographer"
+  :project_manager => "ProjectManager" ,
+  :post_production => "PostProduction",
+  :crew => "Crew" # crew is those people going out to take picture (handling the supply side)
 }
 
 

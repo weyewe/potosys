@@ -1,0 +1,10 @@
+$(document).ready(function(){
+
+  <% new_row = escape_javascript(  render :partial => "project_memberships/project_role_assignment_entry", :locals => {
+            :employee => @user , 
+            :project_role => @project_role,
+            :project => @project
+          }) %>
+          
+  $("#project_role_assignment-<%= @project_role.id %>-<%= @user.id%>").replaceWith('<%= new_row %>');
+});

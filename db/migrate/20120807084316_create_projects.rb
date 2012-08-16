@@ -12,7 +12,7 @@ class CreateProjects < ActiveRecord::Migration
       t.date :ending_date  
       t.string :shoot_location
       
-      t.boolean :is_project_started, :default => false  # will be started when the sales order is confirmed 
+      t.boolean :is_started, :default => false  # will be started when the project membership assignment is finished
       t.boolean :is_supply_finished , :default => false 
       t.boolean :is_pre_production_finished , :default => false 
       t.boolean :is_production_finished , :default => false 
@@ -28,6 +28,9 @@ class CreateProjects < ActiveRecord::Migration
       
       t.boolean :is_canceled, :default => false 
       t.integer :canceller_id 
+    
+    
+      t.integer :office_id
       
       
       

@@ -90,4 +90,20 @@
       <span class="label">No</span>
     <% end %>
   </td>
+  
+  <td>
+    <% if not employee.has_role?(:post_production_head) and not employee.has_role?(:post_production)%>
+      <span class="label">No</span>
+    <% else %>
+      <% if employee.has_role?(:post_production_head)  %>
+        <span class="label label-success">Head</span> 
+      <% end %>
+    
+      <% if employee.has_role?(:post_production) and not employee.has_role?(:post_production_head)%>
+        <span class="label label-success">Yes</span> 
+      <% end %>
+    <% end %>
+  </td>
+  
+  
 </tr>

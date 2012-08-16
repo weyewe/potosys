@@ -16,6 +16,22 @@ project_management_role = Role.create :name => USER_ROLE[:project_management]
 account_executive_role = Role.create :name => USER_ROLE[:account_executive]
 publisher_role = Role.create :name => USER_ROLE[:publisher]
 
+post_production_head_role = Role.create :name => USER_ROLE[:post_production_head]
+post_production_role = Role.create :name => USER_ROLE[:post_production]
+
+# 
+# PROJECT_ROLE = {
+#   :account_executive => "AccountExecutive",
+#   :graphic_designer => "GraphicDesigner",
+#   :project_manager => "ProjectManager" 
+#   :crew => "Crew" # crew is those people going out to take picture (handling the supply side)
+# }
+
+account_executive_project_role = ProjectRole.create(:name => PROJECT_ROLE[:account_executive] )
+graphic_designer_project_role = ProjectRole.create(:name => PROJECT_ROLE[:graphic_designer] )
+project_manager_project_role = ProjectRole.create(:name => PROJECT_ROLE[:project_manager] )
+crew_project_role = ProjectRole.create(:name => PROJECT_ROLE[:crew] )
+post_production_project_role =  ProjectRole.create(:name => PROJECT_ROLE[:post_production] )
 
 puts "\n*********OFFICE WIDE SETUP***********"
 puts "creating office"
@@ -52,6 +68,21 @@ graphic_designer = office.create_user( [graphic_designer_role],
                     :email => 'graphic_designer@gmail.com',
                     :password => 'willy1234',
                     :password_confirmation => 'willy1234'  )
+                    
+post_production_head = office.create_user( [post_production_head_role], 
+                    :email => 'post_production_head@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+                    
+post_production = office.create_user( [post_production_role], 
+                    :email => 'post_production@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+                    
+account_executive =   office.create_user( [account_executive_role], 
+                      :email => 'post_production@gmail.com',
+                      :password => 'willy1234',
+                      :password_confirmation => 'willy1234'  )
 
 puts "creating photographers"
 benny = office.create_user( [pro_photographer_role], 

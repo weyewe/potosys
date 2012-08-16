@@ -9,6 +9,7 @@ class Project < ActiveRecord::Base
   has_many :project_memberships 
   has_many :users, :through => :project_memberships
   belongs_to :sales_order
+  belongs_to :office
   
   has_many :job_requests
   
@@ -17,8 +18,7 @@ class Project < ActiveRecord::Base
   
   def Project.create_single_package_project( employee , client, package, selected_pro_crew,  project_params )
     
-    puts "The params is #{project_params}"
-    project = Project.new project_params 
+     project = Project.new project_params
     
     if not (employee.has_role?(:marketing) or employee.has_role?(:marketing_head) )
       puts "88888 employee wrong role"
@@ -39,11 +39,7 @@ class Project < ActiveRecord::Base
     end
     
     project.selected_pro_crew_id =selected_pro_crew.id
-    
-    
-    puts "shoot_date= #{project_params[:shoot_date]}"
-    puts "starting_date= #{project_params[:starting_date]}"
-    puts "ending_date= #{project_params[:ending_date]}"
+     
     shoot_date = Project.extract_event_date(project_params[:shoot_date])
     starting_date = Project.extract_event_date(project_params[:starting_date])
     ending_date = Project.extract_event_date(project_params[:ending_date])
@@ -63,13 +59,14 @@ class Project < ActiveRecord::Base
       project.client_id = client.id 
       project.package_id = package.id 
       project.creator_id = employee.id 
+      project.office_id = office.id 
       project.save
 
+      project.create_project_membership_assignment_for_selected_pro_crew 
       project.create_corresponding_job_request_for_crew_specific_pricing 
       
       return project
     else
-      puts "99999999999 DAMN SHIT, it is nil!"
       
       if not selected_pro_crew.is_available_for_booking?( starting_date, ending_date, office )
         selected_pro_crew.job_requests_between( starting_date, ending_date , office).each do |job_request|
@@ -187,6 +184,72 @@ class Project < ActiveRecord::Base
     end
   end
   
+  
+=begin
+  ASSIGNING PROJECT MEMBERSHIP 
+=end
+  def add_project_membership( employee,  project_collaborator,  project_role  )
+    if not employee.has_role?(:project_management_head)
+      return nil
+    end
+    
+    project_membership = ProjectMembership.find(:first, :conditions => {
+      :user_id => project_collaborator.id ,
+      :project_id => self.id
+    })
+    
+    if project_membership.nil?
+      project_membership = ProjectMembership.create(
+                      :user_id => project_collaborator.id ,
+                      :project_id => self.id 
+                  )
+    end
+                
+    project_membership.add_roles( [project_role] )
+  end
+  
+  def remove_project_membership(employee, project_collaborator,  project_role  )
+    if not employee.has_role?(:project_management_head)
+      return nil
+    end
+    
+    project_membership = ProjectMembership.find(:first, :conditions => {
+      :user_id => project_collaborator.id ,
+      :project_id => self.id
+    })
+    
+    if project_membership.nil?
+      return nil
+    end
+    
+    if not ( project_role.name == PROJECT_ROLE[:crew] and 
+            project_collaborator.id == self.selected_pro_crew_id ) 
+      project_membership.remove_project_role( project_role ) 
+    end
+    
+    
+    
+  end
+  
+  def project_memberships_for_project_role( project_role )
+    project_membership_id_list =  self.project_memberships.map{|x| x.id }
+    
+    ProjectAssignment.where(:project_role_id => project_role.id, 
+            :project_membership_id => project_membership_id_list)
+   
+  end
+  
+  
+  
+
+  def create_project_membership_assignment_for_selected_pro_crew
+    if self.package.is_crew_specific_pricing == false
+      return nil
+    end
+    
+    self.add_project_membership( self.selected_pro_crew , ProjectRole.find_by_name( PROJECT_ROLE[:crew] )  ) 
+  end
+  
   def create_corresponding_job_request_for_crew_specific_pricing
     job_request =  self.job_requests.new 
     job_request.starting_date      = self.starting_date 
@@ -199,9 +262,6 @@ class Project < ActiveRecord::Base
     job_request.year               = starting_date.year
     job_request.yday               = starting_date.yday 
     job_request.save 
-    
-    
-    
   end
   
   

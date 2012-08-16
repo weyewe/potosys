@@ -1,0 +1,18 @@
+<tr id='project_role_assignment-<%= project_role.id %>-<%= employee.id%>'>
+  <td>
+    <%=   employee.email %>
+  </td>
+  <td>
+    <%=   employee.active_projects.count  %>
+  </td>
+  <td>
+    <%=   employee.past_projects.count  %>
+  </td>
+  <td>
+    <% checkbox_value = employee.has_project_role?( project, project_role) %>
+
+    <%= check_box_tag 'is_checked', get_checkbox_value(checkbox_value )   , 
+        checkbox_value, :class => 'checkbox_tracker', 
+        :id => "provider_#{project_role.id}-consumer_#{employee.id}" %>
+  </td>
+</tr>

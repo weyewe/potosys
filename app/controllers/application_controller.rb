@@ -28,16 +28,7 @@ class ApplicationController < ActionController::Base
   def deduce_after_sign_in_url
     if current_user.has_role?( :manager )
       return new_employee_creation_url
-    end
-    # 
-    # if current_user.has_role?(:machine_builder )
-    #   return new_machine_category_url  
-    # end
-    # 
-    # if current_user.has_role?(:account_manager )
-    #   return new_client_url  
-    # end
-    # 
+    end 
     
     if current_user.has_role?(:admin )
       return new_employee_creation_url  
@@ -45,6 +36,10 @@ class ApplicationController < ActionController::Base
     
     if current_user.has_role?(:marketing )
       return new_client_url   
+    end
+    
+    if current_user.has_role?(:project_management_head )
+      return select_project_for_project_membership_assignment_url   
     end
     
     

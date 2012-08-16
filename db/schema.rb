@@ -247,7 +247,7 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.date     "starting_date"
     t.date     "ending_date"
     t.string   "shoot_location"
-    t.boolean  "is_project_started",          :default => false
+    t.boolean  "is_started",                  :default => false
     t.boolean  "is_supply_finished",          :default => false
     t.boolean  "is_pre_production_finished",  :default => false
     t.boolean  "is_production_finished",      :default => false
@@ -258,6 +258,7 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.integer  "client_id"
     t.boolean  "is_canceled",                 :default => false
     t.integer  "canceller_id"
+    t.integer  "office_id"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
   end

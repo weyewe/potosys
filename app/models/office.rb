@@ -14,6 +14,7 @@ class Office < ActiveRecord::Base
   
   has_many :articles
   has_many :sales_orders 
+  has_many :projects
   has_many :job_requests
   
 =begin
@@ -226,6 +227,92 @@ class Office < ActiveRecord::Base
     self.clients.where(:creator_id => employee.id).order("created_at DESC")
   end
   
-
+=begin
+  BEGINNING OF BACKOFFICE WORK , PROJECT MANAGEMENT HEAD
+=end
+  def active_projects
+    self.projects.where(:is_canceled => false)
+  end
+  
+  def Office.all_crew_role_id_list
+    Role.where(:name => [
+        USER_ROLE[:pro_photographer],
+        USER_ROLE[:amateur_photographer],
+        USER_ROLE[:pro_videographer],
+        USER_ROLE[:amateur_videographer]
+      ]
+    ).map{|x| x.id }
+  end
+  
+ 
+  
+  
+  def all_crews
+    self.users.joins(:job_attachments => :assignments ).
+            where(:job_attachments => { :assignments => { :role_id => Office.all_crew_role_id_list }  } ).
+            order("created_at DESC")
+  end
+  
+  def project_managers
+    self.users.joins(:job_attachments => :assignments ).
+            where(:job_attachments => { :assignments => { :role_id => Role.where(:name => USER_ROLE[:project_manager]) }  } ).
+            order("created_at DESC")
+  end
+  
+  def graphic_designers
+    self.users.joins(:job_attachments => :assignments ).
+            where(:job_attachments => { :assignments => { :role_id => Role.where(:name => USER_ROLE[:graphic_designer]) }  } ).
+            order("created_at DESC")
+  end
+  
+  def account_executives
+    self.users.joins(:job_attachments => :assignments ).
+            where(:job_attachments => { :assignments => { :role_id => Role.where(:name => USER_ROLE[:account_executive]) }  } ).
+            order("created_at DESC")
+  end
+  
+ 
+  
+  def Office.corresponding_role_id_list(project_role)
+    if project_role.name == PROJECT_ROLE[:account_executive]
+      return Role.where(:name => [
+          USER_ROLE[:account_executive] 
+        ]
+      ).map{|x| x.id }
+    end
+    
+    if project_role.name == PROJECT_ROLE[:graphic_designer]
+      return Role.where(:name => [
+          USER_ROLE[:graphic_designer] 
+        ]
+      ).map{|x| x.id }
+    end
+    
+    if project_role.name == PROJECT_ROLE[:project_manager]
+      return Role.where(:name => [
+          USER_ROLE[:project_manager] 
+        ]
+      ).map{|x| x.id }
+    end
+    
+    if project_role.name == PROJECT_ROLE[:post_production]
+      return Role.where(:name => [
+          USER_ROLE[:post_production] 
+        ]
+      ).map{|x| x.id }
+    end
+    
+    if project_role.name == PROJECT_ROLE[:crew]
+      return Office.all_crew_role_id_list
+    end
+  end
+  
+  def elligible_employees_for_project_role(project_role)
+    
+    
+    self.users.joins(:job_attachments => :assignments ).
+            where(:job_attachments => { :assignments => { :role_id => Office.corresponding_role_id_list(project_role) }  } ).
+            order("created_at DESC")
+  end
   
 end

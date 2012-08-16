@@ -23,6 +23,10 @@ CollinsPotosys::Application.routes.draw do
     resources :deliverable_subcriptions 
   end
   
+  resources :projects do 
+    resources :project_memberships 
+  end
+  
   
 =begin
   SETUP, Create User +  Office Role
@@ -88,9 +92,12 @@ CollinsPotosys::Application.routes.draw do
   
   # for now, create the basic version: no add/reduce the deliverable item 
   
-  
-  
-  
+=begin
+  INITIATE BACK OFFICE PROCESS : assign project assignment to employee
+=end
+  match 'select_project_for_project_membership_assignment' => 'projects#select_project_for_project_membership_assignment', :as => :select_project_for_project_membership_assignment
+  match 'select_role_to_assign_employee/:project_id' => 'projects#select_role_to_assign_employee', :as => :select_role_to_assign_employee
+  match 'assign_member_with_selected_project_role/:project_role_id/to_project/:project_id' => 'project_memberships#assign_member_with_selected_project_role_to_project', :as => :assign_member_with_selected_project_role_to_project
   
   
   
