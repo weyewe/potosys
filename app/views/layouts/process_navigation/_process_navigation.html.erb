@@ -11,7 +11,7 @@
         <%= get_process_nav( :sales_order_creation , params ).html_safe %> 
       <% end %>
       
-      <% if current_user.has_role?(:project_management_head)   %> 
+      <% if current_user.has_role?(:project_manager_head)   %> 
         <%= get_process_nav( :project_management_head , params ).html_safe %> 
       <% end %>
       

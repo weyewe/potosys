@@ -1,0 +1,5 @@
+$(document).ready(function(){
+  <% if @project.is_started == true %>
+    $("#start_project-<%= @project.id %>").remove();
+  <% end %>
+}) ;

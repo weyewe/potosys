@@ -315,4 +315,11 @@ class Office < ActiveRecord::Base
             order("created_at DESC")
   end
   
+=begin
+  START PROJECT
+=end
+  def pending_start_projects
+    self.projects.where(:is_canceled => false, :is_started => false ).order("shoot_date ASC")
+  end
+  
 end

@@ -188,8 +188,8 @@ class Project < ActiveRecord::Base
 =begin
   ASSIGNING PROJECT MEMBERSHIP 
 =end
-  def add_project_membership( employee,  project_collaborator,  project_role  )
-    if not employee.has_role?(:project_management_head)
+  def add_project_membership( employee,  project_collaborator,  project_role, is_selected_pro_crew  )
+    if not is_selected_pro_crew and not employee.has_role?(:project_manager_head)
       return nil
     end
     
@@ -209,7 +209,7 @@ class Project < ActiveRecord::Base
   end
   
   def remove_project_membership(employee, project_collaborator,  project_role  )
-    if not employee.has_role?(:project_management_head)
+    if not employee.has_role?(:project_manager_head)
       return nil
     end
     
@@ -239,15 +239,57 @@ class Project < ActiveRecord::Base
    
   end
   
+=begin
+  start project
+=end
+PROJECT_ROLE = {
+  :account_executive => "AccountExecutive",
+  :graphic_designer => "GraphicDesigner",
+  :project_manager => "ProjectManager" ,
+  :post_production => "PostProduction",
+  :crew => "Crew" # crew is those people going out to take picture (handling the supply side)
+}
+  def can_be_started?
+    #  if all core project role has been assigned employee 
+    ProjectRole.all.each do |project_role|
+      if self.project_memberships_for_project_role( project_role ).count == 0 
+        return false
+      end
+    end
+    
+    return true 
+  end
+  
+  
+  def start_project(employee)
+    if not employee.has_role?(:project_manager_head)
+      return nil
+    end
+    
+    office = employee.active_job_attachment.office
+    if office.id != self.office_id 
+      return nil
+    end
+    
+    self.is_started = true
+    self.project_start_date = DateTime.now.to_date 
+    self.save 
+    
+  end
+  
   
   
 
+
+=begin
+  AFTER CREATE CALLBACK
+=end
   def create_project_membership_assignment_for_selected_pro_crew
     if self.package.is_crew_specific_pricing == false
       return nil
     end
     
-    self.add_project_membership( self.selected_pro_crew , ProjectRole.find_by_name( PROJECT_ROLE[:crew] )  ) 
+    self.add_project_membership( self.creator,  self.selected_pro_crew , ProjectRole.find_by_name( PROJECT_ROLE[:crew] ) , true ) 
   end
   
   def create_corresponding_job_request_for_crew_specific_pricing

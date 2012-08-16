@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
       return new_client_url   
     end
     
-    if current_user.has_role?(:project_management_head )
+    if current_user.has_role?(:project_manager_head )
       return select_project_for_project_membership_assignment_url   
     end
     

@@ -20,7 +20,7 @@ class ProjectMembershipsController < ApplicationController
     
   
     if @decision == TRUE_CHECK
-      @project.add_project_membership( current_user, @user,  @project_role  )
+      @project.add_project_membership( current_user, @user,  @project_role , false )
     elsif @decision == FALSE_CHECK
       @project.remove_project_membership(current_user,  @user,  @project_role  )
     end

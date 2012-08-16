@@ -118,4 +118,20 @@ class ProjectsController < ApplicationController
           
     render :file => "projects/project_memberships/select_role_to_assign_employee"
   end
+  
+=begin
+  START PROJECT 
+=end
+  def select_project_to_be_started
+    @projects = current_office.pending_start_projects
+    
+    add_breadcrumb "Select Project", 'select_project_to_be_started_url'
+    render :file => "projects/start_project/select_project_to_be_started" 
+  end
+  
+  def start_project
+    @project = Project.find_by_id params[:entity_id]
+    @project.start_project( current_user )
+    
+  end
 end

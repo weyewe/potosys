@@ -529,6 +529,16 @@ module ApplicationHelper
         ]
       },
       {
+        :title => "Pending Start",
+        :destination_link => "select_project_to_be_started_url",
+        :conditions => [
+          {
+            :controller =>'projects',
+            :action => 'select_project_to_be_started'
+          } 
+        ]
+      } ,
+      {
         :title => "Monitor Projects",
         :destination_link => "finalize_article_url",
         :conditions => [
@@ -548,6 +558,16 @@ module ApplicationHelper
             :controller => 'articles',
             :action => 'edit_publication'
           }
+        ]
+      },
+      {
+        :title => "Finished Project",
+        :destination_link => "select_project_to_be_started_url",
+        :conditions => [
+          {
+            :controller =>'',
+            :action => ''
+          } 
         ]
       }
     ]

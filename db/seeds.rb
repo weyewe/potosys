@@ -11,8 +11,8 @@ marketing_head_role   = Role.create :name => USER_ROLE[:marketing_head]
 marketing_role   = Role.create :name => USER_ROLE[:marketing]
 graphic_designer_head_role = Role.create :name => USER_ROLE[:graphic_designer_head]
 graphic_designer_role = Role.create :name => USER_ROLE[:graphic_designer]
-project_management_head_role = Role.create :name => USER_ROLE[:project_management_head]
-project_management_role = Role.create :name => USER_ROLE[:project_management]
+project_management_head_role = Role.create :name => USER_ROLE[:project_manager_head]
+project_management_role = Role.create :name => USER_ROLE[:project_manager]
 account_executive_role = Role.create :name => USER_ROLE[:account_executive]
 publisher_role = Role.create :name => USER_ROLE[:publisher]
 
@@ -59,6 +59,11 @@ project_manager_head = office.create_user( [project_management_head_role],
                     :password => 'willy1234',
                     :password_confirmation => 'willy1234'  )
                     
+project_manager  = office.create_user( [project_management_role], 
+                    :email => 'pm@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+                    
 graphic_designer_head = office.create_user( [graphic_designer_head_role], 
                     :email => 'graphic_designer_head@gmail.com',
                     :password => 'willy1234',
@@ -80,7 +85,7 @@ post_production = office.create_user( [post_production_role],
                     :password_confirmation => 'willy1234'  )
                     
 account_executive =   office.create_user( [account_executive_role], 
-                      :email => 'post_production@gmail.com',
+                      :email => 'ae@gmail.com',
                       :password => 'willy1234',
                       :password_confirmation => 'willy1234'  )
 

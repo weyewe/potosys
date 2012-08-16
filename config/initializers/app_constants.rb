@@ -28,8 +28,8 @@ USER_ROLE = {
   # Project Management Team: 
   # oversee the whole development
   # controlling the deadline etc 
-  :project_management_head => "ProjectManagementHead",
-  :project_management => "ProjectManagement",
+  :project_manager_head => "ProjectManagerHead",
+  :project_manager => "ProjectManager",
   
   :post_production_head => "PostProductionHead",
   :post_production => "PostProduction",

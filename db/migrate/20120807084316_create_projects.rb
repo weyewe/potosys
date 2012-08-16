@@ -13,12 +13,23 @@ class CreateProjects < ActiveRecord::Migration
       t.string :shoot_location
       
       t.boolean :is_started, :default => false  # will be started when the project membership assignment is finished
+      t.date :project_start_date 
+      
+      
       t.boolean :is_supply_finished , :default => false 
+      t.date :supply_finish_date 
+      
       t.boolean :is_pre_production_finished , :default => false 
+      t.date  :pre_production_finish_date 
+      
       t.boolean :is_production_finished , :default => false 
+      t.date :production_finish_date 
+      
       t.boolean :is_post_production_finished , :default => false 
+      t.date :post_production_finish_date 
       
       t.boolean :is_finished , :default => false
+      t.date :finish_date 
       
       # how do we record the crew in crew_based_pricing 
       t.integer :selected_pro_crew_id
