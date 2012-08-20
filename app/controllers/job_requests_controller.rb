@@ -7,4 +7,12 @@ class JobRequestsController < ApplicationController
     set_breadcrumb_for @user, 'crew_schedule_url' + "(#{@user.id})", 
           "Schedule"
   end
+  
+  
+=begin
+  DEADLINE BOOKING 
+=end
+  def execute_job_request_for_draft_deadline
+    @draft = Draft.find_by_id params[:draft_id]
+  end
 end

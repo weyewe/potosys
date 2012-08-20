@@ -1,7 +1,7 @@
 
 <div class="span9 content">
-  <%= create_guide("Production Management", 
-        "Select project to <b>assign employee</b>" + "<br />" + 
+  <%= create_guide("Schedule Production", 
+        "Select project to <b>schedule production deadline</b>" + "<br />" + 
         "Office: <b>#{current_office.name}</b>"   ).html_safe %>
   
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
@@ -43,20 +43,28 @@
         <tbody>
           <% @projects.each do |project| %>
             <tr id='start_project-<%= project.id %>'>
-              <td><%=  project.title   %></td>
+              <td>
+                <% if not project.last_draft.nil? %>
+                  <%= link_to project.title, assign_deadline_for_draft_url( project.last_draft )    %>
+                <% else %>
+                  <%= project.title %>
+                <% end %>
+              </td>
          
               <td><%= project.package.name  %></td>
               
               <% if project.drafts.count == 0 %>
                
               
-                <td colspan='5' style='text-align:center;'>
-                  <span class="label label-important">Not Started</span>
+                <td colspan='6' style='text-align:center;'>
+                  <span class="label label-important">Not Started. Ask Account Executive</span>
                 </td>
               <% elsif project.drafts.count != 0   %>
                 <td>
-                  Draft <%= project.last_draft.number  %>
+                  Draft <%= project.last_draft.number  %> (<%= project.last_draft.tasks.count%> tasks)
                 </td>
+                
+               
                 
                 <% if project.last_draft.is_finished == false %>
                 

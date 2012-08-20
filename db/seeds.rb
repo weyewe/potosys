@@ -223,11 +223,15 @@ project_1_params = {"title".to_sym                                 =>"Check This
 puts "gona create project1 "
 project_1 = Project.create_single_package_project( marketing_employee_1, client_1, package_1, max, 
               project_1_params)
+              
+
 
               
   
 puts "done creating project 1 "
 sales_order_1 = project_1.sales_order
+puts "confirming sales order 1 "
+sales_order_1.confirm_sales_order(marketing_employee_1, :total_transaction_amount => '15000000')
 puts "done create project_1"
 
 

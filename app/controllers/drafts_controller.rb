@@ -45,5 +45,42 @@ class DraftsController < ApplicationController
           "Add Detail Task to Draft"
   end
   
+=begin
+  Project Management planning
+=end
+
+  def assign_deadline_for_draft
+    @draft = Draft.find_by_id params[:draft_id]
+    @job_requests = @draft.project.production_team_job_requests
+    
+    add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_production_mode'
+    set_breadcrumb_for @draft, 'assign_deadline_for_draft_url' + "(#{@draft.id})", 
+          "Schedule Deadline"
+  end
+  
+  def update_draft_deadline
+    @draft = Draft.find_by_id params[:draft_id]
+    
+    @draft.set_granted_deadline_date(current_user ,  Project.extract_event_date(params[:draft][:granted_deadline_date]) )
+    
+    if @draft.errors.messages[:granted_deadline_date] != 0 
+      flash[:notice] = "The deadline for <b>draft-#{@draft.number}</b> has been created." 
+      redirect_to  assign_deadline_for_draft_url(   @draft  ) 
+      return
+    else
+      flash[:error] = "Hey, do something better"
+      @job_requests = @draft.project.production_team_job_requests
+      
+      
+      add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_production_mode'
+      set_breadcrumb_for @draft, 'assign_deadline_for_draft_url' + "(#{@draft.id})", 
+            "Schedule Deadline"
+      render :file => "drafts/assign_deadline_for_draft"
+      
+    end
+      
+    
+  end
+  
   
 end

@@ -119,7 +119,8 @@ CollinsPotosys::Application.routes.draw do
   PROJECT MANAGER PART
 =end
   match 'select_project_to_be_scheduled_in_production_mode' => 'projects#select_project_to_be_scheduled_in_production_mode', :as => :select_project_to_be_scheduled_in_production_mode
-  
+  match 'assign_deadline_for_draft/:draft_id' => 'drafts#assign_deadline_for_draft', :as => :assign_deadline_for_draft
+  match 'update_draft_deadline/:draft_id' => 'drafts#update_draft_deadline', :as => :update_draft_deadline , :method => :post 
 
   
   

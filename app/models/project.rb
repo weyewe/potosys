@@ -136,15 +136,6 @@ class Project < ActiveRecord::Base
   end
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
   def assign_deliverable_items
     # t.integer  "default_sub_item_quantity"
     # t.integer  "final_sub_item_quantity"
@@ -242,13 +233,7 @@ class Project < ActiveRecord::Base
 =begin
   start project
 =end
-PROJECT_ROLE = {
-  :account_executive => "AccountExecutive",
-  :graphic_designer => "GraphicDesigner",
-  :project_manager => "ProjectManager" ,
-  :post_production => "PostProduction",
-  :crew => "Crew" # crew is those people going out to take picture (handling the supply side)
-}
+ 
   def can_be_started?
     #  if all core project role has been assigned employee 
     ProjectRole.all.each do |project_role|
@@ -376,6 +361,29 @@ PROJECT_ROLE = {
     
     draft.save 
     return draft
+  end
+  
+=begin
+  Creating Draft Deadline
+=end
+  def production_team
+    production_project_role_id_list = ProjectRole.where( :name => PROJECT_ROLE[:graphic_designer] ).map{|x| x.id }
+    self.project_memberships.
+        joins(:project_assignments).where( 
+          :project_assignments => { :project_role_id => production_project_role_id_list}
+        )
+  end
+  
+  def production_team_job_requests
+    
+    production_team_user_id_list = self.production_team.map{|x| x.user_id }
+    project_start_date = self.project_start_date
+   
+    self.job_requests.where{
+     (user_id.in production_team_user_id_list) & 
+       (ending_date.gte  project_start_date) & 
+       (is_canceled.eq false)
+    }
   end
   
 end

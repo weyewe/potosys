@@ -151,7 +151,8 @@ class ProjectsController < ApplicationController
 =end  
   def select_project_to_be_scheduled_in_production_mode
     @projects = current_user.assigned_projects_for( PROJECT_ROLE[:project_manager] ) 
-    add_breadcrumb "Select Project", 'select_project_to_be_managed_in_production_mode_url'
+    add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_production_mode_url'
+    
     render :file => "projects/project_management/select_project_to_be_scheduled_in_production_mode"
   end
   

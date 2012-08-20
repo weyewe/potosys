@@ -581,7 +581,11 @@ module ApplicationHelper
           {
             :controller =>'projects',
             :action => 'select_project_to_be_scheduled_in_production_mode'
-          } 
+          } ,
+          {
+            :controller =>'drafts',
+            :action => 'assign_deadline_for_draft'
+          }
         ]
       },
       {
