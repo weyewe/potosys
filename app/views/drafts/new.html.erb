@@ -1,0 +1,107 @@
+
+<div class="span9 content">
+  <%= create_guide("New Draft", 
+        "Office: <b>#{current_office.name}</b>"  + "<br />" + 
+        "Employee: <b>#{current_user.email}</b>"  ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+  <div class="row-fluid">
+    <div class="span12">
+      
+      
+      <!-- <button href="#" class="btn"></button> -->
+      
+        
+      <% if @project.last_draft.nil? or @project.last_draft.is_finished == true %>  
+        <%= render :partial => 'drafts/new_draft_form' %>
+      <% end %>
+    </div> 
+
+      
+      
+    
+  </div><!--/row-->
+   <hr />
+  <div class="row-fluid">
+    <div id="data_list">
+      <h2>Total Drafts: <%= @drafts.count %></h2>
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Overall Guideline</th>
+            <th>Total Tasks</th>
+            <th>Proposed Deadline</th>
+            <th>Assigned Deadline</th>
+            <th>Actual Deadline</th>
+          </tr>
+        </thead>
+        
+      
+          
+          
+        <tbody>
+          <% @drafts.each do |draft| %>
+            <tr>
+              <td><%= link_to "Draft-#{draft.number}", project_draft_url( @project , draft  )   %></td>
+              <td><%= draft.overall_feedback.html_safe  %></td>
+              <td><%= draft.tasks.count  %></td>
+              <td><%= draft.proposed_deadline_date  %></td>
+              <td><%= draft.granted_deadline_date  %></td>
+              <td><%= draft.actual_deadline_date  %></td>
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+
+
+
+
+<% content_for :additional_js do %>
+  <%= javascript_include_tag "wysihtml5-0.3.0_rc2.min", "bootstrap-wysihtml5-0.0.2.min" %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#draft_overall_feedback').wysihtml5({
+      	"html": false, //Button which allows you to edit the generated HTML. Default false
+      	"image": false //Button to insert an image. Default true
+      });
+      
+      
+    });
+  </script>
+<% end %>
+
+<% content_for :additional_css do %>
+  <%= stylesheet_link_tag "bootstrap-wysihtml5-0.0.2" %>
+<% end %>
+
+
+
+
+
+
+
+

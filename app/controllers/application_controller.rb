@@ -42,6 +42,14 @@ class ApplicationController < ActionController::Base
       return select_project_for_project_membership_assignment_url   
     end
     
+    if current_user.has_role?(:project_manager)
+      return select_project_to_be_scheduled_in_production_mode_url
+    end
+    
+    if current_user.has_role?(:account_executive)
+      return select_project_to_manage_production_url 
+    end
+    
     
     if current_user.has_role?(:publisher )
       return finalize_article_url  

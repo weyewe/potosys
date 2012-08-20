@@ -1,0 +1,78 @@
+
+<div class="span9 content">
+  <%= create_guide("New Draft", 
+        "Office: <b>#{current_office.name}</b>"  + "<br />" + 
+        "Employee: <b>#{current_user.email}</b>"  ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+  <div class="row-fluid">
+    <div class="span12">
+      
+      
+      <!-- <button href="#" class="btn"></button> -->
+      
+        
+      <%# if @project.last_draft.nil? or @project.last_draft.is_finalized == true %>  
+        <%#= render :partial => 'drafts/new_draft_form' %>
+      <%# end %>
+    </div> 
+
+      
+      
+    
+  </div><!--/row-->
+   <hr />
+  <div class="row-fluid">
+    <div id="data_list">
+      <h2>Total Tasks: <%= @tasks.count %></h2>
+       
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+
+
+
+
+<% content_for :additional_js do %>
+  <%= javascript_include_tag "wysihtml5-0.3.0_rc2.min", "bootstrap-wysihtml5-0.0.2.min" %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#draft_overall_feedback').wysihtml5({
+      	"html": false, //Button which allows you to edit the generated HTML. Default false
+      	"image": false //Button to insert an image. Default true
+      });
+      
+      
+    });
+  </script>
+<% end %>
+
+<% content_for :additional_css do %>
+  <%= stylesheet_link_tag "bootstrap-wysihtml5-0.0.2" %>
+<% end %>
+
+
+
+
+
+
+
+

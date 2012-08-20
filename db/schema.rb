@@ -147,8 +147,21 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
   end
 
   create_table "drafts", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "overall_feedback"
+    t.integer  "number"
+    t.integer  "creator_id"
+    t.date     "proposed_deadline_date"
+    t.integer  "deadline_proposer_id"
+    t.date     "granted_deadline_date"
+    t.integer  "deadline_grantor_id"
+    t.date     "actual_deadline_date"
+    t.integer  "actual_deadline_approver_id"
+    t.integer  "project_id"
+    t.boolean  "is_finished",                 :default => false
+    t.boolean  "finish_date"
+    t.integer  "finisher_id"
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
   end
 
   create_table "important_events", :force => true do |t|
@@ -293,8 +306,10 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
   end
 
   create_table "tasks", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "description"
+    t.integer  "draft_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "users", :force => true do |t|

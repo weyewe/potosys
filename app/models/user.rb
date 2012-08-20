@@ -173,6 +173,15 @@ class User < ActiveRecord::Base
   end
   
   
+  def assigned_projects_for( project_role )
+    current_user = self
+    project_role_object = ProjectRole.find_by_name project_role 
+    Project.joins(:project_memberships => [:project_assignments] ).where( 
+      :project_memberships => {:project_assignments => { :project_role_id =>project_role_object.id }} 
+    ).where( :project_memberships => {:user_id => current_user.id} ,
+    :is_started => true )
+  end 
+  
   
 
 

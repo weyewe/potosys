@@ -84,7 +84,7 @@ post_production = office.create_user( [post_production_role],
                     :password => 'willy1234',
                     :password_confirmation => 'willy1234'  )
                     
-account_executive =   office.create_user( [account_executive_role], 
+account_executive =   office.create_user( [account_executive_role,graphic_designer_role], 
                       :email => 'ae@gmail.com',
                       :password => 'willy1234',
                       :password_confirmation => 'willy1234'  )
@@ -245,9 +245,72 @@ project_2 = Project.create_single_package_project( marketing_employee_1, client_
               project_2_params)
 sales_order_2 = project_2.sales_order
 
+
+puts "\n*************** Assigning Project Membership ************\n"
+# there has to be
+# 1 account executive
+# 1 project manager
+# 1 graphic designer 
+# 1 post_production 
+
+# account_executive_project_role = ProjectRole.create(:name => PROJECT_ROLE[:account_executive] )
+# graphic_designer_project_role = ProjectRole.create(:name => PROJECT_ROLE[:graphic_designer] )
+# project_manager_project_role = ProjectRole.create(:name => PROJECT_ROLE[:project_manager] )
+# crew_project_role = ProjectRole.create(:name => PROJECT_ROLE[:crew] )
+# post_production_project_role =  ProjectRole.create(:name => PROJECT_ROLE[:post_production] )
+
+project_1.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
+project_1.add_project_membership( project_manager_head, graphic_designer,  graphic_designer_project_role , false )
+project_1.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
+project_1.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
+
+project_1.start_project(project_manager_head  )
+
+project_2.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
+project_2.add_project_membership( project_manager_head, account_executive,  graphic_designer_project_role , false )
+project_2.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
+project_2.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
+      
+project_2.start_project(project_manager_head  )
+              
+# today_date = DateTime.now.yesterday.to_date + 20.days # project shoot date is at + 15.days
+# proposed_date = today_date + 10.days
+# puts "\n Skipping the pre-supply. We are going all the way for production phase. with draft1\n"
+# draft_1 = project_1.create_draft( account_executive, draft_params)  # proposed deadline included 
+# # client_meeting date << add that as well !
+# draft_1.create_task("task title 1 ") # they can upload attachment 
+# draft_1.create_task("task title 2") # there can be discussion for each task # upload image, # upload revision 
+# draft_1.create_task("task title 3")
+# 
+# # the project manager assign internal deadline for the production team 
+# # graphic designer team, project fulfillment 
+# # all graphic designer in the team will be noted. we expect they self-arrange themself.
+# # on the screen, he will be shown the calendar of all graphic designers involved in this project 
+# draft_1.assign_deadline( project_manager,  proposed_date  - 3.days ) 
+# # the job request will belong to the project.  owned by the draft 
+# 
+# #  then, the graphic designer will work accordingly.
+# # when they are done, they will do self-verification by asking the art director/graphic designer head 
+# # interactions are done offline. Will be online when there is specific requests from clients 
+# 
+# draft_1.report_draft_received(account_executive , proposed_date - 1.days)
+# draft_1.mark_passed_to_client( account_executive ) 
+# draft_1.mark_reminder_for_client_feedback( account_executive, proposed_date + 7.days)
+# 
+# client_return_date = proposed_date + 9.days
+# draft_1.close_draft_and_create_revision( account_executive , client_return_date )
+# # draft_1.close_draft_and_finalize( account_executive ) 
+
+
+# HOW TO CAPTURE ALL THIS DATES? Important for logging events. 
+
+# The last revison doesn't need to be shown to client 
+
+# then, after some internal working, the final draft is ready for finalization -> first_draft
+
+
               
               
-#                                       
 # selected_package_list = [package_1]
 # final_negotiated_price = BigDecimal("100000")
 # detail_request = "The client want it to be black and white, showing love and adoration."                                      

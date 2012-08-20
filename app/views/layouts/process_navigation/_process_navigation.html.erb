@@ -15,6 +15,14 @@
         <%= get_process_nav( :project_management_head , params ).html_safe %> 
       <% end %>
       
+      <% if current_user.has_role?(:project_manager )   %> 
+        <%= get_process_nav( :project_management  , params ).html_safe %> 
+      <% end %>
+      
+      <% if current_user.has_role?(:account_executive)   %> 
+        <%= get_process_nav( :account_executive , params ).html_safe %> 
+      <% end %>
+      
       <%# if current_user.has_role?(:manager) %>
         <%#= get_process_nav( :machine_builder , params ).html_safe %> 
       <%# end %>

@@ -189,6 +189,14 @@ module ApplicationHelper
     if symbol == :project_management_head
       return create_process_nav(PROJECT_MANAGEMENT_HEAD_PROCESS_LIST, params )
     end
+    
+    if symbol == :project_management 
+      return create_process_nav(PROJECT_MANAGEMENT_PROCESS_LIST, params )
+    end
+    
+    if symbol == :account_executive 
+      return create_process_nav(ACCOUNT_EXECUTIVE_PROCESS_LIST, params )
+    end
   
     if symbol == :collaboration 
       return create_process_nav(COLLABORATION_PROCESS_LIST, params )
@@ -198,17 +206,7 @@ module ApplicationHelper
       return create_process_nav(MARKETING_CONTENT_PROCESS_LIST, params )
     end
     
-    if symbol == :teacher
-      return create_process_nav(TEACHER_PROCESS_LIST, params )
-    end
   
-    if symbol == :submission_grading 
-      return create_process_nav(SUBMISSION_GRADING_PROCESS_LIST, params )
-    end
-  
-    if symbol == :student 
-      return create_process_nav(STUDENT_PROCESS_LIST, params )
-    end
   
     if symbol == :publisher
       return create_process_nav(PUBLISHER_PROCESS_LIST, params )
@@ -563,6 +561,91 @@ module ApplicationHelper
       {
         :title => "Finished Project",
         :destination_link => "select_project_to_be_started_url",
+        :conditions => [
+          {
+            :controller =>'',
+            :action => ''
+          } 
+        ]
+      }
+    ]
+  }
+  
+  PROJECT_MANAGEMENT_PROCESS_LIST = {
+    :header_title => "Project Management",
+    :processes => [
+      {
+        :title => "Schedule Production",
+        :destination_link => "select_project_to_be_scheduled_in_production_mode_url",
+        :conditions => [
+          {
+            :controller =>'projects',
+            :action => 'select_project_to_be_scheduled_in_production_mode'
+          } 
+        ]
+      },
+      {
+        :title => "Schedule Post Production",
+        :destination_link => "select_project_to_be_scheduled_in_production_mode_url",
+        :conditions => [
+          {
+            :controller =>'',
+            :action => ''
+          } 
+        ]
+      }
+    ]
+  }
+  
+  
+  ACCOUNT_EXECUTIVE_PROCESS_LIST = {
+    :header_title => "Account Executive",
+    :processes => [
+      {
+        :title => "Pre Production Management",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'',
+            :action => ''
+          } 
+        ]
+      },
+      {
+        :title => "Production Management",
+        :destination_link => "select_project_to_manage_production_url",
+        :conditions => [
+          {
+            :controller =>'projects',
+            :action => 'select_project_to_manage_production'
+          } ,
+          {
+            :controller => 'drafts',
+            :action => 'new'
+          },
+          {
+            :controller => 'drafts',
+            :action => 'create'
+          },
+          {
+            :controller => 'drafts',
+            :action => 'show'
+          }
+        ]
+      },
+      {
+        :title => "Post Production Management",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'',
+            :action => ''
+          } 
+        ]
+      },
+      {
+        :title => "Finished Projects",
+        :destination_link => "finalize_article_url",
         :conditions => [
           {
             :controller =>'',

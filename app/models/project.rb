@@ -339,4 +339,43 @@ PROJECT_ROLE = {
     User.find_by_id self.selected_pro_crew_id
   end
   
+=begin
+  DRAFTS
+=end
+  def last_draft
+    self.drafts.order("created_at DESC").first 
+  end
+  
+  def create_draft( employee, draft_params ) 
+    draft = Draft.new draft_params
+    
+    if not self.last_draft.nil?  and self.last_draft.is_finished == false
+      draft.errors.add(  :authentication , "Past Draft is not finalized")
+      return draft
+    end
+    
+      
+    if not employee.has_role?(:account_executive) or
+       not employee.has_project_role?( self, ProjectRole.find_by_name( PROJECT_ROLE[:account_executive] ) )
+     draft.errors.add(  :authentication , "Wrong Role: No admin role")
+     return draft
+    end
+    
+    
+    
+    if not self.last_draft.nil?
+      draft.number = self.last_draft.number +  1 
+    else
+      draft.number = 1 
+    end
+    
+    draft.proposed_deadline_date =  Project.extract_event_date(draft_params[:proposed_deadline_date])
+    
+    draft.deadline_proposer_id = employee.id 
+    draft.project_id = self.id 
+    
+    draft.save 
+    return draft
+  end
+  
 end

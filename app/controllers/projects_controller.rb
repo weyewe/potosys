@@ -132,6 +132,27 @@ class ProjectsController < ApplicationController
   def start_project
     @project = Project.find_by_id params[:entity_id]
     @project.start_project( current_user )
-    
   end
+
+
+=begin
+  PRODUCTION MANAGEMENT 
+=end
+
+  def select_project_to_manage_production
+    @projects = current_user.assigned_projects_for( PROJECT_ROLE[:account_executive] ) 
+    
+    add_breadcrumb "Select Project", 'select_project_to_manage_production_url'
+    render :file => "projects/project_management/select_project_to_manage_production"
+  end
+
+=begin
+  PROJECT MANAGER's 
+=end  
+  def select_project_to_be_scheduled_in_production_mode
+    @projects = current_user.assigned_projects_for( PROJECT_ROLE[:project_manager] ) 
+    add_breadcrumb "Select Project", 'select_project_to_be_managed_in_production_mode_url'
+    render :file => "projects/project_management/select_project_to_be_scheduled_in_production_mode"
+  end
+  
 end

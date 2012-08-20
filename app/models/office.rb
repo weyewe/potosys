@@ -308,8 +308,6 @@ class Office < ActiveRecord::Base
   end
   
   def elligible_employees_for_project_role(project_role)
-    
-    
     self.users.joins(:job_attachments => :assignments ).
             where(:job_attachments => { :assignments => { :role_id => Office.corresponding_role_id_list(project_role) }  } ).
             order("created_at DESC")

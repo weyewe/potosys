@@ -1,0 +1,41 @@
+<%= link_to "Add New Draft", '#', :class => " btn btn-primary default-hidden-toggler"  %>
+<%= simple_form_for([@project,@new_draft ], :html => {:class => "form-horizontal prevent_double_submit form-toggler  #{add_default_hidden(params)}" }) do |f| %>
+  
+  
+  <%#= f.input :machine_id, :hint => "Select Machine", :label => "Machine" do %>
+     <%#= f.select :machine_id, 
+         current_office.all_machines %>
+   <%# end %>
+   
+   
+  <%= f.input :overall_feedback , :input_html => { :rows => 5, :class => "input-xlarge span8"}, 
+   :label => "Client's Request", :hint => "It can be the selected picture's list, or even the feedbacks in general" %>
+   
+   <%#= f.input :title , :input_html => {:class => "input-xlarge span8"}, 
+   :hint => "Judul dari artikel ini, e.g.: The Blossom Heart"%>
+   
+   
+  <% if @new_draft.proposed_deadline_date.nil? %>
+     <%= f.input :proposed_deadline_date , :input_html => { :rows => 1, 
+         :class => "input-xlarge"}, 
+         :label => "Proposed Deadline Date", :hint => "Proposed Deadline Date (MM/DD/YYYY)", :as => :text, 
+         :input_html => {
+           :rows => 1, 
+           'data-datepicker' => 'datepicker'
+     }
+      %>
+  <% else %>
+     <%= f.input :proposed_deadline_date , :input_html => { :rows => 1, 
+         :class => "input-xlarge"}, 
+         :label => "Proposed Deadline Date", :hint => "Proposed Deadline Date (MM/DD/YYYY)",:as => :text, 
+         :input_html => {
+           :value => format_date_from_datetime( @new_draft.proposed_deadline_date  ), 
+           :rows => 1, 
+           'data-datepicker' => 'datepicker'
+     } %>
+  <% end %>
+    
+  <div class="form-actions">
+    <%= f.button :submit , :class => "btn btn-primary", :text=> "Create Draft" %>
+  </div>
+<% end %>

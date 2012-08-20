@@ -25,6 +25,11 @@ CollinsPotosys::Application.routes.draw do
   
   resources :projects do 
     resources :project_memberships 
+    resources :drafts 
+  end
+  
+  resources :drafts do 
+    resources :tasks 
   end
   
   
@@ -104,6 +109,18 @@ CollinsPotosys::Application.routes.draw do
 =end  
   match 'select_project_to_be_started' => 'projects#select_project_to_be_started', :as => :select_project_to_be_started
   match 'start_project' => 'projects#start_project', :as => :start_project, :method => :post 
+  
+=begin
+  PRODUCTION management
+=end
+  match 'select_project_to_manage_production' => 'projects#select_project_to_manage_production', :as => :select_project_to_manage_production
+  
+=begin
+  PROJECT MANAGER PART
+=end
+  match 'select_project_to_be_scheduled_in_production_mode' => 'projects#select_project_to_be_scheduled_in_production_mode', :as => :select_project_to_be_scheduled_in_production_mode
+  
+
   
   
   
