@@ -186,4 +186,14 @@ class ProjectsController < ApplicationController
   end
   
   
+=begin
+  POST production management 
+=end
+  def select_project_to_monitor_post_production
+    @projects = current_user.assigned_projects_for( PROJECT_ROLE[:account_executive] )
+    
+    add_breadcrumb "Select Project", 'select_project_to_monitor_post_production_url'
+    render :file => "projects/project_management/select_project_to_monitor_post_production"
+  end
+  
 end

@@ -53,7 +53,7 @@ CollinsPotosys::Application.routes.draw do
   match 'create_package_assignment' => 'package_assignments#create_package_assignment', :as => :create_package_assignment, :method => :post 
   match 'edit_price_package/:package_id/crew/:crew_id' => 'package_assignments#edit_crew_specific_package_price', :as => :edit_crew_specific_package_price, :method => :post 
   
-  
+  match 'contact_person_info/:supplier_id' => 'suppliers#contact_person_info', :as => :contact_person_info
   
 =begin
   SEARCH CLIENT TO CREATE CONTACT REPORT, SALES ORDER, or Important Event
@@ -135,7 +135,11 @@ CollinsPotosys::Application.routes.draw do
   
   
   
+=begin
+  POST PRODUCTION, ACCOUNT EXECUTIVE 
+=end
   
+  match 'select_project_to_monitor_post_production' => 'projects#select_project_to_monitor_post_production', :as => :select_project_to_monitor_post_production
   
   
   

@@ -63,50 +63,39 @@
    <hr />
   <div class="row-fluid">
     <div id="data_list">
-      <h2>Total Package for office  <%= @office.name %>: <%= @office.packages.count  %> </h2>
+      <h2>Total Supplier for office  <%= @office.name %>: <%= @office.suppliers.count  %> </h2>
       
       
       <table cellpadding="0" cellspacing="0" border="0" 
             class="table table-striped table-bordered" id="example">
         <thead>
           <tr>
-            <th>Package Name</th>
-            <th>Description</th>
-            <th>Is Crew Specific?</th>
-            <th>Price</th>
-            <th>Crew Required</th>
-            <th>Selectable Pro Crew</th>
-            <th>Deliverables</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Office Phone</th>
+            <th>Email </th>
+            <th>Mobile</th>
           </tr>
         </thead>
         <tbody>
-          <% @office.packages.order("created_at DESC").each do |package| %>
+          <% @suppliers.each do |supplier| %>
             <tr>
-              <td><%= package.name  %></td>
-              <td><%= package.description  %></td>
+              <td><%= supplier.name  %></td>
+              <td><%= supplier.address  %></td>
               
               <td>
-                  <% if package.is_crew_specific_pricing == true %>
-                    <span class="label label-success">Yes</span>
-                  <% else %>
-                    <span class="label label-important">No</span>
-                  <% end %>
+                <%= supplier.office_phone %>
               </td>
               
               
               <td>
-                  <% if package.is_crew_specific_pricing == true %>
-                    <%= link_to "Crew Specific", new_package_package_assignment_url(package), :class => 'btn btn-mini' %>
-                  <% else %>
-                    <%= print_money( package.base_price )   %>
-                  <% end %>
+                <%= supplier.email %>
               </td>
               
-      
-              <td><%= package.number_of_crew  %></td>
-              <td><%= package.users.count  %></td>
-              <td><%= package.deliverable_subcriptions.count  %> 
-                <%= link_to "Edit", new_package_deliverable_subcription_url(package), :class => 'btn btn-mini' %></td>
+              <td>
+                <%= supplier.mobile  %>
+              </td>
+          
             </tr>
           <% end %>
 

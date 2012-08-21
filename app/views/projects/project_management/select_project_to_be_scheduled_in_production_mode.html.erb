@@ -50,6 +50,10 @@
                 <% else %>
                   <%= project.title %>
                 <% end %>
+                
+                <% if project.is_production_finished == true %>
+                  <span class="label label-success">Finish</span> 
+                <% end %>
               </td>
          
               <td><%= project.package.name  %></td>

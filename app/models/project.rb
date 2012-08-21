@@ -423,7 +423,21 @@ class Project < ActiveRecord::Base
     self.is_production_finished = false
     self.production_finisher_id = employee.id 
     self.save 
-    
+  end
+
+=begin
+  POST PRODUCTION MANAGEMENT
+=end
+  def started_deliverables
+    self.deliverable_items.where(:is_started => true )
+  end
+  
+  def finished_deliverables
+    self.deliverable_items.where(:is_finished => true )
+  end
+  
+  def delivered_deliverables
+    self.deliverable_items.where(:is_delivered => true )
   end
   
 end

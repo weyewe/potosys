@@ -682,11 +682,11 @@ module ApplicationHelper
       },
       {
         :title => "Post Production Management",
-        :destination_link => "finalize_article_url",
+        :destination_link => "select_project_to_manage_post_production_url",
         :conditions => [
           {
-            :controller =>'',
-            :action => ''
+            :controller =>'projects',
+            :action => 'select_project_to_monitor_post_production'
           } 
         ]
       },

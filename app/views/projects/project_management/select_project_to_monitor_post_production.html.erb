@@ -1,0 +1,100 @@
+
+<div class="span9 content">
+  <%= create_guide("Production", 
+        "Select project to <b>assign employee</b>" + "<br />" + 
+        "Office: <b>#{current_office.name}</b>"   ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+ 
+  <div class="row-fluid">
+    <div id="data_list">
+      
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Production Progress</th>
+            <th>Deliverables</th>
+            <th>Started Deliverable</th>
+            <th>Finished Deliverable</th>
+            <th>Delivered Deliverable</th>
+            
+          </tr>
+        </thead>
+        
+      
+          
+          
+        <tbody>
+          <% @projects.each do |project| %>
+            <tr id='start_project-<%= project.id %>'>
+              <td>
+                <%=  project.title   %> 
+              </td>
+              <td>
+                
+                <% if project.is_production_finished == true %>
+                  <span class="label label-success">Finish</span> 
+                <% else %>
+                  <% last_draft= project.last_draft%>
+                  
+                  <% if last_draft.nil? %>
+                    <span class="label label-danger">Not Started</span> 
+                  <% else %>
+                    <span class="label label-warning"><%= "Draft=#{last_draft.number}"%></span> 
+                  <% end %>
+                  
+                <% end %> 
+              </td>
+              
+              
+              <td><%= project.deliverable_items.count  %></td>
+              <td><%= project.started_deliverables.count   %></td>
+              <td><%= project.finished_deliverables.count  %></td>
+              <td><%= project.delivered_deliverables.count  %></td>
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+
+<div class=" hidden" id="approve_propose_form_wrapper">
+  <%= form_for Project.new, :url => start_project_url, :method => :post     do |f| %>
+    <%= hidden_field_tag 'entity_id' , ''  %>
+    <%= hidden_field_tag 'action_role', '' %>
+    <%= hidden_field_tag 'action_value', '' %>
+  <% end %>
+</div>
+
+
+
+
+
+
+
+
+
+
+
