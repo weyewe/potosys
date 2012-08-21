@@ -86,11 +86,23 @@ class DraftsController < ApplicationController
   def finish_draft
     @draft = Draft.find_by_id params[:draft_id]
     @draft.finish_draft( current_user ,  Project.extract_event_date(params[:draft][:finish_date])) 
+    
+    
+    if  @draft.is_finished == true 
+      flash[:notice] = "The draft '#{@draft.number}' has been finalized."  
+    else
+      flash[:error] = "Hey, do something better" 
+    end
+    
+    
+    redirect_to new_draft_task_url( @draft )
   end
   
   def cancel_draft_finish 
     @draft = Draft.find_by_id params[:draft_id]
     @draft.cancel_finish_draft( current_user )
+    
+    redirect_to new_draft_task_url( @draft )
   end
   
   

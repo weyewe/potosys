@@ -7,6 +7,7 @@ CollinsPotosys::Application.routes.draw do
     resources :article_pictures 
   end
   
+  resources :suppliers 
   resources :deliverables 
   resources :packages do 
     resources :package_assignments 

@@ -62,6 +62,24 @@ class Draft < ActiveRecord::Base
     end
   end
   
+  
+=begin
+  CREATE TASK 
+=end
+
+  def create_task( employee, task_params ) 
+    new_task = Task.new( task_params)
+    
+    if not employee.has_role?(:account_executive) or
+       not employee.has_project_role?( self, ProjectRole.find_by_name( PROJECT_ROLE[:account_executive] ) )
+     return nil
+    end
+    
+    new_task.draft_id = self.id 
+    new_task.save
+    return new_task 
+  end
+  
 =begin
   Finishing the draft
 =end
@@ -73,7 +91,7 @@ class Draft < ActiveRecord::Base
      return nil
     end
     
-    if draft_finish_date < self.project_start_date
+    if  draft_finish_date < self.project.project_start_date  
       return nil
     end
     
@@ -81,6 +99,22 @@ class Draft < ActiveRecord::Base
     self.finish_date  = draft_finish_date
     self.finisher_id = employee.id
     self.save 
+  end
+  
+  def cancel_finish_draft( employee )
+    if not employee.has_role?(:account_executive) or
+       not employee.has_project_role?( self, ProjectRole.find_by_name( PROJECT_ROLE[:account_executive] ) )
+     return nil
+    end 
+    
+    if self.project.is_production_finished == true 
+      return nil
+    end
+    
+    self.is_finished = false  
+    self.finish_date  = nil 
+    self.finisher_id = employee.id
+    self.save
   end
   
 end

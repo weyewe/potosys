@@ -173,10 +173,17 @@ module ApplicationHelper
   PROCESS NAVIGATION
 =end
   def get_process_nav( symbol, params)
-  
-    if symbol == :company_admin_management
-      return create_process_nav(COMPANY_ADMIN_MANAGEMENT_PROCESS_LIST, params )
+   
+    if symbol == :employee_management
+      return create_process_nav(EMPLOYEE_MANAGEMENT_PROCESS_LIST, params )
     end
+    if symbol == :product_management
+      return create_process_nav(PRODUCT_MANAGEMENT_PROCESS_LIST, params )
+    end
+    if symbol == :supplier_management
+      return create_process_nav( SUPPLIER_MANAGEMENT_PROCESS_LIST, params )
+    end
+    
     
     if symbol == :marketing
       return create_process_nav(MARKETING_PROCESS_LIST, params )
@@ -271,11 +278,14 @@ module ApplicationHelper
   #####
   #######################################################
   
-  COMPANY_ADMIN_MANAGEMENT_PROCESS_LIST = {
-    :header_title => "Manager",
+  
+ 
+
+  EMPLOYEE_MANAGEMENT_PROCESS_LIST = {
+    :header_title => "Employee", 
     :processes => [
       {
-        :title => "Add Employee",
+        :title => "Add Employee", 
         :destination_link => "new_employee_creation_url",
         :conditions => [
           {
@@ -291,7 +301,13 @@ module ApplicationHelper
             :action => 'show_role_for_employee'
           }
         ]
-      } ,
+      }
+    ]
+  }
+  
+  PRODUCT_MANAGEMENT_PROCESS_LIST = {
+    :header_title => "Products", 
+    :processes => [
       {
         :title => "Create Deliverable",
         :destination_link => 'new_deliverable_url',
@@ -334,6 +350,28 @@ module ApplicationHelper
       }
     ]
   }
+  
+  SUPPLIER_MANAGEMENT_PROCESS_LIST = {
+    :header_title => "Supplier", 
+    :processes => [
+      {
+        :title => "Create Supplier", 
+        :destination_link => "new_supplier_url",
+        :conditions => [
+          {
+            :controller => 'suppliers',
+            :action => 'new'
+          },
+          {
+            :controller => "suppliers",
+            :action => 'create'
+          } 
+        ]
+      }
+    ]
+  }
+
+
   
   MARKETING_PROCESS_LIST = {
     :header_title => "Marketing",

@@ -16,6 +16,7 @@ class Office < ActiveRecord::Base
   has_many :sales_orders 
   has_many :projects
   has_many :job_requests
+  has_many :suppliers
   
 =begin
   CREATING USER
@@ -177,6 +178,27 @@ class Office < ActiveRecord::Base
           
     end
     return result
+  end
+  
+=begin
+  MASTER DATA: create supplier 
+=end
+
+  def create_supplier( employee, supplier_params) 
+    supplier = Supplier.new(supplier_params)
+    if not employee.has_role?(:admin)
+      supplier.errors.add(  :authentication , "Wrong Role: No admin role")
+      return supplier
+    end
+    
+    
+    
+    supplier.office_id = self.id 
+    supplier.creator_id = employee.id 
+    supplier.save
+    
+    
+    return supplier
   end
   
 =begin

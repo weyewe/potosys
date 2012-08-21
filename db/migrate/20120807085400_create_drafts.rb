@@ -17,7 +17,7 @@ class CreateDrafts < ActiveRecord::Migration
       t.integer :project_id 
       
       t.boolean :is_finished  , :default => false 
-      t.boolean :finish_date 
+      t.date :finish_date 
       t.integer :finisher_id  # the account executive declares that it is finish
       
       

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120814011747) do
+ActiveRecord::Schema.define(:version => 20120821093950) do
 
   create_table "article_pictures", :force => true do |t|
     t.string   "name"
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.integer  "actual_deadline_approver_id"
     t.integer  "project_id"
     t.boolean  "is_finished",                 :default => false
-    t.boolean  "finish_date"
+    t.date     "finish_date"
     t.integer  "finisher_id"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
@@ -309,11 +309,29 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.datetime "updated_at",                                                                 :null => false
   end
 
+  create_table "suppliers", :force => true do |t|
+    t.integer  "office_id"
+    t.string   "name"
+    t.text     "address"
+    t.string   "office_phone"
+    t.string   "email"
+    t.string   "mobile"
+    t.string   "contact_person_name"
+    t.string   "contact_person_bb_pin"
+    t.string   "contact_person_email"
+    t.string   "contact_person_mobile"
+    t.integer  "creator_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
   create_table "tasks", :force => true do |t|
     t.text     "description"
     t.integer  "draft_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.boolean  "is_deleted",  :default => false
+    t.integer  "deleter_id"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "users", :force => true do |t|

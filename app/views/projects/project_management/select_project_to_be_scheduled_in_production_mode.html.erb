@@ -34,6 +34,7 @@
             <th>Start Date</th>
             <th>Scheduled Deadline Date</th>
             <th>Actual Deadline Date</th>
+            <th>Finish Date</th>
           </tr>
         </thead>
         
@@ -56,7 +57,7 @@
               <% if project.drafts.count == 0 %>
                
               
-                <td colspan='6' style='text-align:center;'>
+                <td colspan='7' style='text-align:center;'>
                   <span class="label label-important">Not Started. Ask Account Executive</span>
                 </td>
               <% elsif project.drafts.count != 0   %>
@@ -86,8 +87,13 @@
                 </td>
                 
                 <td>
+                  <%= project.last_draft.actual_deadline_date %>
+                </td>
+                
+                <td>
                   <%= project.last_draft.finish_date %>
                 </td>
+                 
                   
               <% end %> 
               

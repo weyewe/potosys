@@ -25,6 +25,7 @@ class CreateDeliverableItems < ActiveRecord::Migration
       t.integer :finisher_id 
       t.date :finish_date 
       
+      # when it is delivered, we have the proof of delivery from client. 
       t.boolean :is_delivered, :default => false 
       t.integer :deliverer_id 
       t.date :delivery_date 

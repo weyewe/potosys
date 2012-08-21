@@ -3,7 +3,12 @@
      
 
       <% if current_user.has_role?(:admin) %>
-        <%= get_process_nav( :company_admin_management , params ).html_safe %> 
+        
+        <%= get_process_nav( :employee_management , params ).html_safe %> 
+        <%= get_process_nav( :product_management , params ).html_safe %> 
+        <%= get_process_nav( :supplier_management , params ).html_safe %> 
+        
+        
       <% end %>
       
       <% if current_user.has_role?(:marketing) or  current_user.has_role?(:marketing_head)   %> 

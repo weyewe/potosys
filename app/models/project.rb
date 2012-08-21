@@ -312,8 +312,11 @@ class Project < ActiveRecord::Base
     end
     
     time_array = params_deadline_datetime.split("/")
-    
-    Date.new(time_array[2].to_i, time_array[0].to_i, time_array[1].to_i) 
+    begin
+      Date.new(time_array[2].to_i, time_array[0].to_i, time_array[1].to_i) 
+    rescue 
+      return nil 
+    end
   end
   
   def creator

@@ -1,0 +1,133 @@
+
+<div class="span9 content">
+  <%= create_guide("Create Supplier", 
+        "Office: <b>#{current_office.name}</b>"  ).html_safe %>
+  
+  <%#= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+  <div class="row-fluid">
+    <div class="span12">
+      
+      
+      <!-- <button href="#" class="btn"></button> -->
+      <%= link_to "Add New Supplier", '#', :class => " btn btn-primary default-hidden-toggler"  %>
+      <%= simple_form_for(@new_supplier, :html => {:class => "form-horizontal prevent_double_submit form-toggler  #{add_default_hidden(params)}" }) do |f| %>
+        
+        
+       
+         
+        <% [:name                 ,
+                           :address              ,
+                           :office_phone         ,
+                           :email                ,
+                           :mobile               ,
+                           :contact_person_name  ,
+                           :contact_person_bb_pin,
+                           :contact_person_email ,
+                           :contact_person_mobile].each do |field|  %> 
+               <%= f.input field , :input_html => {:rows =>3 ,:class => "input-xlarge span5"}  %>            
+        <% end %>
+        
+          
+        
+
+
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-primary", :value=> "Create Supplier" %>
+        </div>
+      <% end %>
+      
+      
+     
+      
+    </div> 
+      
+      
+      
+    
+  </div><!--/row-->
+   <hr />
+  <div class="row-fluid">
+    <div id="data_list">
+      <h2>Total Package for office  <%= @office.name %>: <%= @office.packages.count  %> </h2>
+      
+      
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Package Name</th>
+            <th>Description</th>
+            <th>Is Crew Specific?</th>
+            <th>Price</th>
+            <th>Crew Required</th>
+            <th>Selectable Pro Crew</th>
+            <th>Deliverables</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @office.packages.order("created_at DESC").each do |package| %>
+            <tr>
+              <td><%= package.name  %></td>
+              <td><%= package.description  %></td>
+              
+              <td>
+                  <% if package.is_crew_specific_pricing == true %>
+                    <span class="label label-success">Yes</span>
+                  <% else %>
+                    <span class="label label-important">No</span>
+                  <% end %>
+              </td>
+              
+              
+              <td>
+                  <% if package.is_crew_specific_pricing == true %>
+                    <%= link_to "Crew Specific", new_package_package_assignment_url(package), :class => 'btn btn-mini' %>
+                  <% else %>
+                    <%= print_money( package.base_price )   %>
+                  <% end %>
+              </td>
+              
+      
+              <td><%= package.number_of_crew  %></td>
+              <td><%= package.users.count  %></td>
+              <td><%= package.deliverable_subcriptions.count  %> 
+                <%= link_to "Edit", new_package_deliverable_subcription_url(package), :class => 'btn btn-mini' %></td>
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -44,7 +44,12 @@
         <tbody>
           <% @projects.each do |project| %>
             <tr id='start_project-<%= project.id %>'>
-              <td><%=  project.title   %></td>
+              <td>
+                <%=  project.title   %>
+                <% if project.is_production_finished == true %>
+                  <span class="label label-success">Finish</span> 
+                <% end %>
+              </td>
               <td><%= project.shoot_date  %></td>
               <td><%= project.project_start_date  %></td>
               <td><%= project.package.name  %></td>
