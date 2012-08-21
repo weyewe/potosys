@@ -1,0 +1,14 @@
+<%= link_to "Add New Task", '#', :class => " btn btn-primary default-hidden-toggler"  %>
+<%= simple_form_for([@draft,@new_task ], :html => {:class => "form-horizontal prevent_double_submit form-toggler  #{add_default_hidden(params)}" }) do |f| %>
+  
+
+   
+   
+  <%= f.input :description , :input_html => { :rows => 5, :class => "input-xlarge span11"}, 
+   :label => "Task Description", :hint => "Explain the task. after creating the task, you can add attachment(s)" %>
+ 
+    
+  <div class="form-actions">
+    <%= f.button :submit , :class => "btn btn-primary", :value=> "Create Task" %>
+  </div>
+<% end %>

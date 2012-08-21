@@ -116,16 +116,21 @@ CollinsPotosys::Application.routes.draw do
   match 'select_project_to_manage_production' => 'projects#select_project_to_manage_production', :as => :select_project_to_manage_production
   
 =begin
-  PROJECT MANAGER PART
+  PROJECT MANAGER PART, schedule production
 =end
   match 'select_project_to_be_scheduled_in_production_mode' => 'projects#select_project_to_be_scheduled_in_production_mode', :as => :select_project_to_be_scheduled_in_production_mode
   match 'assign_deadline_for_draft/:draft_id' => 'drafts#assign_deadline_for_draft', :as => :assign_deadline_for_draft
   match 'update_draft_deadline/:draft_id' => 'drafts#update_draft_deadline', :as => :update_draft_deadline , :method => :post 
 
   
+=begin
+  Account Executive, finalize production 
+=end
+  match 'finalize_production/:project_id' => 'projects#finalize_production', :as => :finalize_production, :method => :post 
+  match 'cancel_production_finalization/:project_id' => 'projects#cancel_production_finalization', :as => :cancel_production_finalization, :method => :post
   
-  
-  
+  match 'finish_draft/:draft_id' => 'drafts#finish_draft', :as => :finish_draft , :method => :post
+  match 'cancel_draft_finish/:draft_id' => 'drafts#cancel_draft_finish', :as => :cancel_draft_finish , :method => :post
   
   
   

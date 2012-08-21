@@ -386,4 +386,41 @@ class Project < ActiveRecord::Base
     }
   end
   
+=begin
+  Finalize the production
+=end
+  def finalize_production( employee, finalization_date ) 
+    return nil if finalization_date.nil?  
+    if not employee.has_role?(:account_executive) or
+       not employee.has_project_role?( self, ProjectRole.find_by_name( PROJECT_ROLE[:account_executive] ) )
+     return nil
+    end
+    
+    if finalization_date < self.project_start_date
+      return nil
+    end
+    
+    if self.drafts.where(:is_finished => false).count != 0
+      return nil
+    end
+    
+    self.is_production_finished = true 
+    self.production_finish_date = finalization_date
+    self.production_finisher_id = employee.id
+    self.save 
+    
+  end
+  
+  def cancel_production_finalization(employee)
+    if not employee.has_role?(:account_executive) or
+       not employee.has_project_role?( self, ProjectRole.find_by_name( PROJECT_ROLE[:account_executive] ) )
+     return nil
+    end
+    
+    self.is_production_finished = false
+    self.production_finisher_id = employee.id 
+    self.save 
+    
+  end
+  
 end

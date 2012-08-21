@@ -53,7 +53,7 @@ class DraftsController < ApplicationController
     @draft = Draft.find_by_id params[:draft_id]
     @job_requests = @draft.project.production_team_job_requests
     
-    add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_production_mode'
+    add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_production_mode_url'
     set_breadcrumb_for @draft, 'assign_deadline_for_draft_url' + "(#{@draft.id})", 
           "Schedule Deadline"
   end
@@ -78,8 +78,19 @@ class DraftsController < ApplicationController
       render :file => "drafts/assign_deadline_for_draft"
       
     end
-      
-    
+  end
+  
+=begin
+  Account Executive Finish the draft
+=end
+  def finish_draft
+    @draft = Draft.find_by_id params[:draft_id]
+    @draft.finish_draft( current_user ,  Project.extract_event_date(params[:draft][:finish_date])) 
+  end
+  
+  def cancel_draft_finish 
+    @draft = Draft.find_by_id params[:draft_id]
+    @draft.cancel_finish_draft( current_user )
   end
   
   

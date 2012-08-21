@@ -43,7 +43,7 @@ admin_employee = office.create_main_user( [admin_role],
                   :email => 'admin@gmail.com',
                   :password => 'willy1234',
                   :password_confirmation => 'willy1234'  ) 
-
+puts "after admin"
 publisher_employee = office.create_user( [publisher_role], 
                   :email => 'publisher@gmail.com',
                   :password => 'willy1234',
@@ -208,7 +208,7 @@ puts "\n****************Create Project***************\n"
 today_date = DateTime.now.yesterday.to_date
 
 puts "today date is #{today_date}"
-project_shoot_date = today_date + 15.days
+project_shoot_date = today_date + 4.days
 project_starting_date = project_shoot_date - 1.days
 project_ending_date = project_shoot_date + 1.days
 
@@ -257,11 +257,7 @@ puts "\n*************** Assigning Project Membership ************\n"
 # 1 graphic designer 
 # 1 post_production 
 
-# account_executive_project_role = ProjectRole.create(:name => PROJECT_ROLE[:account_executive] )
-# graphic_designer_project_role = ProjectRole.create(:name => PROJECT_ROLE[:graphic_designer] )
-# project_manager_project_role = ProjectRole.create(:name => PROJECT_ROLE[:project_manager] )
-# crew_project_role = ProjectRole.create(:name => PROJECT_ROLE[:crew] )
-# post_production_project_role =  ProjectRole.create(:name => PROJECT_ROLE[:post_production] )
+ 
 
 project_1.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
 project_1.add_project_membership( project_manager_head, graphic_designer,  graphic_designer_project_role , false )
@@ -277,11 +273,12 @@ project_2.add_project_membership( project_manager_head, project_manager,  projec
       
 project_2.start_project(project_manager_head  )
               
-# today_date = DateTime.now.yesterday.to_date + 20.days # project shoot date is at + 15.days
-# proposed_date = today_date + 10.days
-# puts "\n Skipping the pre-supply. We are going all the way for production phase. with draft1\n"
-# draft_1 = project_1.create_draft( account_executive, draft_params)  # proposed deadline included 
-# # client_meeting date << add that as well !
+today_date = project_1.shoot_date + 5.days # project shoot date is at + 15.days
+proposed_date = today_date + 10.days
+puts "\n Skipping the pre-supply. We are going all the way for production phase. with draft1\n"
+draft_1 = project_1.create_draft( account_executive, :overall_feedback => 'Make it Awesome!', 
+        :proposed_deadline_date => "#{proposed_date.month}/#{proposed_date.day}/#{proposed_date.year}")  # proposed deadline included 
+# client_meeting date << add that as well !
 # draft_1.create_task("task title 1 ") # they can upload attachment 
 # draft_1.create_task("task title 2") # there can be discussion for each task # upload image, # upload revision 
 # draft_1.create_task("task title 3")

@@ -264,12 +264,16 @@ ActiveRecord::Schema.define(:version => 20120814011747) do
     t.date     "project_start_date"
     t.boolean  "is_supply_finished",          :default => false
     t.date     "supply_finish_date"
+    t.integer  "supply_finisher_id"
     t.boolean  "is_pre_production_finished",  :default => false
     t.date     "pre_production_finish_date"
+    t.integer  "pre_production_finisher_id"
     t.boolean  "is_production_finished",      :default => false
     t.date     "production_finish_date"
+    t.integer  "production_finisher_id"
     t.boolean  "is_post_production_finished", :default => false
     t.date     "post_production_finish_date"
+    t.integer  "post_production_finisher_id"
     t.boolean  "is_finished",                 :default => false
     t.date     "finish_date"
     t.integer  "selected_pro_crew_id"

@@ -3,6 +3,9 @@ class CreateTasks < ActiveRecord::Migration
     create_table :tasks do |t|
       t.text :description 
       t.integer :draft_id 
+      
+      t.boolean :is_deleted , :default => false 
+      t.integer :deleter_id 
       t.timestamps
     end
   end

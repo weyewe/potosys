@@ -53,13 +53,34 @@ class Draft < ActiveRecord::Base
   def update_job_request( deadline_date )
     self.project.production_team.each do |project_membership|
       job_request = JobRequest.where(:job_request_source => JOB_REQUEST_SOURCE[:draft_creation], 
-        :draft_id => self.id , 
+        :source_id => self.id , 
         :user_id => project_membership.user_id 
       ).first 
       
       job_request.ending_date = deadline_date
       job_request.save 
     end
+  end
+  
+=begin
+  Finishing the draft
+=end
+
+  def finish_draft(employee, draft_finish_date ) 
+    return nil if draft_finish_date.nil?  
+    if not employee.has_role?(:account_executive) or
+       not employee.has_project_role?( self, ProjectRole.find_by_name( PROJECT_ROLE[:account_executive] ) )
+     return nil
+    end
+    
+    if draft_finish_date < self.project_start_date
+      return nil
+    end
+    
+    self.is_finished = true 
+    self.finish_date  = draft_finish_date
+    self.finisher_id = employee.id
+    self.save 
   end
   
 end

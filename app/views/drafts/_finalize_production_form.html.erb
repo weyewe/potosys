@@ -1,0 +1,28 @@
+<%= simple_form_for(@project, 
+        :url => finalize_production_url( @project) ,
+        :method => :post,
+        :html => {:class => "form-vertical prevent_double_submit form-toggler "   }) do |f| %>
+  
+        <% if @project.production_finish_date.nil? %>
+          <%= f.input :production_finish_date , :input_html => { :rows => 1 }, 
+              :label => "Production Finish  Date", :hint => " (MM/DD/YYYY)", :as => :text, 
+              :input_html => {
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          }
+           %>
+        <% else %>
+          <%= f.input :production_finish_date , :input_html => { :rows => 1 }, 
+              :label => "Production Finish  Date", :hint => "  (MM/DD/YYYY)",:as => :text, 
+              :input_html => {
+                :value => format_date_from_datetime( @project.production_finish_date  ), 
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          } %>
+        <% end %>
+ 
+    
+  <div class="form-actions" style="padding-left:0; text-align:center;">
+    <%= f.button :submit , :class => "btn btn-success", :value=> "Finalize Production" %>
+  </div>
+<% end %>

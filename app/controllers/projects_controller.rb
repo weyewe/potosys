@@ -156,4 +156,34 @@ class ProjectsController < ApplicationController
     render :file => "projects/project_management/select_project_to_be_scheduled_in_production_mode"
   end
   
+=begin
+  Account Executive Finalize Production
+=end
+  def finalize_production
+    @project = Project.find_by_id params[:project_id]
+    production_finish_date = Project.extract_event_date(params[:project][:production_finish_date])
+    
+    @project.finalize_production( current_user, production_finish_date ) 
+    
+    if  @project.is_production_finished == true 
+      flash[:notice] = "The project '#{@project.title}' has been finalized."  
+    else
+      flash[:error] = "Hey, do something better" 
+    end
+    
+    redirect_to new_project_draft_url( @project ) 
+    
+  end
+  
+  def cancel_production_finalization
+    @project = Project.find_by_id params[:project_id]
+    
+    @project.cancel_production_finalization( current_user  ) 
+    
+     
+    
+    redirect_to new_project_draft_url( @project )
+  end
+  
+  
 end

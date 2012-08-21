@@ -27,23 +27,18 @@
       <!-- <button href="#" class="btn"></button> -->
       
         
-      <% if  @project.is_production_finished == false  and 
-          (@project.last_draft.nil? or @project.last_draft.is_finished == true) %>  
-        <%= render :partial => 'drafts/new_draft_form' %>
+      <% if @draft.is_finished == false %>  
+        <%= render :partial => 'tasks/new_task_form' %>
       <% end %>
     </div> 
     
-    
-    <div class="span4" style="border-left: 1px solid rgb(230,230,230); padding-left:20px;">
-      
-      
-      <!-- <button href="#" class="btn"></button> -->
+    <div class='span4' style="border-left: 1px solid rgb(230,230,230); padding-left:20px;"> 
       <% if @project.is_production_finished == false  %>
-        <% if (@project.last_draft.nil? or @project.last_draft.is_finished == true) %>  
-          <%= render :partial => 'drafts/finalize_production_form' %>
+        <% if @draft.is_finished == false %>  
+          <%= render :partial => 'tasks/finish_draft_form' %>
+        <% else %>
+          <%= render :partial => 'tasks/cancel_draft_finish_form' %>
         <% end %>
-      <% else %>
-        <%= render :partial => 'drafts/cancel_production_finalization_form' %>
       <% end %>
     </div>
 
@@ -54,37 +49,8 @@
    <hr />
   <div class="row-fluid">
     <div id="data_list">
-      <h2>Total Drafts: <%= @drafts.count %></h2>
-      <table cellpadding="0" cellspacing="0" border="0" 
-            class="table table-striped table-bordered" id="example">
-        <thead>
-          <tr>
-            <th>Number</th>
-            <th>Overall Guideline</th>
-            <th>Total Tasks</th>
-            <th>Proposed Deadline</th>
-            <th>Assigned Deadline</th>
-            <th>Actual Deadline</th>
-          </tr>
-        </thead>
-        
-      
-          
-          
-        <tbody>
-          <% @drafts.each do |draft| %>
-            <tr>
-              <td><%= link_to "Draft-#{draft.number}", new_draft_task_url( draft  )   %></td>
-              <td><%= draft.overall_feedback.html_safe  %></td>
-              <td><%= draft.tasks.count  %></td>
-              <td><%= draft.proposed_deadline_date  %></td>
-              <td><%= draft.granted_deadline_date  %></td>
-              <td><%= draft.actual_deadline_date  %></td>
-            </tr>
-          <% end %>
-
-        </tbody>
-      </table>
+      <h2>Total Tasks: <%= @tasks.count %></h2>
+       
     </div><!-- end of #data_list -->
   </div>
 

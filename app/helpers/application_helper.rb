@@ -632,9 +632,14 @@ module ApplicationHelper
             :action => 'create'
           },
           {
-            :controller => 'drafts',
-            :action => 'show'
+            :controller => 'tasks',
+            :action => 'new'
+          },
+          {
+            :controller => 'tasks',
+            :action => 'create'
           }
+          
         ]
       },
       {

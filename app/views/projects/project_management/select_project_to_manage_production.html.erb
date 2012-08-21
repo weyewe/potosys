@@ -58,20 +58,20 @@
                 <td>
                   <span class="label label-important">Not Started</span>
                 </td>
-              <% elsif project.drafts.count != 0 and project.last_draft.is_finished == false %>
+              <% elsif project.drafts.count != 0   %>
                 <td>
-                  Draft <%= project.last_draft.number  %>
+                   <%= link_to "Draft #{project.last_draft.number}" , new_project_draft_url(project) %>
                 </td>
+                
                 <td>
-                  <span class="label label-warning">On Progress</span> 
+                  <% if project.last_draft.is_finished == false %>
+                    <span class="label label-warning">On Progress</span> 
+                  <% else %>
+                      <span class="label label-success">Finish</span>
+                  <% end %>
                 </td>
-              <% elsif project.drafts.count != 0 and project.last_draft.is_finished == true %>
-                <td>
-                  Draft <%= project.last_draft.number  %>
-                </td>
-                <td>
-                  <span class="label label-success">Finish</span>
-                </td>
+                  
+           
               <% end %>
               
               

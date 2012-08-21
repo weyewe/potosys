@@ -1,0 +1,10 @@
+<%= simple_form_for(@project, 
+        :url => cancel_production_finalization_url( @project) ,
+        :method => :post,
+        :html => {:class => "form-vertical prevent_double_submit form-toggler "   }) do |f| %>
+  
+     
+  <div class="form-actions" style="padding-left:0; text-align:center;">
+    <%= f.button :submit , :class => "btn btn-danger", :value=> "Cancel Production Finalization" %>
+  </div>
+<% end %>

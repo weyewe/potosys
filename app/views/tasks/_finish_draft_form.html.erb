@@ -1,0 +1,28 @@
+<%= simple_form_for(@draft, 
+        :url => finish_draft_url( @draft) ,
+        :method => :post,
+        :html => {:class => "form-vertical prevent_double_submit form-toggler "   }) do |f| %>
+  
+        <% if @draft.finish_date.nil? %>
+          <%= f.input :finish_date , :input_html => { :rows => 1 }, 
+              :label => "Draft #{@draft.number} Finish  Date", :hint => " (MM/DD/YYYY)", :as => :text, 
+              :input_html => {
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          }
+           %>
+        <% else %>
+          <%= f.input :production_finish_date , :input_html => { :rows => 1 }, 
+              :label => "Draft #{@draft.number} Finish  Date", :hint => "  (MM/DD/YYYY)",:as => :text, 
+              :input_html => {
+                :value => format_date_from_datetime( @draft.finish_date  ), 
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          } %>
+        <% end %>
+ 
+    
+  <div class="form-actions" style="padding-left:0; text-align:center;">
+    <%= f.button :submit , :class => "btn btn-success", :value=> "Finish Draft" %>
+  </div>
+<% end %>
