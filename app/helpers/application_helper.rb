@@ -628,12 +628,16 @@ module ApplicationHelper
       },
       {
         :title => "Schedule Post Production",
-        :destination_link => "select_project_to_be_scheduled_in_production_mode_url",
+        :destination_link => "select_project_to_be_scheduled_in_post_production_mode_url",
         :conditions => [
           {
-            :controller =>'',
-            :action => ''
-          } 
+            :controller =>'projects',
+            :action => 'select_project_to_be_scheduled_in_post_production_mode'
+          } ,
+          {
+            :controller => 'projects',
+            :action => 'assign_deadline_for_post_production'
+          }
         ]
       }
     ]
@@ -682,7 +686,7 @@ module ApplicationHelper
       },
       {
         :title => "Post Production Management",
-        :destination_link => "select_project_to_manage_post_production_url",
+        :destination_link => "select_project_to_monitor_post_production_url",
         :conditions => [
           {
             :controller =>'projects',

@@ -1,0 +1,149 @@
+
+<div class="span9 content">
+  <%= create_guide("Post Production Deadline", 
+        "Office: <b>#{current_office.name}</b>"   ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <strong>Create Failure!</strong> The following days are taken: 
+    </div>
+  <% end %>
+  
+  
+  <div class="row-fluid">
+    <div class="span12">
+      
+      
+      <!-- <button href="#" class="btn"></button> -->
+      <%#= link_to "Create Deadline", '#', :class => " btn btn-primary default-hidden-toggler"  %>
+      <%= simple_form_for(@job_request, 
+        :url => create_post_production_job_request_url(@project), 
+        :html => {:class => "form-horizontal prevent_double_submit"   }) do |f| %>
+        
+        
+         
+        
+          <%= f.input :starting_date , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Starting  Date", :hint => "Starting Date (MM/DD/YYYY)",:as => :text, 
+              :input_html => {
+                :value => format_date_from_datetime( @job_request.starting_date  ), 
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          } %>
+       
+          <%= f.input :ending_date , :input_html => { :rows => 1, 
+              :class => "input-xlarge"}, 
+              :label => "Ending  Date", :hint => "Ending Date (MM/DD/YYYY)",:as => :text, 
+              :input_html => {
+                :value => format_date_from_datetime( @job_request.ending_date  ), 
+                :rows => 1, 
+                'data-datepicker' => 'datepicker'
+          } %> 
+        
+        <div class="form-actions">
+          <%= f.button :submit , :class => "btn btn-primary", :value => "Assign Post Production Deadline" %>
+        </div>
+      <% end %>
+      
+      
+     
+      
+    </div> 
+      
+      
+      
+    
+  </div><!--/row-->
+   <hr />
+   
+   
+  <div class="row-fluid">
+    
+    <%#= link_to "Create Booking", root_url , :class => " btn btn-primary "%>
+    <div id="calendar_wrapper">
+   
+    </div><!-- end of #data_list -->
+  </div>
+ 
+
+</div><!--/span-->
+
+
+
+<ul id='previous_booking_info' style="display:none;">
+  <%# @job_requests.each do |job_request| %>
+    <li>
+      <span class='title'><%#= job_request.title %></span>
+      <span class='start_date'><%#= job_request.starting_date %></span>
+      <span class='end_date'><%#= job_request.ending_date %></span>
+    </li>
+  <%# end %>
+</ul>
+
+
+
+
+<% content_for :additional_css do %>
+  <%= stylesheet_link_tag "fullcalendar"%>
+<% end %>
+
+<% content_for :additional_js do %>
+  <%#= stylesheet_link_tag "uploadifive"%>
+  <%= javascript_include_tag "fullcalendar.min" %>
+  <script type='text/javascript'>
+    $(document).ready(function() {
+      var event_array  = [];
+      $("ul#previous_booking_info li").each(function(){
+        var $this = $(this);
+        var title_text = $("span.title", $this).text();
+        var start_date  = $("span.start_date", $this).text();
+        var end_date  = $("span.end_date", $this).text();
+        
+        event_array.push({
+          title : title_text, 
+          start : start_date, 
+          end   : end_date 
+        })
+      });
+      
+      $('#calendar_wrapper').fullCalendar({
+        
+        
+        eventSources: [
+
+                // your event source
+                {
+                    events: event_array ,
+                    color: 'light-blue',     // an option!
+                    textColor: 'white' // an option!
+                }
+
+                // any other event sources...
+
+            ]
+      });
+    
+    });
+  </script>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+

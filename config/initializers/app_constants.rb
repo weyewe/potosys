@@ -90,7 +90,9 @@ JOB_REQUEST_SOURCE = {
   :follow_up_draft => 41, 
   
   # graphic designer 81 - 120
-  :draft_creation => 81
+  :draft_creation => 81,
+  
+  :post_production_scheduling => 131
   
 }
 

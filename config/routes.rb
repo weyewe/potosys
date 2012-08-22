@@ -140,7 +140,10 @@ CollinsPotosys::Application.routes.draw do
 =end
   
   match 'select_project_to_monitor_post_production' => 'projects#select_project_to_monitor_post_production', :as => :select_project_to_monitor_post_production
-  
+  match 'select_project_to_be_scheduled_in_post_production_mode' => 'projects#select_project_to_be_scheduled_in_post_production_mode', :as => :select_project_to_be_scheduled_in_post_production_mode
+  match 'show_deliverable_items_progress' => 'deliverable_items#show_deliverable_items_progress', :as => :show_deliverable_items_progress
+  match 'assign_deadline_for_post_production/:project_id' => 'projects#assign_deadline_for_post_production', :as => :assign_deadline_for_post_production
+  match 'create_post_production_job_request/:project_id' => 'job_requests#create_post_production_job_request', :as => :create_post_production_job_request , :method => :post
   
   
   

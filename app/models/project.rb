@@ -440,4 +440,49 @@ class Project < ActiveRecord::Base
     self.deliverable_items.where(:is_delivered => true )
   end
   
+  def post_production_scheduling_job_request 
+    job_request = self.job_requests.where(
+      :job_request_source => JOB_REQUEST_SOURCE[:post_production_scheduling],
+      :is_canceled => false  
+    ).first 
+    
+    if job_request.nil? 
+      return self.job_requests.new  
+    else
+      return job_request
+    end
+  end
+  
+  def create_or_update_post_production_job_request(employee, job_request_params) 
+    job_request = self.post_production_scheduling_job_request
+    
+    if not employee.has_role?(:project_manager) or
+       not employee.has_project_role?( self, ProjectRole.find_by_name( PROJECT_ROLE[:project_manager] ) )
+     job_request.errors.add(  :authentication , "No such role")
+     return job_request
+    end
+    
+    starting_date = Project.extract_event_date(job_request_params[:starting_date])
+    ending_date   = Project.extract_event_date(job_request_params[:ending_date])
+    
+    if starting_date > ending_date  or
+        starting_date.nil? or ending_date.nil?
+      job_request.errors.add(  :starting_date , "Starting Date must not be later than ending date")
+      return job_request
+    end
+    
+    puts "8858 THe starting date is #{starting_date}"
+    puts "8858 THe ending date is #{ending_date}"
+    
+    job_request.project_id = self.id 
+    job_request.title = "Post Production: #{self.title}"
+    job_request.starting_date = starting_date
+    job_request.ending_date = ending_date 
+    job_request.job_request_source =  JOB_REQUEST_SOURCE[:post_production_scheduling]
+    job_request.save 
+    return job_request
+  end
+  
+  
+  
 end

@@ -30,6 +30,7 @@ class CreateProjects < ActiveRecord::Migration
       
       t.boolean :is_post_production_finished , :default => false 
       t.date :post_production_finish_date 
+      t.date :scheduled_post_production_finish_date 
       t.integer :post_production_finisher_id 
       
       t.boolean :is_finished , :default => false

@@ -196,4 +196,22 @@ class ProjectsController < ApplicationController
     render :file => "projects/project_management/select_project_to_monitor_post_production"
   end
   
+  def select_project_to_be_scheduled_in_post_production_mode
+    @projects = current_user.assigned_projects_for( PROJECT_ROLE[:project_manager] ) 
+    add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_post_production_mode'
+    
+    render :file => "projects/project_management/select_project_to_be_scheduled_in_post_production_mode"
+  end
+  
+  def assign_deadline_for_post_production
+    @project = Project.find_by_id params[:project_id]
+    @job_request = @project.post_production_scheduling_job_request 
+    
+    add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_post_production_mode_url'
+    set_breadcrumb_for @project, 'assign_deadline_for_post_production_url' + "(#{@project.id})", 
+          "Schedule Deadline"
+          
+    render :file => 'projects/project_management/assign_deadline_for_post_production'
+  end
+  
 end

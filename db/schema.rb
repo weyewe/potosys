@@ -196,6 +196,7 @@ ActiveRecord::Schema.define(:version => 20120821093950) do
     t.integer  "job_request_source", :default => 1
     t.date     "starting_date"
     t.date     "ending_date"
+    t.date     "finish_date"
     t.integer  "number_of_days"
     t.integer  "yday"
     t.integer  "year"
@@ -260,30 +261,31 @@ ActiveRecord::Schema.define(:version => 20120821093950) do
     t.date     "starting_date"
     t.date     "ending_date"
     t.string   "shoot_location"
-    t.boolean  "is_started",                  :default => false
+    t.boolean  "is_started",                            :default => false
     t.date     "project_start_date"
-    t.boolean  "is_supply_finished",          :default => false
+    t.boolean  "is_supply_finished",                    :default => false
     t.date     "supply_finish_date"
     t.integer  "supply_finisher_id"
-    t.boolean  "is_pre_production_finished",  :default => false
+    t.boolean  "is_pre_production_finished",            :default => false
     t.date     "pre_production_finish_date"
     t.integer  "pre_production_finisher_id"
-    t.boolean  "is_production_finished",      :default => false
+    t.boolean  "is_production_finished",                :default => false
     t.date     "production_finish_date"
     t.integer  "production_finisher_id"
-    t.boolean  "is_post_production_finished", :default => false
+    t.boolean  "is_post_production_finished",           :default => false
     t.date     "post_production_finish_date"
+    t.date     "scheduled_post_production_finish_date"
     t.integer  "post_production_finisher_id"
-    t.boolean  "is_finished",                 :default => false
+    t.boolean  "is_finished",                           :default => false
     t.date     "finish_date"
     t.integer  "selected_pro_crew_id"
     t.integer  "creator_id"
     t.integer  "client_id"
-    t.boolean  "is_canceled",                 :default => false
+    t.boolean  "is_canceled",                           :default => false
     t.integer  "canceller_id"
     t.integer  "office_id"
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
   end
 
   create_table "roles", :force => true do |t|

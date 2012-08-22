@@ -17,6 +17,8 @@ class CreateJobRequests < ActiveRecord::Migration
       t.date :starting_date   
       t.date :ending_date 
       
+      t.date :finish_date 
+      
       t.integer :number_of_days
       
       t.integer :yday
