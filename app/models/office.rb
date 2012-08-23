@@ -342,4 +342,20 @@ class Office < ActiveRecord::Base
     self.projects.where(:is_canceled => false, :is_started => false ).order("shoot_date ASC")
   end
   
+=begin
+  POST PRODUCTION
+=end
+
+  def all_suppliers
+    suppliers  = self.suppliers.order("name ASC")
+    result = []
+    suppliers.each do |supplier|
+      
+        result << [ "#{supplier.name}" , 
+                        supplier.id ]
+          
+    end
+    return result
+  end
+  
 end

@@ -38,6 +38,7 @@ puts "creating office"
 office = Office.create :name => COMPANY_NAME
 
 
+
 puts "creating user"
 admin_employee = office.create_main_user( [admin_role], 
                   :email => 'admin@gmail.com',
@@ -113,6 +114,13 @@ amateur_2 = office.create_user( [amateur_photographer_role],
                   :email => 'amateur_2@gmail.com',
                   :password => 'willy1234',
                   :password_confirmation => 'willy1234'  )
+
+
+puts "create supplier"
+(1..10).each do |count|
+  office.create_supplier( admin_employee, :name => "Supplier #{count}") 
+end
+
 
 
 puts "\n************ MASTER DATA: Package + Deliverables ************"

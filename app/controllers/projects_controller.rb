@@ -219,4 +219,14 @@ class ProjectsController < ApplicationController
     render :file => 'projects/project_management/assign_deadline_for_post_production'
   end
   
+=begin
+  POST PRODUCTIOn, by POST PRODUCTION TEAM 
+=end
+  def select_project_to_update_production_progress
+    @projects = current_user.assigned_projects_for( PROJECT_ROLE[:post_production] ) 
+    add_breadcrumb "Select Project", 'select_project_to_update_production_progress_url'
+    
+    render :file => "projects/project_management/select_project_to_update_production_progress"
+  end
+  
 end

@@ -1,0 +1,35 @@
+<%= simple_form_for(@new_purchase_order, 
+      :url => execute_start_deliverable_item_creation_url( @deliverable_item ), 
+      :html => {:class => "form-horizontal prevent_double_submit form-toggler" }) do |f| %>
+  
+  
+   
+   
+  <%= f.input :supplier_id, :hint => "Select Supplier", :label => "Supplier" do %>
+    <%= f.select :supplier_id, 
+      current_office.all_suppliers %>
+  <% end %> 
+  <%= f.input :note , :input_html => { :rows => 5, :class => "input-xlarge span11"}, 
+   :label => "Note/Description", :hint => "It can be the image file name to be printed on canvas, canvas size, anything." %>
+   
+   <%= f.input :estimated_finish_date , :input_html => { :rows => 1, 
+     :class => "input-xlarge"}, 
+     :label => "Estimated Finish Date", :hint => "Estimated Finish Date (MM/DD/YYYY)",:as => :text, 
+     :input_html => {
+       :value => format_date_from_datetime( @new_purchase_order.estimated_finish_date  ), 
+       :rows => 1, 
+       'data-datepicker' => 'datepicker'
+       } %>
+
+  <%= f.input :total_transaction_amount , :input_html => { :rows => 5, :class => "input-xlarge span11"}, 
+  :label => "Price", :hint => "The price of the deliverable item, charged by supplier" %>
+ 
+   
+  <div class="form-actions">
+    <% if @new_purchase_order.persisted? %>
+      <%= f.button :submit , :class => "btn btn-primary", :value=> "Edit Purchase Order" %>
+    <% else %>
+      <%= f.button :submit , :class => "btn btn-primary", :value=> "Create Purchase Order" %>
+    <% end %>
+  </div>
+<% end %>

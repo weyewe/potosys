@@ -1,0 +1,133 @@
+
+<div class="span9 content">
+  <%= create_guide("Post Production", 
+        "Select deliverable item to <b>update post production progress</b>" + "<br />" + 
+        "Office: <b>#{current_office.name}</b>"   ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+ 
+  <div class="row-fluid">
+    <div id="data_list">
+      
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Name</th> 
+            <th>Description</th> 
+            <th>Sub Item</th>
+            <th>Sub Item Quantity</th> 
+            <th>Is Started</th>
+            <th>Is Finished</th>
+            <th>Is Delivered</th>
+          </tr>
+        </thead>
+        
+      
+          
+          
+        <tbody>
+          <% @deliverable_items.each do |deliverable_item| %>
+            <tr id='delivereable_item_entry-<%= deliverable_item.id %>'>
+              <td>
+                <%= deliverable_item.deliverable.name %>
+              </td>
+              
+              <td>
+                <%= deliverable_item.project_specific_description %>
+              </td>
+                
+              <% if deliverable_item.deliverable.has_sub_item == true %>
+                <td>
+                  <%= deliverable_item.deliverable.sub_item_name %>
+                </td>
+                <td>
+                  <%= deliverable_item.sub_item_quantity %>
+                </td>
+              <% else %>
+                <td colspan='2' style='text-align:center;'>
+                  <span class="label label-important">No Sub Item</span>
+                </td>
+              <% end %>
+
+              <td>
+                <% if deliverable_item.is_started == true %>
+                  <span class="label label-success">Yes</span>
+                <% else %>
+                  <span class="label label-important">No</span>
+                <% end %>
+                
+                <% if deliverable_item.is_finished == false && deliverable_item.is_delivered == false %>
+                  <%= link_to "Start", start_deliverable_item_creation_url( deliverable_item ), :class => "btn btn-mini" %>
+                <% end %>
+              </td>
+
+              <td>
+                <% if deliverable_item.is_finished == true %>
+                  <span class="label label-success">Yes</span>
+                <% else %>
+                  <span class="label label-important">No</span>
+                <% end %>
+                
+                <% if deliverable_item.is_delivered == false %>
+                  <%= link_to "Finish", finish_deliverable_item_creation_url(deliverable_item), :class => "btn btn-mini" %>
+                <% end %>
+              </td>
+              
+              <td>
+                <% if deliverable_item.is_delivered == true %>
+                  <span class="label label-success">Yes</span>
+                <% else %>
+                  <span class="label label-important">No</span>
+                <% end %>
+                  
+                <% if @project.is_finished == false %> 
+                  <%= link_to "Deliver",
+                    deliver_deliverable_item_creation_url(deliverable_item ), :class => "btn btn-mini" %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+
+<div class=" hidden" id="approve_propose_form_wrapper">
+  <%= form_for Project.new, :url => start_project_url, :method => :post     do |f| %>
+    <%= hidden_field_tag 'entity_id' , ''  %>
+    <%= hidden_field_tag 'action_role', '' %>
+    <%= hidden_field_tag 'action_value', '' %>
+  <% end %>
+</div>
+
+
+
+
+
+
+
+
+
+
+

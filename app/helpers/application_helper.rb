@@ -205,8 +205,8 @@ module ApplicationHelper
       return create_process_nav(ACCOUNT_EXECUTIVE_PROCESS_LIST, params )
     end
   
-    if symbol == :collaboration 
-      return create_process_nav(COLLABORATION_PROCESS_LIST, params )
+    if symbol == :post_production 
+      return create_process_nav(POST_PRODUCTION_PROCESS_LIST, params )
     end
   
     if symbol == :marketing_content 
@@ -695,7 +695,7 @@ module ApplicationHelper
           {
             :controller =>'projects',
             :action => 'select_project_to_monitor_post_production'
-          } 
+          }
         ]
       },
       {
@@ -706,6 +706,116 @@ module ApplicationHelper
             :controller =>'',
             :action => ''
           } 
+        ]
+      }
+    ]
+  }
+  
+  POST_PRODUCTION_PROCESS_LIST = {
+    :header_title => "Post Production",
+    :processes => [
+      {
+        :title => "Manage Post Production",
+        :destination_link => "select_project_to_update_production_progress_url",
+        :conditions => [
+          {
+            :controller =>'projects',
+            :action => 'select_project_to_update_production_progress'
+          },
+          {
+            :controller => 'deliverable_items',
+            :action => 'select_deliverable_to_update_progress'
+          }, # start the deliverable item creation
+          {
+            :controller => 'deliverable_items',
+            :action => 'start_deliverable_item_creation'
+          },
+          {
+            :controller => 'deliverable_items',
+            :action => 'execute_start_deliverable_item_creation'
+          },# start the retrieval of deliverable item from subcon
+          {
+            :controller => 'deliverable_items',
+            :action => 'finish_deliverable_item_creation'
+          },
+          {
+            :controller => 'deliverable_items',
+            :action => 'execute_finish_deliverable_item_creation'
+          },# deliver the item to client 
+          {
+            :controller => 'deliverable_items',
+            :action => 'deliver_deliverable_item_creation'
+          },
+          {
+            :controller => 'deliverable_items',
+            :action => 'execute_deliver_deliverable_item_creation'
+          }
+        ]
+      },
+      {
+        :title => "Pending Finish",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'finalize_article'
+          },
+          {
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
+          },
+          {
+            :controller => 'articles',
+            :action => 'edit_publication'
+          }
+        ]
+      },
+      {
+        :title => "Pending Delivery",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'finalize_article'
+          },
+          {
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
+          },
+          {
+            :controller => 'articles',
+            :action => 'edit_publication'
+          }
+        ]
+      },
+      {
+        :title => "Past Projects",
+        :destination_link => "finalize_article_url",
+        :conditions => [
+          {
+            :controller =>'articles',
+            :action => 'finalize_article'
+          },
+          {
+            :controller => "articles",
+            :action => 'edit_article_content'
+          },
+          {
+            :controller => "articles",
+            :action => "edit_image_ordering"
+          },
+          {
+            :controller => 'articles',
+            :action => 'edit_publication'
+          }
         ]
       }
     ]

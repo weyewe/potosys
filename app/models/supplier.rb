@@ -9,7 +9,8 @@ class Supplier < ActiveRecord::Base
                    :contact_person_email ,
                    :contact_person_mobile 
                    
-  belongs_to :office 
+  belongs_to :office
+  has_many :purchase_orders 
   
   validates_presence_of :office_id, :creator_id, :name 
 end

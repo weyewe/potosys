@@ -50,6 +50,10 @@ class ApplicationController < ActionController::Base
       return select_project_to_manage_production_url 
     end
     
+    if current_user.has_role?(:post_production)
+      return select_project_to_update_production_progress_url  
+    end
+    
     
     if current_user.has_role?(:publisher )
       return finalize_article_url  

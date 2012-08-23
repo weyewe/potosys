@@ -150,12 +150,20 @@ CollinsPotosys::Application.routes.draw do
 =end
   match 'select_project_to_update_production_progress' => 'projects#select_project_to_update_production_progress', :as => :select_project_to_update_production_progress
   match 'select_deliverable_to_update_progress/:project_id' => 'deliverable_items#select_deliverable_to_update_progress', :as => :select_deliverable_to_update_progress
-  match 'edit_deliverable_progress/:deliverable_item_id' => 'deliverable_items#edit_deliverable_progress', :as => :edit_deliverable_progress
-  match 'create_purchase_order_for_deliverable_item/:deliverable_item_id' => 'deliverable_items#create_purchase_order_for_deliverable_item', :as => :create_purchase_order_for_deliverable_item, :method => :post 
   
+  # start the deliverable creation
+  match 'start_deliverable_item_creation/:deliverable_item_id' => 'deliverable_items#start_deliverable_item_creation', :as => :start_deliverable_item_creation
+  match 'execute_start_deliverable_item_creation/:deliverable_item_id' => 'deliverable_items#execute_start_deliverable_item_creation', :as => :execute_start_deliverable_item_creation, :method => :post 
   
+  # finish the deliverable creation ( retrive the finished good, ready to be sent to client)
+  match 'finish_deliverable_item_creation/:deliverable_item_id' => 'deliverable_items#finish_deliverable_item_creation', :as => :finish_deliverable_item_creation
+  match 'execute_finish_deliverable_item_creation/:deliverable_item_id' => 'deliverable_items#execute_finish_deliverable_item_creation', :as => :execute_finish_deliverable_item_creation, :method => :post
   
+  # deliver the deliverable_item -> personal delivery, courier 
+  match 'deliver_deliverable_item_creation/:deliverable_item_id' => 'deliverable_items#deliver_deliverable_item_creation', :as => :deliver_deliverable_item_creation
+  match 'execute_deliver_deliverable_item_creation/:deliverable_item_id' => 'deliverable_items#execute_deliver_deliverable_item_creation', :as => :execute_deliver_deliverable_item_creation, :method => :post
   
+   
   
   
   
