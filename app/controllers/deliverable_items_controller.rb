@@ -99,8 +99,33 @@ class DeliverableItemsController < ApplicationController
   Start deliverable delivery
 =end
   def deliver_deliverable_item_creation
+    @deliverable_item = DeliverableItem.find_by_id params[:deliverable_item_id]
+    @project = @deliverable_item.project 
+    @purchase_order = @deliverable_item.purchase_order 
+     
+
+    add_breadcrumb "Select Project", 'select_project_to_update_production_progress_url'
+    set_breadcrumb_for @project, 'select_deliverable_to_update_progress_url' + "(#{@project.id})", 
+          "Select Deliverable"
+    set_breadcrumb_for @deliverable_item, 'deliver_deliverable_item_creation_url' + "(#{@deliverable_item.id})", 
+          "Delivery"
   end
 
   def execute_deliver_deliverable_item_creation
+    @deliverable_item = DeliverableItem.find_by_id params[:deliverable_item_id]
+    @project = @deliverable_item.project 
+    @deliverable_item.execute_delivery( current_user,  params[:deliverable_item])
+
+    if @deliverable_item.errors.messages.length == 0 
+      redirect_to select_deliverable_to_update_progress_url(@project)
+    else
+      add_breadcrumb "Select Project", 'select_project_to_update_production_progress_url'
+      set_breadcrumb_for @project, 'select_deliverable_to_update_progress_url' + "(#{@project.id})", 
+            "Select Deliverable"
+      set_breadcrumb_for @deliverable_item, 'execute_deliver_deliverable_item_creation_url' + "(#{@deliverable_item.id})", 
+            "Finish Deliverable"
+            
+      render :file => 'deliverable_items/deliver_deliverable_item_creation'
+    end
   end
 end

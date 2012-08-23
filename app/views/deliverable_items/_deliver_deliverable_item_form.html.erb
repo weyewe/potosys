@@ -1,0 +1,29 @@
+<%= simple_form_for(@deliverable_item, 
+      :url => execute_deliver_deliverable_item_creation_url( @deliverable_item ), 
+      :html => {:class => "form-horizontal prevent_double_submit form-toggler" }) do |f| %>
+  
+  
+   
+    
+  <%= f.input :delivery_note , :input_html => { :rows => 5, :class => "input-xlarge span11"}, 
+   :label => "Note/Description", :hint => "It can be the courier's receipt number." %>
+   
+   <%= f.input :delivery_date , :input_html => { :rows => 1, 
+     :class => "input-xlarge"}, 
+     :label => "Delivery Date", :hint => "Delivery Date (MM/DD/YYYY)",:as => :text, 
+     :input_html => {
+       :value => format_date_from_datetime( @deliverable_item.delivery_date  ), 
+       :rows => 1, 
+       'data-datepicker' => 'datepicker'
+       } %>
+
+ 
+   
+  <div class="form-actions">
+    <% if @deliverable_item.is_delivered == true  %>
+      <%= f.button :submit , :class => "btn btn-primary", :value=> "Update Delivery" %>
+    <% else %>
+      <%= f.button :submit , :class => "btn btn-primary", :value=> "Create Delivery" %>
+    <% end %>
+  </div>
+<% end %>

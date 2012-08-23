@@ -83,6 +83,31 @@ class DeliverableItem < ActiveRecord::Base
   end
   
   
+  def execute_delivery(employee, delivery_item_params)
+    delivery_date  = Project.extract_event_date(delivery_item_params[:delivery_date]) 
+    purchase_order = self.purchase_order 
+    
+    if not employee.has_role?(:post_production) or
+       not employee.has_project_role?( self, ProjectRole.find_by_name( PROJECT_ROLE[:post_production] ) )
+      self.errors.add(  :authentication , "No such role")
+      return self
+    end
+    
+    if delivery_date.nil? or delivery_date < purchase_order.actual_finish_date 
+      self.errors.add(  :delivery_date , 
+                "Can't be earlier than  finish date: #{purchase_order.actual_finish_date}")
+      return self
+    end
+    
+    self.delivery_date = delivery_date
+    self.delivery_note = delivery_item_params[:delivery_note]
+    self.is_delivered = true
+    self.save  
+    
+    return self
+    
+  end
+  
   def can_be_started?
     self.is_finished == false and self.is_delivered == false  
   end
