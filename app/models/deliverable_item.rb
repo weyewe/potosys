@@ -120,4 +120,32 @@ class DeliverableItem < ActiveRecord::Base
     not self.purchase_order.nil? and self.is_started == true and self.is_finished == true and self.is_delivered == false 
   end
   
+=begin
+  UTILITY, to show list of deliverable_items, classified as pending start, pending finish, pending delivery
+=end
+
+  def DeliverableItem.pending_start( current_user )
+    project_list_id = current_user.assigned_projects_for( PROJECT_ROLE[:post_production] ) .map{|x| x.id }
+    DeliverableItem.where(:project_id => project_list_id, 
+    :is_started => false , 
+    :is_finished => false, 
+    :is_delivered => false ).order("created_at ASC")
+  end
+  
+  def DeliverableItem.pending_finish( current_user )
+    project_list_id = current_user.assigned_projects_for( PROJECT_ROLE[:post_production] ) .map{|x| x.id }
+    DeliverableItem.where(:project_id => project_list_id, 
+    :is_started => true , 
+    :is_finished => false, 
+    :is_delivered => false ).order("start_date ASC")
+  end
+  
+  def DeliverableItem.pending_delivery( current_user )
+    project_list_id = current_user.assigned_projects_for( PROJECT_ROLE[:post_production] ) .map{|x| x.id }
+    DeliverableItem.where(:project_id => project_list_id, 
+    :is_started => true , 
+    :is_finished => true, 
+    :is_delivered => false ).order("finish_date ASC")
+  end
+  
 end

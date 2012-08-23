@@ -164,7 +164,9 @@ CollinsPotosys::Application.routes.draw do
   match 'execute_deliver_deliverable_item_creation/:deliverable_item_id' => 'deliverable_items#execute_deliver_deliverable_item_creation', :as => :execute_deliver_deliverable_item_creation, :method => :post
   
    
-  
+  match 'deliverable_items_pending_start' => 'deliverable_items#deliverable_items_pending_start', :as => :deliverable_items_pending_start
+  match 'deliverable_items_pending_finish' => 'deliverable_items#deliverable_items_pending_finish', :as => :deliverable_items_pending_finish
+  match 'deliverable_items_pending_delivery' => 'deliverable_items#deliverable_items_pending_delivery', :as => :deliverable_items_pending_delivery
   
   
   

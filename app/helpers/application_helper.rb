@@ -753,71 +753,35 @@ module ApplicationHelper
         ]
       },
       {
-        :title => "Pending Finish",
-        :destination_link => "finalize_article_url",
+        :title => "Pending Start",
+        :destination_link => "deliverable_items_pending_start_url",
         :conditions => [
           {
-            :controller =>'articles',
-            :action => 'finalize_article'
-          },
+            :controller =>'deliverable_items',
+            :action => 'deliverable_items_pending_start'
+          } 
+        ]
+      },
+      {
+        :title => "Pending Finish",
+        :destination_link => "deliverable_items_pending_finish_url",
+        :conditions => [
           {
-            :controller => "articles",
-            :action => 'edit_article_content'
-          },
-          {
-            :controller => "articles",
-            :action => "edit_image_ordering"
-          },
-          {
-            :controller => 'articles',
-            :action => 'edit_publication'
-          }
+            :controller =>'deliverable_items',
+            :action => 'deliverable_items_pending_finish'
+          } 
         ]
       },
       {
         :title => "Pending Delivery",
-        :destination_link => "finalize_article_url",
+        :destination_link => "deliverable_items_pending_delivery_url",
         :conditions => [
           {
-            :controller =>'articles',
-            :action => 'finalize_article'
-          },
-          {
-            :controller => "articles",
-            :action => 'edit_article_content'
-          },
-          {
-            :controller => "articles",
-            :action => "edit_image_ordering"
-          },
-          {
-            :controller => 'articles',
-            :action => 'edit_publication'
-          }
+            :controller =>'deliverable_items',
+            :action => 'deliverable_items_pending_delivery'
+          } 
         ]
-      },
-      {
-        :title => "Past Projects",
-        :destination_link => "finalize_article_url",
-        :conditions => [
-          {
-            :controller =>'articles',
-            :action => 'finalize_article'
-          },
-          {
-            :controller => "articles",
-            :action => 'edit_article_content'
-          },
-          {
-            :controller => "articles",
-            :action => "edit_image_ordering"
-          },
-          {
-            :controller => 'articles',
-            :action => 'edit_publication'
-          }
-        ]
-      }
+      } 
     ]
   }
   

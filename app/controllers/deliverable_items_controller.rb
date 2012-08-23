@@ -128,4 +128,24 @@ class DeliverableItemsController < ApplicationController
       render :file => 'deliverable_items/deliver_deliverable_item_creation'
     end
   end
+  
+=begin
+  Just listing the deliverable items based on 3 status: pending start,pending finish, pending delivery
+=end
+
+   def deliverable_items_pending_start
+     @deliverable_items = DeliverableItem.pending_start( current_user )
+   end
+   
+   def deliverable_items_pending_finish
+     @deliverable_items = DeliverableItem.pending_finish( current_user ).joins(:purchase_order)
+   end
+   
+   def deliverable_items_pending_delivery
+     @deliverable_items = DeliverableItem.pending_delivery( current_user ).joins(:purchase_order)
+   end
+
+# current_user.assigned_projects_for( PROJECT_ROLE[:post_production] ) 
+
+
 end
