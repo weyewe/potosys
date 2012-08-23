@@ -51,7 +51,11 @@ class DraftsController < ApplicationController
 
   def assign_deadline_for_draft
     @draft = Draft.find_by_id params[:draft_id]
-    @job_requests = @draft.project.production_team_job_requests
+    @job_requests = @draft.project.production_team_job_requests #wrong.. it will only display the job 
+    #requests attached to this project/draft
+    # what we want: job requests for all the member
+    
+    @job_requests = JobRequest.where(:user_id => @draft.project.production_team.map{ |x| x.user_id }, :is_canceled => false )
     
     add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_production_mode_url'
     set_breadcrumb_for @draft, 'assign_deadline_for_draft_url' + "(#{@draft.id})", 

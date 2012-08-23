@@ -205,7 +205,12 @@ class ProjectsController < ApplicationController
   
   def assign_deadline_for_post_production
     @project = Project.find_by_id params[:project_id]
-    @job_request = @project.post_production_scheduling_job_request 
+    @job_request = @project.post_production_scheduling_job_requests.first
+    @job_requests = JobRequest.where(:user_id => @project.post_production_team.map{ |x| x.user_id } , :is_canceled => false )    
+    
+    if @job_request.nil?
+      @job_request = JobRequest.new 
+    end 
     
     add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_post_production_mode_url'
     set_breadcrumb_for @project, 'assign_deadline_for_post_production_url' + "(#{@project.id})", 

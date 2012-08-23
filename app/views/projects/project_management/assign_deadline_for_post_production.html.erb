@@ -81,13 +81,13 @@
 
 
 <ul id='previous_booking_info' style="display:none;">
-  <%# @job_requests.each do |job_request| %>
+  <% @job_requests.each do |job_request| %>
     <li>
-      <span class='title'><%#= job_request.title %></span>
-      <span class='start_date'><%#= job_request.starting_date %></span>
-      <span class='end_date'><%#= job_request.ending_date %></span>
+      <span class='title'><%= job_request.title %></span>
+      <span class='start_date'><%= job_request.starting_date %></span>
+      <span class='end_date'><%= job_request.ending_date %></span>
     </li>
-  <%# end %>
+  <% end %>
 </ul>
 
 

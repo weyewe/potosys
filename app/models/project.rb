@@ -482,16 +482,10 @@ class Project < ActiveRecord::Base
     if post_production_team_job_requests.count == 0 
       self.create_post_production_job_request
     else                      
-      self.update_post_production_job_request(starting_date, deadline_date)
+      self.update_post_production_job_request(starting_date, ending_date)
     end
     
-    
-    job_request.project_id = self.id 
-    job_request.title = "Post Production: #{self.title}"
-    job_request.starting_date = starting_date
-    job_request.ending_date = ending_date 
-    job_request.job_request_source =  JOB_REQUEST_SOURCE[:post_production_scheduling]
-    job_request.save 
+     
     return job_request
   end
   
@@ -508,7 +502,7 @@ class Project < ActiveRecord::Base
     end 
   end
   
-  def update_post_production_job_request(starting_date, deadline_date)
+  def update_post_production_job_request(starting_date, ending_date)
     self.post_production_team_job_requests.each do |job_request|
       job_request.starting_date = starting_date
       job_request.ending_date = ending_date 

@@ -28,6 +28,7 @@ class JobRequestsController < ApplicationController
     if @job_request.errors.messages.length ==  0 
       redirect_to assign_deadline_for_post_production_url(@project)
     else
+      @job_requests = JobRequest.where(:user_id => @project.post_production_team.map{ |x| x.user_id } , :is_canceled => false )    
       
       add_breadcrumb "Select Project", 'select_project_to_be_scheduled_in_post_production_mode_url'
       set_breadcrumb_for @project, 'assign_deadline_for_post_production_url' + "(#{@project.id})", 

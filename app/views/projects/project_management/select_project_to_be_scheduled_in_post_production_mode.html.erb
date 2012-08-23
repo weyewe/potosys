@@ -80,12 +80,12 @@
                 <% end %>
                 
                 
-                <% if not project.post_production_scheduling_job_request.nil? %>
+                <% if not project.post_production_scheduling_job_requests.first.nil? %>
                   <td>
-                    <%= project.post_production_scheduling_job_request.starting_date %>
+                    <%= project.post_production_scheduling_job_requests.first.starting_date %>
                   </td>
                   <td>
-                    <%= project.post_production_scheduling_job_request.ending_date %>
+                    <%= project.post_production_scheduling_job_requests.first.ending_date %>
                   </td>
                 <% else %>
                   <td colspan='2' style='text-align:center;'>

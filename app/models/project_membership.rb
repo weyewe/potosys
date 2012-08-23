@@ -40,6 +40,10 @@ class ProjectMembership < ActiveRecord::Base
     if result.size == 0 
       ProjectAssignment.create :project_membership_id => self.id, :project_role_id => role_id
     end
+    
+    # does the shite inherit the past job_requests? I think so.... 
+    # how does it work? for now, cancel it. 
+    
   end
   
   def remove_project_role( project_role ) 
