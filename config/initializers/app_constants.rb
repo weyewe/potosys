@@ -89,8 +89,8 @@ JOB_REQUEST_SOURCE = {
   # account executive  41 - 80
   :follow_up_draft => 41, 
   
-  # graphic designer 81 - 120
-  :draft_creation => 81,
+  # graphic designer 81 - 120, production team 
+  :production_scheduling => 81,
   
   :post_production_scheduling => 131
   

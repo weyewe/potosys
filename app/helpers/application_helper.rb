@@ -637,6 +637,10 @@ module ApplicationHelper
           {
             :controller => 'projects',
             :action => 'assign_deadline_for_post_production'
+          },
+          {
+            :controller => 'job_requests',
+            :action => 'create_post_production_job_request'
           }
         ]
       }

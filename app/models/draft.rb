@@ -25,7 +25,7 @@ class Draft < ActiveRecord::Base
   end
   
   def draft_creation_deadline_job_request
-    JobRequest.where(:job_request_source => JOB_REQUEST_SOURCE[:draft_creation],
+    JobRequest.where(:job_request_source => JOB_REQUEST_SOURCE[:production_scheduling],
     :source_id => self.id , 
     :project_id => self.project_id , 
     :is_canceled => false  ) 
@@ -39,7 +39,7 @@ class Draft < ActiveRecord::Base
       job_request.user_id = project_membership.user_id 
       job_request.office_id = employee.active_job_attachment.office_id 
       
-      job_request.job_request_source =  JOB_REQUEST_SOURCE[:draft_creation]
+      job_request.job_request_source =  JOB_REQUEST_SOURCE[:production_scheduling]
       job_request.title = "Draft #{self.number} -- Project: #{self.project.title}"
       job_request.description = "#{self.overall_feedback}"
 
@@ -52,7 +52,7 @@ class Draft < ActiveRecord::Base
   
   def update_job_request( deadline_date )
     self.project.production_team.each do |project_membership|
-      job_request = JobRequest.where(:job_request_source => JOB_REQUEST_SOURCE[:draft_creation], 
+      job_request = JobRequest.where(:job_request_source => JOB_REQUEST_SOURCE[:production_scheduling], 
         :source_id => self.id , 
         :user_id => project_membership.user_id 
       ).first 

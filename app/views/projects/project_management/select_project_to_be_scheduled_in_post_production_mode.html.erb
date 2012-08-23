@@ -31,6 +31,7 @@
             <th>Title</th> 
             <th>Package</th>
             <th style='text-align:center;' colspan='2'>Production Progress</th>
+            <th colspan='2'>Post Production Schedule</th>
             <th>Deliverables</th>
             <th>Started </th>
             <th>Finished </th>
@@ -57,7 +58,7 @@
               <% if project.drafts.count == 0 %>
                
               
-                <td colspan='2' style='text-align:center;'>
+                <td colspan='4' style='text-align:center;'>
                   <span class="label label-important">Not Started. Ask Account Executive</span>
                 </td>
               <% elsif project.drafts.count != 0   %>
@@ -79,6 +80,18 @@
                 <% end %>
                 
                 
+                <% if not project.post_production_scheduling_job_request.nil? %>
+                  <td>
+                    <%= project.post_production_scheduling_job_request.starting_date %>
+                  </td>
+                  <td>
+                    <%= project.post_production_scheduling_job_request.ending_date %>
+                  </td>
+                <% else %>
+                  <td colspan='2' style='text-align:center;'>
+                    <span class="label label-important">NA</span>
+                  </td>
+                <% end %>
                  
                   
               <% end %> 

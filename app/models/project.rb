@@ -385,6 +385,7 @@ class Project < ActiveRecord::Base
     self.job_requests.where{
      (user_id.in production_team_user_id_list) & 
        (ending_date.gte  project_start_date) & 
+       (job_request_source.eq JOB_REQUEST_SOURCE[:production_scheduling] ) & 
        (is_canceled.eq false)
     }
   end
@@ -440,21 +441,27 @@ class Project < ActiveRecord::Base
     self.deliverable_items.where(:is_delivered => true )
   end
   
-  def post_production_scheduling_job_request 
-    job_request = self.job_requests.where(
+  def post_production_scheduling_job_requests 
+    job_requests = self.job_requests.where(
       :job_request_source => JOB_REQUEST_SOURCE[:post_production_scheduling],
       :is_canceled => false  
-    ).first 
-    
-    if job_request.nil? 
-      return self.job_requests.new  
-    else
-      return job_request
-    end
+    ) 
+       #  
+       # if job_request.nil? 
+       #   return self.job_requests.new  
+       # else
+       #   return job_request
+       # end
+    return job_requests 
   end
   
   def create_or_update_post_production_job_request(employee, job_request_params) 
-    job_request = self.post_production_scheduling_job_request
+    job_request = self.post_production_scheduling_job_requests.first 
+    if job_request.nil?
+      job_request = self.job_requests.new
+    else
+      job_request = JobRequest.new 
+    end
     
     if not employee.has_role?(:project_manager) or
        not employee.has_project_role?( self, ProjectRole.find_by_name( PROJECT_ROLE[:project_manager] ) )
@@ -470,9 +477,14 @@ class Project < ActiveRecord::Base
       job_request.errors.add(  :starting_date , "Starting Date must not be later than ending date")
       return job_request
     end
+     
+     
+    if post_production_team_job_requests.count == 0 
+      self.create_post_production_job_request
+    else                      
+      self.update_post_production_job_request(starting_date, deadline_date)
+    end
     
-    puts "8858 THe starting date is #{starting_date}"
-    puts "8858 THe ending date is #{ending_date}"
     
     job_request.project_id = self.id 
     job_request.title = "Post Production: #{self.title}"
@@ -483,6 +495,46 @@ class Project < ActiveRecord::Base
     return job_request
   end
   
+  def create_post_production_job_request
+    self.post_production_team.each do |project_membership|
+      job_request = JobRequest.new 
+      job_request.project_id = self.id 
+      job_request.title = "Post Production: #{self.title}"
+      job_request.starting_date = starting_date
+      job_request.ending_date = ending_date 
+      job_request.job_request_source =  JOB_REQUEST_SOURCE[:post_production_scheduling]
+      job_request.user_id = project_membership.user_id 
+      job_request.save
+    end 
+  end
   
+  def update_post_production_job_request(starting_date, deadline_date)
+    self.post_production_team_job_requests.each do |job_request|
+      job_request.starting_date = starting_date
+      job_request.ending_date = ending_date 
+      job_request.save 
+    end
+  end
+  
+  def post_production_team
+    production_project_role_id_list = ProjectRole.where( :name => PROJECT_ROLE[:post_production] ).map{|x| x.id }
+    self.project_memberships.
+        joins(:project_assignments).where( 
+          :project_assignments => { :project_role_id => production_project_role_id_list}
+        )
+  end
+  
+  def post_production_team_job_requests
+    
+    post_production_team_user_id_list = self.post_production_team.map{|x| x.user_id }
+    project_start_date = self.project_start_date
+   
+    self.job_requests.where{
+     (user_id.in post_production_team_user_id_list) & 
+       (ending_date.gte  project_start_date) & 
+       (job_request_source.eq  JOB_REQUEST_SOURCE[:post_production_scheduling]) & 
+       (is_canceled.eq false)
+    }
+  end
   
 end
