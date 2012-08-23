@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(:version => 20120823042705) do
     t.boolean  "is_delivered",                 :default => false
     t.integer  "deliverer_id"
     t.date     "delivery_date"
+    t.text     "delivery_note"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
   end
@@ -292,12 +293,14 @@ ActiveRecord::Schema.define(:version => 20120823042705) do
     t.integer  "deliverable_item_id"
     t.integer  "supplier_id"
     t.decimal  "total_transaction_amount", :precision => 11, :scale => 2, :default => 0.0
-    t.text     "note"
+    t.text     "start_note"
     t.date     "estimated_finish_date"
+    t.boolean  "is_finished",                                             :default => false
     t.date     "actual_finish_date"
+    t.text     "finish_note"
     t.integer  "creator_id"
-    t.datetime "created_at",                                                               :null => false
-    t.datetime "updated_at",                                                               :null => false
+    t.datetime "created_at",                                                                 :null => false
+    t.datetime "updated_at",                                                                 :null => false
   end
 
   create_table "roles", :force => true do |t|

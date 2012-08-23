@@ -72,19 +72,20 @@
                   <span class="label label-important">No</span>
                 <% end %>
                 
-                <% if deliverable_item.is_finished == false && deliverable_item.is_delivered == false %>
+                <% if deliverable_item.can_be_started? %>
+                  
                   <%= link_to "Start", start_deliverable_item_creation_url( deliverable_item ), :class => "btn btn-mini" %>
                 <% end %>
               </td>
 
               <td>
-                <% if deliverable_item.is_finished == true %>
+                <% if deliverable_item.is_finished == true  %>
                   <span class="label label-success">Yes</span>
                 <% else %>
                   <span class="label label-important">No</span>
                 <% end %>
                 
-                <% if deliverable_item.is_delivered == false %>
+                <% if deliverable_item.can_be_finished? %>
                   <%= link_to "Finish", finish_deliverable_item_creation_url(deliverable_item), :class => "btn btn-mini" %>
                 <% end %>
               </td>
@@ -96,7 +97,7 @@
                   <span class="label label-important">No</span>
                 <% end %>
                   
-                <% if @project.is_finished == false %> 
+                <% if deliverable_item.can_be_delivered? %> 
                   <%= link_to "Deliver",
                     deliver_deliverable_item_creation_url(deliverable_item ), :class => "btn btn-mini" %>
                 <% end %>

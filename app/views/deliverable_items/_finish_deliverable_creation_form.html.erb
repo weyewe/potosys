@@ -1,0 +1,28 @@
+<%= simple_form_for(@purchase_order, 
+      :url => execute_finish_deliverable_item_creation_url( @deliverable_item ), 
+      :html => {:class => "form-horizontal prevent_double_submit form-toggler" }) do |f| %>
+  
+  
+   
+    
+  <%= f.input :finish_note , :input_html => { :rows => 5, :class => "input-xlarge span11"}, 
+   :label => "Finish Note/Description", :hint => "It can be the image file name to be printed on canvas, canvas size, anything." %>
+   
+   <%= f.input :actual_finish_date , :input_html => { :rows => 1, 
+     :class => "input-xlarge"}, 
+     :label => "Estimated Finish Date", :hint => "Estimated Finish Date (MM/DD/YYYY)",:as => :text, 
+     :input_html => {
+       :value => format_date_from_datetime( @purchase_order.actual_finish_date  ), 
+       :rows => 1, 
+       'data-datepicker' => 'datepicker'
+       } %>
+ 
+ 
+  <div class="form-actions">
+    <% if @purchase_order.is_finished == true  %>
+      <%= f.button :submit , :class => "btn btn-primary", :value=> "Update Finish Date" %>
+    <% else %>
+      <%= f.button :submit , :class => "btn btn-primary", :value=> "Finalize Creation" %>
+    <% end %>
+  </div>
+<% end %>

@@ -29,6 +29,7 @@ class CreateDeliverableItems < ActiveRecord::Migration
       t.boolean :is_delivered, :default => false 
       t.integer :deliverer_id 
       t.date :delivery_date 
+      t.text :delivery_note 
       
 
       t.timestamps

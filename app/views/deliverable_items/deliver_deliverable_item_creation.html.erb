@@ -1,0 +1,75 @@
+
+<div class="span9 content">
+  <%= create_guide("Finish Deliverable Item", 
+        "Office: <b>#{current_office.name}</b>"    ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+  <div class="row-fluid">
+    <div class="span8">
+      
+      
+      <!-- <button href="#" class="btn"></button> -->
+      <%= render :partial => "deliverable_items/finish_deliverable_creation_form"%>
+        
+       
+    </div> 
+    
+    
+    <div class="span4" style="border-left: 1px solid rgb(230,230,230); padding-left:20px;">
+       
+    </div>
+
+      
+      
+    
+  </div><!--/row-->
+   <hr />
+ 
+
+</div><!--/span-->
+
+
+
+
+
+
+<% content_for :additional_js do %>
+  <%= javascript_include_tag "wysihtml5-0.3.0_rc2.min", "bootstrap-wysihtml5-0.0.2.min" %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#draft_overall_feedback').wysihtml5({
+      	"html": false, //Button which allows you to edit the generated HTML. Default false
+      	"image": false //Button to insert an image. Default true
+      });
+      
+      
+    });
+  </script>
+<% end %>
+
+<% content_for :additional_css do %>
+  <%= stylesheet_link_tag "bootstrap-wysihtml5-0.0.2" %>
+<% end %>
+
+
+
+
+
+
+
+

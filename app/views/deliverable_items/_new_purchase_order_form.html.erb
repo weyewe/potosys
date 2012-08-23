@@ -9,7 +9,7 @@
     <%= f.select :supplier_id, 
       current_office.all_suppliers %>
   <% end %> 
-  <%= f.input :note , :input_html => { :rows => 5, :class => "input-xlarge span11"}, 
+  <%= f.input :start_note , :input_html => { :rows => 5, :class => "input-xlarge span11"}, 
    :label => "Note/Description", :hint => "It can be the image file name to be printed on canvas, canvas size, anything." %>
    
    <%= f.input :estimated_finish_date , :input_html => { :rows => 1, 
@@ -27,7 +27,7 @@
    
   <div class="form-actions">
     <% if @new_purchase_order.persisted? %>
-      <%= f.button :submit , :class => "btn btn-primary", :value=> "Edit Purchase Order" %>
+      <%= f.button :submit , :class => "btn btn-primary", :value=> "Update Purchase Order" %>
     <% else %>
       <%= f.button :submit , :class => "btn btn-primary", :value=> "Create Purchase Order" %>
     <% end %>
