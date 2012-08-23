@@ -575,7 +575,7 @@ module ApplicationHelper
         ]
       } ,
       {
-        :title => "Monitor Projects",
+        :title => "Monitor Projects + Close",
         :destination_link => "finalize_article_url",
         :conditions => [
           {

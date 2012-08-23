@@ -169,6 +169,11 @@ CollinsPotosys::Application.routes.draw do
   match 'deliverable_items_pending_delivery' => 'deliverable_items#deliverable_items_pending_delivery', :as => :deliverable_items_pending_delivery
   
   
+=begin
+  When all deliverables are done + production is done, head PM can finalize/close the project 
+=end
+
+  match 'select_project_to_be_monitored_and_closed' => 'projects#select_project_to_be_monitored_and_closed', :as => :select_project_to_be_monitored_and_closed
   
   
   
