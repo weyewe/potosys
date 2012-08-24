@@ -27,7 +27,7 @@ class Project < ActiveRecord::Base
     end
     
     
-    if not package.users.map{|x| x.id}.include?(selected_pro_crew.id)
+    if package.is_crew_specific_pricing == true and not package.users.map{|x| x.id}.include?(selected_pro_crew.id)
       return nil
     end
     

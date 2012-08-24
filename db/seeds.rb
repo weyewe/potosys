@@ -37,6 +37,11 @@ puts "\n*********OFFICE WIDE SETUP***********"
 puts "creating office"
 office = Office.create :name => COMPANY_NAME
 
+if office.nil?
+  puts "3333 the office is nil"
+else
+  puts "The office is not nil, the id is #{office.id}"
+end
 
 
 puts "creating user"
@@ -168,16 +173,36 @@ package_1.assign_crew_to_package( rere , admin_employee )
 package_1.edit_crew_specific_pricing(rere, admin_employee, '10000000' )
 
 puts "\n************Creating Client***********"
+client_array = [] 
 
-client_1 = office.create_client( marketing_employee_1, 
-                :name => "Jimmy Chandra", 
-                :address => "Jl. Martimbang 3 no 1, Senayan",
-                :mobile => "082125573759",
-                :home_phone => "021 535 6369",
-                :bb_pin => "32eaa23",
-                :email => "jimmy_chan@gmail.com")
+(1..10).each do |count| 
+  client = office.create_client( marketing_employee_1, 
+                  :name => "Jimmy Chandra #{count}", 
+                  :address => "Jl. Martimbang #{count} no 1, Senayan",
+                  :mobile => "08212#{count}759",
+                  :home_phone => "021 535 #{count}69",
+                  :bb_pin => "32e#{count}3",
+                  :email => "client_#{count}@gmail.com")
+  client_array << client 
+end
 
 
+
+
+
+                                
+client_array.each do |client|
+  contact_report = ContactReport.create_by_employee( marketing_employee_1 , client , 
+                                  :contact_datetime => "8/5/2012" ,
+                                  :contact_hour => 15, 
+                                  :summary => "Request for Wedding Shot",
+                                  :description => "The client is asking for wedding shot for 12 September 2012. " + 
+                                  "However, he thinks that the quoted " + 
+                                  "price is way too expensive." 
+                                  )
+end
+
+client_1 = client_array[0]
 puts "\n************Creating Contact Report***********"
 
 contact_report_1 = ContactReport.create_by_employee( marketing_employee_1 , client_1 , 
@@ -198,9 +223,8 @@ contact_report_2 = ContactReport.create_by_employee( marketing_employee_1 , clie
                                 "This client's point is agreeable since it is the low season." 
                                 )
                                 
-                                # self.create_by_employee( employee, client , important_event_params)
-                                
 puts "creating important event"                
+
 important_event_1 = ImportantEvent.create_by_employee( marketing_employee_1, client_1,  
                                       :event_date => '9/20/2012',
                                       :is_repeating_annually => true,
@@ -213,287 +237,191 @@ important_event_2 = ImportantEvent.create_by_employee( marketing_employee_1, cli
                                       
 puts "\n****************Create Project***************\n" 
 
+pro_crew_array = [benny, max,rere]
+finished_project_array = [] 
+puts "gonna create 7 past projects, and finish it before Date.now"
 today_date = DateTime.now.yesterday.to_date
-
-puts "today date is #{today_date}"
-project_shoot_date = today_date + 4.days
-project_starting_date = project_shoot_date - 1.days
-project_ending_date = project_shoot_date + 1.days
-
-project_1_params = {"title".to_sym                                 =>"Check This OUt", 
-                    "project_guideline".to_sym =>"ahahaha", 
-                    "shoot_location".to_sym           =>"Jakarta, INdonesia", 
-                    "shoot_date".to_sym               =>  "#{project_shoot_date.month}/#{project_shoot_date.day}/#{project_shoot_date.year}", 
-                    "starting_date".to_sym           => "#{project_starting_date.month}/#{project_starting_date.day}/#{project_starting_date.year}", 
-                    "ending_date".to_sym         =>"#{project_ending_date.month}/#{project_ending_date.day}/#{project_ending_date.year}"}  
-                 
-                 
-puts "gona create project1 "
-project_1 = Project.create_single_package_project( marketing_employee_1, client_1, package_1, max, 
-              project_1_params)
-              
-
-
-              
+last_month_date = today_date - 1.months
+(1..7).each do |count|
+  pro_crew = pro_crew_array[ rand(pro_crew_array.length) ] 
+  project_shoot_date   = last_month_date + (count*3).days 
+  project_starting_date  = ''
+  project_ending_date    = '' 
+  loop {
+     
+     project_starting_date  = project_shoot_date - rand(3).days
+     project_ending_date    = project_shoot_date  + rand(3).days
+     break unless not  pro_crew.is_available_for_booking?( project_starting_date, project_ending_date, office )
+   }
+   
+   
   
-puts "done creating project 1 "
-sales_order_1 = project_1.sales_order
-puts "confirming sales order 1 "
-sales_order_1.confirm_sales_order(marketing_employee_1, :total_transaction_amount => '15000000')
-puts "done create project_1"
+  client = client_array[ rand(client_array.length) ] 
+  
+  # project_params = {"title".to_sym                                 =>"#{client.name} Project", 
+  #                     "project_guideline".to_sym =>"ahahaha", 
+  #                     "shoot_location".to_sym           =>"Jakarta, INdonesia", 
+  #                     "shoot_date".to_sym               =>  "#{project_shoot_date.month}/#{project_shoot_date.day}/#{project_shoot_date.year}", 
+  #                     "starting_date".to_sym           => "#{project_starting_date.month}/#{project_starting_date.day}/#{project_starting_date.year}", 
+  #                     "ending_date".to_sym         =>"#{project_ending_date.month}/#{project_ending_date.day}/#{project_ending_date.year}"}
+  project = Project.new     
+  project.title = "Project #{client.name} " 
+  project.shoot_location = "Jakarta, INdonesia"
+  puts "project shoot date= #{project_shoot_date}"
+  puts "project starting date= #{project_starting_date}"
+  puts "project ending date= #{project_ending_date}"
+  
+  project.shoot_date = project_shoot_date
+  project.starting_date = project_starting_date
+  project.ending_date = project_ending_date
+
+  project.selected_pro_crew_id =  pro_crew.id
+  project.client_id = client.id 
+  project.package_id = package_1.id 
+  project.creator_id = marketing_employee_1.id 
+  project.office_id = office.id 
+  project.save
+
+  project.create_project_membership_assignment_for_selected_pro_crew 
+  project.create_corresponding_job_request_for_crew_specific_pricing
+  sales_order = project.sales_order # after_create project, sales order creation 
+  #  confirm sales order 
+  sales_order.confirm_sales_order(marketing_employee_1, :total_transaction_amount => '15000000')
+  
+  # add project membership : must have account executive, graphic designer, post_production, project_manager 
+  project.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
+  project.add_project_membership( project_manager_head, graphic_designer,  graphic_designer_project_role , false )
+  project.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
+  project.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
+
+  # project.start_project(project_manager_head  ), we need to capture the date
+  project.is_started = true
+  project.project_start_date = project.shoot_date + 2.days
+  project.save
+  
+  puts "before creating the draft"
+  
+  # create the draft? 
+  
+  # (1..2).each do |draft_count|
+  #    # @project.create_draft( account_executive, params[:draft]) 
+  #    draft = Draft.new 
+  #    draft.number = draft_count 
+  #    last_draft = project.last_draft 
+  #    puts "first shite"
+  #    if last_draft.nil?
+  #      puts "a"
+  #      draft.proposed_deadline_date =  project.shoot_date + 4.days
+  #      puts "after a"
+  #    else
+  #      puts "b"
+  #      draft.proposed_deadline_date =  last_draft.finish_date + 4.days
+  #      puts "after b"
+  #    end
+  #    draft.overall_feedback  = "Make it more awesome etc"
+  #    draft.deadline_proposer_id = account_executive.id 
+  #    draft.project_id = project.id 
+  #    draft.save 
+  #    
+  #    # pm grant the deadline date 
+  #     result = draft.set_granted_deadline_date(project_manager ,  draft.proposed_deadline_date )
+  #     if result.nil?
+  #       puts "THE FUCKING RESULT IS NIL"
+  #     else
+  #       puts "THE AWESOME RESULT IS NOT NIL"
+  #     end
+  #     
+  #     puts "#{draft_count}, granted_deadline_date: #{draft.granted_deadline_date}"
+  #     #  finish the draft, declared as finish by the account executive 
+  #     puts "second shite\n"
+  #     # draft.finish_draft( account_executive , draft.proposed_deadline_date + 1.days  ) 
+  #     draft.is_finished = true 
+  #     draft.finish_date  = draft.granted_deadline_date + 1.days
+  #     draft.finisher_id = account_executive.id
+  #     draft.save
+  #  end
+  
+   
+   
+  
+  finished_project_array << project 
+  
+end 
 
 
-project_shoot_date = today_date + 30.days
-project_starting_date = project_shoot_date - 1.days
-project_ending_date = project_shoot_date + 1.days
-
-project_2_params = {"title".to_sym                                 =>" AWESOME GRACE", 
-                    "project_guideline".to_sym =>"ahahaha", 
-                    "shoot_location".to_sym           =>"London, UK", 
-                    "shoot_date".to_sym               =>  "#{project_shoot_date.month}/#{project_shoot_date.day}/#{project_shoot_date.year}", 
-                    "starting_date".to_sym           => "#{project_starting_date.month}/#{project_starting_date.day}/#{project_starting_date.year}", 
-                    "ending_date".to_sym         =>"#{project_ending_date.month}/#{project_ending_date.day}/#{project_ending_date.year}"}
-project_2 = Project.create_single_package_project( marketing_employee_1, client_1, package_1, rere, 
-              project_2_params)
-sales_order_2 = project_2.sales_order
 
 
-puts "\n*************** Assigning Project Membership ************\n"
-# there has to be
-# 1 account executive
-# 1 project manager
-# 1 graphic designer 
-# 1 post_production 
 
- 
-
-project_1.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
-project_1.add_project_membership( project_manager_head, graphic_designer,  graphic_designer_project_role , false )
-project_1.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
-project_1.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
-
-project_1.start_project(project_manager_head  )
-
-project_2.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
-project_2.add_project_membership( project_manager_head, account_executive,  graphic_designer_project_role , false )
-project_2.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
-project_2.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
-      
-project_2.start_project(project_manager_head  )
-              
-today_date = project_1.shoot_date + 5.days # project shoot date is at + 15.days
-proposed_date = today_date + 10.days
-puts "\n Skipping the pre-supply. We are going all the way for production phase. with draft1\n"
-draft_1 = project_1.create_draft( account_executive, :overall_feedback => 'Make it Awesome!', 
-        :proposed_deadline_date => "#{proposed_date.month}/#{proposed_date.day}/#{proposed_date.year}")  # proposed deadline included 
-# client_meeting date << add that as well !
-# draft_1.create_task("task title 1 ") # they can upload attachment 
-# draft_1.create_task("task title 2") # there can be discussion for each task # upload image, # upload revision 
-# draft_1.create_task("task title 3")
 # 
-# # the project manager assign internal deadline for the production team 
-# # graphic designer team, project fulfillment 
-# # all graphic designer in the team will be noted. we expect they self-arrange themself.
-# # on the screen, he will be shown the calendar of all graphic designers involved in this project 
-# draft_1.assign_deadline( project_manager,  proposed_date  - 3.days ) 
-# # the job request will belong to the project.  owned by the draft 
+# puts "today date is #{today_date}"
+# project_shoot_date = today_date + 4.days
+# project_starting_date = project_shoot_date - 1.days
+# project_ending_date = project_shoot_date + 1.days
 # 
-# #  then, the graphic designer will work accordingly.
-# # when they are done, they will do self-verification by asking the art director/graphic designer head 
-# # interactions are done offline. Will be online when there is specific requests from clients 
-# 
-# draft_1.report_draft_received(account_executive , proposed_date - 1.days)
-# draft_1.mark_passed_to_client( account_executive ) 
-# draft_1.mark_reminder_for_client_feedback( account_executive, proposed_date + 7.days)
-# 
-# client_return_date = proposed_date + 9.days
-# draft_1.close_draft_and_create_revision( account_executive , client_return_date )
-# # draft_1.close_draft_and_finalize( account_executive ) 
-
-
-# HOW TO CAPTURE ALL THIS DATES? Important for logging events. 
-
-# The last revison doesn't need to be shown to client 
-
-# then, after some internal working, the final draft is ready for finalization -> first_draft
-
-
-              
-              
-# selected_package_list = [package_1]
-# final_negotiated_price = BigDecimal("100000")
-# detail_request = "The client want it to be black and white, showing love and adoration."                                      
-# puts "****************Create Project***************"
-# sales_order = SalesOrder.create_sales_by_marketing( client_1 , marketing_employee_1, 
-#                                     selected_package_list, 
-#                                     final_negotiated_price, 
-#                                     detail_request ) # detail request, if any == detail of client request
-#                                     # such as black and white or whatsoever 
-#                                     
-# puts "key in the shooting date + key in the crew for crew-specific pricing"
-# sales_order.projects.each do |project|
-#   project.shoot_date = Date.new( 2012, 12, 25 ) 
-#   if project.package.is_crew_specific_pricing? 
-#     project.add_main_photographer( benny ) 
-#   end
-# end
-# 
-# puts "adjusting the deliverables: add deliverable quantity or  add the deliverable sub quantity"
-# first_project =  sales_order.projects.first 
-# # add / remove deliverable subcription 
-# new_deliverable_subcription  = first_project.add_deliverable_subcription( marketing_employee_1, portrait_album_deliverable ) 
-# first_project.remove_deliverable_subcription( marketing_employee_1 , new_deliverable_subcription)
-# new_deliverable_subcription  = first_project.add_deliverable_subcription( marketing_employee_1, portrait_album_deliverable ) 
-# # edit deliverable sub_quantity
-# new_deliverable_subcription.set_sub_quantity(marketing_employee_1,  80 )
-# 
-# # first_project.deliverable_items.create()
-#              
-#              
-# puts "finalizing the sales: manifesting the main photographer schedule etc"
-# sales_order.finalize_sales( marketing_employee_1 )
-# 
-# puts "\nBACKOFFICE WORK. HEAD PM assigns project manager, assistant photographer, digital imaging team and account executive"
-# 
-# sales_order.projects.each do |project|
-#   project.assign_role( head_project_manager, project_manager, PROJECT_ROLE[:project_manager] )
-#   project.assign_role( head_project_manager, account_executive, PROJECT_ROLE[:account_executive] )
-#   project.assign_role( head_project_manager, graphic_designer, PROJECT_ROLE[:graphic_designer] )
-#   project.assign_role( head_project_manager, amateur_1, PROJECT_ROLE[:photographer] )
-#   project.finalize_role_assignment( head_project_manager )
-# end
+# project_1_params = {"title".to_sym                                 =>"Check This OUt", 
+#                     "project_guideline".to_sym =>"ahahaha", 
+#                     "shoot_location".to_sym           =>"Jakarta, INdonesia", 
+#                     "shoot_date".to_sym               =>  "#{project_shoot_date.month}/#{project_shoot_date.day}/#{project_shoot_date.year}", 
+#                     "starting_date".to_sym           => "#{project_starting_date.month}/#{project_starting_date.day}/#{project_starting_date.year}", 
+#                     "ending_date".to_sym         =>"#{project_ending_date.month}/#{project_ending_date.day}/#{project_ending_date.year}"}  
+#                  
+#                  
+# puts "gona create project1 "
+# project_1 = Project.create_single_package_project( marketing_employee_1, client_1, package_1, max, 
+#               project_1_params)
+#               
 # 
 # 
-# # DONE, the marketing is done. The next phase is passing the raw files to the Digital Imaging (DI) team
-# 
-# 
-# puts "\n************PASSING THE RAW FILES TO THE DI TEAM***********\n"
-# 
-# # photographer select project, select package, add input the number of images
-# # ideally, photographer upload the images to the central server 
-# 
-# # photographer, create submission of raw files based on package. but, the file is simple too much. 
-# # uploading 5GB? that's a lot. ahahaha.
-# 
-# 
-# sales_order.projects.each do |project|
-#   project.submitted_raw_data( benny ) # the photographers log in, report that he has passed the data 
-# end
-# 
-# 
-# puts "\n******** Account Executive receives raw files******"
-# sales_order.projects.each do |project|
-#   project.approve_raw_data_submission( account_executive )  # the photographers log in, report that he has passed the data 
-#   # on raw data submission approval, if the package type is video, auto approve selection process. move directly to 
-#   # the draft-feedback-revision cycle 
-# end
-# 
-# # optimized for photo 
-# =begin
-#   It means that all data entries that are specific to photography industry, must be automated. 
-#   Auto Create the Date. whatsoever. 
-# =end
-# 
-# puts "\n********** Start the photo selection work *********"
-# photo_project = sales_order.projects.joins(:package).where(:package => {:package_medium => PACKAGE_MEDIUM[:photo]}  ).first 
-# 
-# # now, the ball is in the account executive. he has to click "SENT PIC FOR SELECTION + description"
-# 
-# # setup the big picture # auto create reminder 
-# pre_production_deadline = photo_project.create_deadline( PROJECT_MILESTONE[:pre_production], project_manager, Date.new(2012, 10, 20) )
-# # in photo, preproduction means the process where client selects picture
-# production_deadline = photo_project.create_deadline( PROJECT_MILESTONE[:production], project_manager, Date.new(2012, 10, 20) )
-# # in photo, productionm means the album creation process
-# # at the last step of album creation, the image editing takes place
-# post_production_deadline= photo_project.create_deadline( PROJECT_MILESTONE[:post_production], project_manager, Date.new(2012, 10, 20) )
-# # post production is the deliverables creation process 
-# 
-# 
-# puts "\n******* Get client to select images *********"
-# photo_project.pre_production_start( account_executive)   # at current date 
-# # assigning task. # to the account executive. do a call based on that . 
-# photo_project.pre_production_end( account_executive ) # at the current Date when it is clicked 
-# # auto create Milestone (actual) -> actual_pre_production finish
-# # 2 cases: what if it is  early?  -> shift the future deadline to be earlier 
-# #           what if it is late ?  -> shift the future deadline to be later. example? 
-# 
-# #  account executive process the client feedback to graphic_designer-friendly task 
-# 
-# puts "\n******* Start the draft-feedback-revision-work*********"
-# #  on revision, account executive create contact report 
-# # to trace the topics discussed with client 
-# draft_1 = photo_project.create_draft( account_executive )
-# draft_1.add_overall_guideline(account_executive, "Client Message")
-# draft_1.create_deadline( account_executive, Date.new(2012, 10, 30) )
-# # auto create milestone (tentative). milestone will be related to reminder. 
+#               
 #   
+# puts "done creating project 1 "
+# sales_order_1 = project_1.sales_order
+# puts "confirming sales order 1 "
+# sales_order_1.confirm_sales_order(marketing_employee_1, :total_transaction_amount => '15000000')
+# puts "done create project_1"
+# 
+# 
+# project_shoot_date = today_date + 30.days
+# project_starting_date = project_shoot_date - 1.days
+# project_ending_date = project_shoot_date + 1.days
+# 
+# project_2_params = {"title".to_sym                                 =>" AWESOME GRACE", 
+#                     "project_guideline".to_sym =>"ahahaha", 
+#                     "shoot_location".to_sym           =>"London, UK", 
+#                     "shoot_date".to_sym               =>  "#{project_shoot_date.month}/#{project_shoot_date.day}/#{project_shoot_date.year}", 
+#                     "starting_date".to_sym           => "#{project_starting_date.month}/#{project_starting_date.day}/#{project_starting_date.year}", 
+#                     "ending_date".to_sym         =>"#{project_ending_date.month}/#{project_ending_date.day}/#{project_ending_date.year}"}
+# project_2 = Project.create_single_package_project( marketing_employee_1, client_1, package_1, rere, 
+#               project_2_params)
+# sales_order_2 = project_2.sales_order
+# 
+# 
+# puts "\n*************** Assigning Project Membership ************\n"
+# # there has to be
+# # 1 account executive
+# # 1 project manager
+# # 1 graphic designer 
+# # 1 post_production 
+# 
 #  
-#  
-# draft_1_task_1 = draft_1.create_digital_imaging_task( account_executive, "Clean the face", nil) # if there is transloadit params, use the transloadit params
-# draft_1_task_2 = draft_1.create_digital_imaging_task( account_executive, "Clean the face", nil)
 # 
+# project_1.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
+# project_1.add_project_membership( project_manager_head, graphic_designer,  graphic_designer_project_role , false )
+# project_1.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
+# project_1.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
 # 
+# project_1.start_project(project_manager_head  )
 # 
-# 
-# draft_1.propose_finalization( graphic_designer )   # the client return the draft, with some feedbacks 
-# draft_1.approve_finalization( graphic_designer_head )
-# 
-# draft_1.assign_internal_deadline_for_client_review(account_executive) # and pass it to the client 
-# # after many calls and reminder 
-# draft_1.assign_actual_review_done_date( account_executive )
-# 
-# # over here, the account executive can decide: another draft or finalize
-# # we are going for finalization 
-# 
-# photo_project.reload!
-# photo_project.finalize_production( account_executive ) 
-# # we move to deliverables creation 
-# 
-# # Package == template
-# # Deliverable == template 
-# # The one in actual project: referring to the template 
-# # ActualPackage has_many ActualDeliverable  << can be added. 
-# #PackageSubcription has fields
-# # 1. tentative deadline for pre-production (for photo, it means the image selection)
-# # 2. Actual preproduction Finish date
-# # 3. Production tentative deadline
-# # 4. Actual Production Finish Date
-# # 5. Tentative Package Deadline Date
-# # 6. Actual Package  Finish Date
-# 
-# # Project has_many :packages through :package_subcription
-# # PackageSubcription has_many :deliverables through :deliverable_subcription 
-# 
-# #deliverable_subcription has 3 status
-# # 1. started  # if it is outsourced, it means PO has been given to the supplier , if it is inhouse, production has started
-# # 2. done     # if it 
-# # 3. delivered
-# 
-# 
-# 
-# # latest question: 1 project 1 package. or multiple project multiple package?
-# # i prefer the 1 project 1 package. If the client is getting multiple project + negotiation price, how? 
-# # 1 SalesOrder, multiple project. each project => linked to 1 package. that's it.  HAhaha. team has to be assembled for each project. 
-# # 1 SalesOrder, 1 price for all the packages selected . 
-# 
-# 
-# =begin
-#   POST PRODUCTION 
-# =end
-# 
-# # start deliverable, send to supplier 
-# photo_project.deliverable_items.each do |deliverable|
-#   deliverable.start_production(account_executive)
-# end
-# 
-# photo_project.reload!
-# photo_project.deliverable_items.each do |deliverable|
-#   deliverable.approve_finish_production(account_executive)
-# end
-# 
-# photo_project.reload!
-# photo_project.deliverable_items.each do |deliverable|
-#   deliverable.deliver_to_client(account_executive)
-# end
-# 
-# photo_project.finish_project( project_manager )
+# project_2.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
+# project_2.add_project_membership( project_manager_head, account_executive,  graphic_designer_project_role , false )
+# project_2.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
+# project_2.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
+#       
+# project_2.start_project(project_manager_head  )
+#               
+# today_date = project_1.shoot_date + 5.days # project shoot date is at + 15.days
+# proposed_date = today_date + 10.days
+# puts "\n Skipping the pre-supply. We are going all the way for production phase. with draft1\n"
+# draft_1 = project_1.create_draft( account_executive, :overall_feedback => 'Make it Awesome!', 
+#         :proposed_deadline_date => "#{proposed_date.month}/#{proposed_date.day}/#{proposed_date.year}")  # proposed deadline included 
+

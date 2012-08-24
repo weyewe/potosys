@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20120823042705) do
     t.text     "overall_feedback"
     t.integer  "number"
     t.integer  "creator_id"
+    t.date     "start_draft_date"
     t.date     "proposed_deadline_date"
     t.integer  "deadline_proposer_id"
     t.date     "granted_deadline_date"

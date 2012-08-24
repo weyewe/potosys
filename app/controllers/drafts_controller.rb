@@ -18,7 +18,7 @@ class DraftsController < ApplicationController
 
     if  @new_draft.persisted?
       flash[:notice] = "The <b>draft-#{@new_draft.number}</b> has been created." 
-      redirect_to  project_draft_url( @project , @new_draft  ) 
+      redirect_to  new_project_draft_url( @project  ) 
       return 
     else
       flash[:error] = "Hey, do something better"

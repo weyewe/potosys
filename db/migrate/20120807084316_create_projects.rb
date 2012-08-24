@@ -13,7 +13,7 @@ class CreateProjects < ActiveRecord::Migration
       t.string :shoot_location
       
       t.boolean :is_started, :default => false  # will be started when the project membership assignment is finished
-      t.date :project_start_date 
+      t.date :project_start_date  # just marking the backoffice work 
       
       
       t.boolean :is_supply_finished , :default => false 
