@@ -68,4 +68,11 @@ class OfficesController < ApplicationController
     @crews = current_office.crews
     add_breadcrumb "Select Crew", select_crew_to_view_calendar_url
   end
+  
+  
+  def show_all_bookings
+    @crews = current_office.crews
+    @job_requests_package = current_office.crew_booking_job_request_package
+    add_breadcrumb "Current + Future Bookings", show_all_bookings_url
+  end
 end

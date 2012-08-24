@@ -532,6 +532,16 @@ module ApplicationHelper
             :action => 'crew_schedule'
           }
         ]
+      },
+      {
+        :title => "All Crew Calendar",
+        :destination_link => "show_all_bookings_url",
+        :conditions => [
+          {
+            :controller =>'offices',
+            :action => 'show_all_bookings'
+          } 
+        ]
       }
     ]
   }

@@ -138,7 +138,7 @@ class User < ActiveRecord::Base
       (job_request_source.eq JOB_REQUEST_SOURCE[:crew_booking]) & 
       (is_canceled.eq false) & 
       (office_id.eq office.id ) & 
-      (ending_date.gte request_starting_date)
+      (is_finished.eq false)
     }
   end
   

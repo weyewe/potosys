@@ -180,6 +180,9 @@ package_1 = office.create_package( admin_employee, :name => "Junia Candid Photo 
 package_1.assign_deliverable(admin_employee, :deliverable_id => cd_high_res_pics_deliverable.id, :package_specific_sub_item_quantity => '15' )
 package_1.assign_deliverable(admin_employee, :deliverable_id => framed_canvas_60_x_40_deliverable.id, :package_specific_sub_item_quantity => '15' )
 
+package_1.assign_crew_to_package( benny , admin_employee )
+package_1.edit_crew_specific_pricing(benny, admin_employee, '15000000' )
+
 package_1.assign_crew_to_package( max , admin_employee )
 package_1.edit_crew_specific_pricing(max, admin_employee, '15000000' )
 
@@ -414,7 +417,11 @@ finished_production_array.each do |project|
     #{}"purchase_order"=>{"supplier_id"=>"1", "start_note"=>"ahahaha", "estimated_finish_date"=>"08/24/2012", "total_transaction_amount"=>"150000"}
     project.deliverable_items.each do |deliverable_item|
       purchase_order = deliverable_item.purchase_order 
-      puts "The purchase order id IIIIS: #{purchase_order.id}"
+      if not purchase_order.nil?
+        puts "The purchase order id IIIIS: #{purchase_order.id}"
+      else
+        puts "The purchase order id IIIIS: NIL"
+      end
       
       puts "create purchase order"
       purchase_order = deliverable_item.create_or_update_purchase_order(post_production,  
@@ -429,9 +436,9 @@ finished_production_array.each do |project|
      if purchase_order.nil?
        puts "FUCK, purchase order is nil"
      else
-       puts "awesome, not nil, the delivery_item id is #{purchase_order.delivery_item_id}, the real shit is #{deliverable_item.id}"
+       puts "awesome, not nil, the delivery_item id is #{purchase_order.deliverable_item_id}, the real shit is #{deliverable_item.id}"
      end
-     
+     deliverable_item.reload
      purchase_order = deliverable_item.purchase_order 
      if purchase_order.nil?
         puts "FUCK, NEW  purchase order is nil"

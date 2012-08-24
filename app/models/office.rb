@@ -358,4 +358,20 @@ class Office < ActiveRecord::Base
     return result
   end
   
+=begin
+  util for job requests
+=end
+  def crew_booking_job_request_package 
+     
+    
+    job_requests_package = {}
+    self.crews.each do |crew|
+      job_requests_package[crew.id] = JobRequest.joins(:project).where(
+            :user_id => crew.id, :is_canceled => false ,
+            :project => {:is_finished => false })
+    end
+    
+    return job_requests_package
+  end
+  
 end

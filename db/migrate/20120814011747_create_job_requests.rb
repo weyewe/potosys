@@ -18,6 +18,8 @@ class CreateJobRequests < ActiveRecord::Migration
       t.date :ending_date 
       
       t.date :finish_date 
+      t.boolean :is_finished, :default => false 
+      t.integer :finisher_id 
       
       t.integer :number_of_days
       

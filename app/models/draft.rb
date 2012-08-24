@@ -105,6 +105,8 @@ class Draft < ActiveRecord::Base
       
       job_requests.each do |jr|
         jr.finish_date =self.finish_date
+        jr.is_finished = true 
+        jr.finisher_id = self.finisher_id 
         jr.save
       end
       

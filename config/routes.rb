@@ -74,6 +74,8 @@ CollinsPotosys::Application.routes.draw do
   match 'select_crew_to_view_calendar' => 'offices#select_crew_to_view_calendar', :as => :select_crew_to_view_calendar
   match 'crew_schedule/:user_id' => 'job_requests#crew_schedule', :as => :crew_schedule
   
+  match 'show_all_bookings' => 'offices#show_all_bookings', :as => :show_all_bookings
+   
   
 =begin
   Create Sales Order 

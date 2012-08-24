@@ -1,0 +1,144 @@
+
+<div class="span9 content">
+  <%= create_guide("Pro Crews Calendar",  
+        "Office: <b>#{current_office.name}</b>"  ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <strong>Create Failure!</strong> The following days are taken: 
+    </div>
+  <% end %>
+  
+  
+  <div class="row-fluid">
+   
+      
+    <div class='span12'>
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th style="text-align:center;">Crew</th>
+            
+          </tr>
+        </thead>
+        
+      
+          
+          
+        <tbody>
+          <% @crews.each do |crew| %>
+          <tr>
+            <td id="crew-<%= crew.id %>">
+              <b><%= crew.email%></b>
+            </td>
+          </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div>
+    
+  </div><!--/row-->
+   <hr />
+   
+   
+  <div class="row-fluid">
+    
+    <div id="calendar_wrapper"> </div>
+  </div>
+ 
+
+</div><!--/span-->
+
+
+ 
+<% @crews.each do |crew| %>
+  <ul id="job_request_wrapper-<%= crew.id %>" class='previous_booking_info' style="display:none;">
+    <% @job_requests_package[crew.id].each do |job_request| %>
+      <li>
+        <span class='title'><%= job_request.title %></span>
+        <span class='start_date'><%= job_request.starting_date %></span>
+        <span class='end_date'> <%= job_request.ending_date %>   </span>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+
+
+<% content_for :additional_css do %>
+  <%= stylesheet_link_tag "fullcalendar"%>
+<% end %>
+
+<% content_for :additional_js do %>
+  <%#= stylesheet_link_tag "uploadifive"%>
+  <%= javascript_include_tag "fullcalendar.min" %>
+  <script type='text/javascript'>
+    $(document).ready(function() {
+      var event_source = []; 
+      '#378006' 
+      color_array = [ 	'#0000FF',   "#A52A2A",  "#8A2BE2", "#008000"];
+      
+      $("ul.previous_booking_info").each(function(){
+        var $wrapper = $(this);
+        var event_array  = [];
+        var id = $wrapper.attr('id').split('-')[1];
+        console.log("The shite id " + id );
+        $("li", $wrapper).each(function(){
+          var $this = $(this);
+          var title_text = $("span.title", $this).text();
+          var start_date  = $("span.start_date", $this).text();
+          var end_date  = $("span.end_date", $this).text();
+          console.log(title_text + " start: " + start_date + " || end: " + end_date);
+
+          event_array.push({
+            title : title_text, 
+            start : start_date, 
+            end   : end_date 
+          });
+        });
+        
+        color_position  = (event_source.length)%(color_array.length);
+        $("#crew-" + id).css( 'color' , color_array[color_position]  ) ;
+        
+        event_source.push({
+
+              events: event_array ,
+              color: color_array[color_position],     // an option!
+              textColor: 'white' // an option!
+
+          // closing of $("li", $(this))
+        });
+        //  closing of $("ul.previous_booking_info")
+      });
+      
+   
+      $('#calendar_wrapper').fullCalendar({
+        eventSources: event_source
+      });
+    
+    });
+  </script>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+
