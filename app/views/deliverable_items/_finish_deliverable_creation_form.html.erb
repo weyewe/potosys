@@ -10,7 +10,7 @@
    
    <%= f.input :actual_finish_date , :input_html => { :rows => 1, 
      :class => "input-xlarge"}, 
-     :label => "Estimated Finish Date", :hint => "Estimated Finish Date (MM/DD/YYYY)",:as => :text, 
+     :label => "Actual Finish Date", :hint => "Estimated Finish Date (MM/DD/YYYY)",:as => :text, 
      :input_html => {
        :value => format_date_from_datetime( @purchase_order.actual_finish_date  ), 
        :rows => 1, 

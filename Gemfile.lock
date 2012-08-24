@@ -200,6 +200,7 @@ DEPENDENCIES
   exceptional
   heroku
   hirefireapp
+  i18n
   jquery-rails
   kaminari
   pg

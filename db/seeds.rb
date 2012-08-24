@@ -75,8 +75,23 @@ graphic_designer_head = office.create_user( [graphic_designer_head_role],
                     :password => 'willy1234',
                     :password_confirmation => 'willy1234'  )
                     
-graphic_designer = office.create_user( [graphic_designer_role], 
-                    :email => 'graphic_designer@gmail.com',
+graphic_designer_1 = office.create_user( [graphic_designer_role], 
+                    :email => 'gd_1@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+                    
+graphic_designer_2 = office.create_user( [graphic_designer_role], 
+                    :email => 'gd_2@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+                    
+graphic_designer_3 = office.create_user( [graphic_designer_role], 
+                    :email => 'gd_3@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+
+graphic_designer_4 = office.create_user( [graphic_designer_role], 
+                    :email => 'gd_4@gmail.com',
                     :password => 'willy1234',
                     :password_confirmation => 'willy1234'  )
                     
@@ -175,9 +190,11 @@ package_1.edit_crew_specific_pricing(rere, admin_employee, '10000000' )
 puts "\n************Creating Client***********"
 client_array = [] 
 
+first_name = %w( Willy Tommy Ando Siburian Ronald Christian David Mandy John Darwin Winda)
+last_name = %w( Mike Tito Laras Anton Yoga Roy Rissa Patty Benny Max Rere)
 (1..10).each do |count| 
   client = office.create_client( marketing_employee_1, 
-                  :name => "Jimmy Chandra #{count}", 
+                  :name => "#{first_name[count-1]} #{last_name[count-1]}", 
                   :address => "Jl. Martimbang #{count} no 1, Senayan",
                   :mobile => "08212#{count}759",
                   :home_phone => "021 535 #{count}69",
@@ -238,13 +255,15 @@ important_event_2 = ImportantEvent.create_by_employee( marketing_employee_1, cli
 puts "\n****************Create Project***************\n" 
 
 pro_crew_array = [benny, max,rere]
+gd_array = [graphic_designer_1, graphic_designer_2, graphic_designer_3]
 finished_project_array = [] 
+finished_production_array = [] 
 puts "gonna create 7 past projects, and finish it before Date.now"
 today_date = DateTime.now.yesterday.to_date
-last_month_date = today_date - 1.months
+last_month_date = today_date - 45.days
 (1..7).each do |count|
   pro_crew = pro_crew_array[ rand(pro_crew_array.length) ] 
-  project_shoot_date   = last_month_date + (count*3).days 
+  project_shoot_date   = last_month_date + (count*5).days 
   project_starting_date  = ''
   project_ending_date    = '' 
   loop {
@@ -290,7 +309,10 @@ last_month_date = today_date - 1.months
   
   # add project membership : must have account executive, graphic designer, post_production, project_manager 
   project.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
-  project.add_project_membership( project_manager_head, graphic_designer,  graphic_designer_project_role , false )
+  project.add_project_membership( project_manager_head, gd_array[rand(gd_array.length)],  graphic_designer_project_role , false )
+  if rand(2) == 1
+    project.add_project_membership( project_manager_head, graphic_designer_4,  graphic_designer_project_role , false )
+  end 
   project.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
   project.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
 
@@ -303,44 +325,66 @@ last_month_date = today_date - 1.months
   
   # create the draft? 
   
-  # (1..2).each do |draft_count|
-  #    # @project.create_draft( account_executive, params[:draft]) 
-  #    draft = Draft.new 
-  #    draft.number = draft_count 
-  #    last_draft = project.last_draft 
-  #    puts "first shite"
-  #    if last_draft.nil?
-  #      puts "a"
-  #      draft.proposed_deadline_date =  project.shoot_date + 4.days
-  #      puts "after a"
-  #    else
-  #      puts "b"
-  #      draft.proposed_deadline_date =  last_draft.finish_date + 4.days
-  #      puts "after b"
-  #    end
-  #    draft.overall_feedback  = "Make it more awesome etc"
-  #    draft.deadline_proposer_id = account_executive.id 
-  #    draft.project_id = project.id 
-  #    draft.save 
-  #    
-  #    # pm grant the deadline date 
-  #     result = draft.set_granted_deadline_date(project_manager ,  draft.proposed_deadline_date )
-  #     if result.nil?
-  #       puts "THE FUCKING RESULT IS NIL"
-  #     else
-  #       puts "THE AWESOME RESULT IS NOT NIL"
-  #     end
-  #     
-  #     puts "#{draft_count}, granted_deadline_date: #{draft.granted_deadline_date}"
-  #     #  finish the draft, declared as finish by the account executive 
-  #     puts "second shite\n"
-  #     # draft.finish_draft( account_executive , draft.proposed_deadline_date + 1.days  ) 
-  #     draft.is_finished = true 
-  #     draft.finish_date  = draft.granted_deadline_date + 1.days
-  #     draft.finisher_id = account_executive.id
-  #     draft.save
-  #  end
-  
+  (1..2).each do |draft_count|
+     # @project.create_draft( account_executive, params[:draft]) 
+     draft = Draft.new 
+     draft.number = draft_count 
+     last_draft = project.last_draft 
+      
+     puts "first shite"
+     if last_draft.nil?
+       puts "a"
+       draft.start_draft_date =  project.project_start_date + 2.days
+       draft.proposed_deadline_date =  project.project_start_date + 7.days
+       puts "after a"
+     else
+       puts "b"
+       if not last_draft.finish_date.nil? 
+         puts "the last draft finish_date = nil"
+         draft.start_draft_date =  last_draft.finish_date + 2.days
+         draft.proposed_deadline_date =  last_draft.finish_date + 7.days
+       end
+       puts "after b"
+     end
+     draft.overall_feedback  = "Make it more awesome etc"
+     draft.deadline_proposer_id = account_executive.id 
+     draft.project_id = project.id 
+     draft.save 
+     
+     # pm grant the deadline date 
+      result = draft.set_granted_deadline_date(project_manager , ( draft.proposed_deadline_date - 5.days) , draft.proposed_deadline_date )
+      if result.nil?
+        puts "THE FUCKING RESULT IS NIL"
+      else
+        puts "THE AWESOME RESULT IS NOT NIL"
+      end
+      
+      puts "#{draft_count}, granted_deadline_date: #{draft.granted_deadline_date}"
+      #  finish the draft, declared as finish by the account executive 
+      puts "second shite\n"
+      # draft.finish_draft( account_executive , draft.proposed_deadline_date + 1.days  ) 
+       
+      probable_finish_date = draft.proposed_deadline_date + 1.days
+      if probable_finish_date <= today_date
+        draft.is_finished = true
+        draft.finish_date  = probable_finish_date
+        draft.finisher_id = account_executive.id
+        draft.save
+        draft.finish_job_request
+      else
+         break
+      end
+   end
+
+   if not project.last_draft.nil? and not project.last_draft.finish_date.nil? 
+
+     # for project in which the draft's finish date is earlier than today, declare finish
+     project.is_production_finished = true 
+     project.production_finish_date = project.last_draft.finish_date
+     project.production_finisher_id = account_executive.id
+     project.save 
+     finished_production_array << project 
+   end
    
    
   
@@ -349,79 +393,65 @@ last_month_date = today_date - 1.months
 end 
 
 
+puts "Then, for those finished project array, we want to create post production"
 
+finished_production_array.each do |project|
+  # assign the post production 
+  # for those post production with the 
+  puts "start creation.. project #{project.id}"
+  if ( today_date - project.production_finish_date ).numerator > 10 
+    starting_date = project.production_finish_date - 1.days 
+    ending_date  = starting_date + ( 2+ rand(3) ).days
+    estimated_finish_date = starting_date + 3.days
+    actual_finish_date = ending_date + 1.days
+    delivery_date = actual_finish_date + 1.days
+    project.create_or_update_post_production_job_request(project_manager,  
+      :starting_date => "#{starting_date.month}/#{starting_date.day}/#{starting_date.year}", 
+      :ending_date => "#{ending_date.month}/#{ending_date.day}/#{ending_date.year}" )
+      
+    
+    # create purchase order 
+    #{}"purchase_order"=>{"supplier_id"=>"1", "start_note"=>"ahahaha", "estimated_finish_date"=>"08/24/2012", "total_transaction_amount"=>"150000"}
+    project.deliverable_items.each do |deliverable_item|
+      purchase_order = deliverable_item.purchase_order 
+      puts "The purchase order id IIIIS: #{purchase_order.id}"
+      
+      puts "create purchase order"
+      purchase_order = deliverable_item.create_or_update_purchase_order(post_production,  
+       :estimated_finish_date    => "#{estimated_finish_date.month}/#{estimated_finish_date.day}/#{estimated_finish_date.year}"           ,
+       :supplier_id              => office.suppliers.first.id   ,
+       :deliverable_item_id      => deliverable_item.id                               ,
+       :creator_id               => post_production.id                            ,
+       :total_transaction_amount => '150000'               ,
+       :start_note               => "really awesome shite"  )
+       
+     puts "THIIIIIIIIIIS ISSSSSSS THEEEEEEEEE SHITEEEEEEE"
+     if purchase_order.nil?
+       puts "FUCK, purchase order is nil"
+     else
+       puts "awesome, not nil, the delivery_item id is #{purchase_order.delivery_item_id}, the real shit is #{deliverable_item.id}"
+     end
+     
+     purchase_order = deliverable_item.purchase_order 
+     if purchase_order.nil?
+        puts "FUCK, NEW  purchase order is nil"
+      else
+        puts "awesome, NEW  not nil"
+      end
 
-
-# 
-# puts "today date is #{today_date}"
-# project_shoot_date = today_date + 4.days
-# project_starting_date = project_shoot_date - 1.days
-# project_ending_date = project_shoot_date + 1.days
-# 
-# project_1_params = {"title".to_sym                                 =>"Check This OUt", 
-#                     "project_guideline".to_sym =>"ahahaha", 
-#                     "shoot_location".to_sym           =>"Jakarta, INdonesia", 
-#                     "shoot_date".to_sym               =>  "#{project_shoot_date.month}/#{project_shoot_date.day}/#{project_shoot_date.year}", 
-#                     "starting_date".to_sym           => "#{project_starting_date.month}/#{project_starting_date.day}/#{project_starting_date.year}", 
-#                     "ending_date".to_sym         =>"#{project_ending_date.month}/#{project_ending_date.day}/#{project_ending_date.year}"}  
-#                  
-#                  
-# puts "gona create project1 "
-# project_1 = Project.create_single_package_project( marketing_employee_1, client_1, package_1, max, 
-#               project_1_params)
-#               
-# 
-# 
-#               
-#   
-# puts "done creating project 1 "
-# sales_order_1 = project_1.sales_order
-# puts "confirming sales order 1 "
-# sales_order_1.confirm_sales_order(marketing_employee_1, :total_transaction_amount => '15000000')
-# puts "done create project_1"
-# 
-# 
-# project_shoot_date = today_date + 30.days
-# project_starting_date = project_shoot_date - 1.days
-# project_ending_date = project_shoot_date + 1.days
-# 
-# project_2_params = {"title".to_sym                                 =>" AWESOME GRACE", 
-#                     "project_guideline".to_sym =>"ahahaha", 
-#                     "shoot_location".to_sym           =>"London, UK", 
-#                     "shoot_date".to_sym               =>  "#{project_shoot_date.month}/#{project_shoot_date.day}/#{project_shoot_date.year}", 
-#                     "starting_date".to_sym           => "#{project_starting_date.month}/#{project_starting_date.day}/#{project_starting_date.year}", 
-#                     "ending_date".to_sym         =>"#{project_ending_date.month}/#{project_ending_date.day}/#{project_ending_date.year}"}
-# project_2 = Project.create_single_package_project( marketing_employee_1, client_1, package_1, rere, 
-#               project_2_params)
-# sales_order_2 = project_2.sales_order
-# 
-# 
-# puts "\n*************** Assigning Project Membership ************\n"
-# # there has to be
-# # 1 account executive
-# # 1 project manager
-# # 1 graphic designer 
-# # 1 post_production 
-# 
-#  
-# 
-# project_1.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
-# project_1.add_project_membership( project_manager_head, graphic_designer,  graphic_designer_project_role , false )
-# project_1.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
-# project_1.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
-# 
-# project_1.start_project(project_manager_head  )
-# 
-# project_2.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )
-# project_2.add_project_membership( project_manager_head, account_executive,  graphic_designer_project_role , false )
-# project_2.add_project_membership( project_manager_head, post_production,  post_production_project_role , false )
-# project_2.add_project_membership( project_manager_head, project_manager,  project_manager_project_role , false )
-#       
-# project_2.start_project(project_manager_head  )
-#               
-# today_date = project_1.shoot_date + 5.days # project shoot date is at + 15.days
-# proposed_date = today_date + 10.days
-# puts "\n Skipping the pre-supply. We are going all the way for production phase. with draft1\n"
-# draft_1 = project_1.create_draft( account_executive, :overall_feedback => 'Make it Awesome!', 
-#         :proposed_deadline_date => "#{proposed_date.month}/#{proposed_date.day}/#{proposed_date.year}")  # proposed deadline included 
+       puts "finish creation"
+     # "purchase_order"=>{"finish_note"=>"Bakabum bakacha", "actual_finish_date"=>"08/25/2012"}
+     deliverable_item.finish_creation( post_production, 
+            :finish_note =>"Bakabum bakacha", 
+            :actual_finish_date=>"#{actual_finish_date.month}/#{actual_finish_date.day}/#{actual_finish_date.year}" )
+            
+            puts "delivery"
+     deliverable_item.execute_delivery( post_production, 
+        :delivery_note => "awesome delivery ", 
+        :delivery_date =>  "#{delivery_date.month}/#{delivery_date.day}/#{delivery_date.year}")
+    end
+    
+    
+  end
+end
 

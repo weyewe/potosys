@@ -359,6 +359,7 @@ class Project < ActiveRecord::Base
     
     draft.proposed_deadline_date =  Project.extract_event_date(draft_params[:proposed_deadline_date])
     
+    
     draft.deadline_proposer_id = employee.id 
     draft.project_id = self.id 
     
@@ -459,8 +460,6 @@ class Project < ActiveRecord::Base
     job_request = self.post_production_scheduling_job_requests.first 
     if job_request.nil?
       job_request = self.job_requests.new
-    else
-      job_request = JobRequest.new 
     end
     
     if not employee.has_role?(:project_manager) or
@@ -480,7 +479,7 @@ class Project < ActiveRecord::Base
      
      
     if post_production_team_job_requests.count == 0 
-      self.create_post_production_job_request
+      self.create_post_production_job_request(starting_date, ending_date)
     else                      
       self.update_post_production_job_request(starting_date, ending_date)
     end
@@ -489,11 +488,11 @@ class Project < ActiveRecord::Base
     return job_request
   end
   
-  def create_post_production_job_request
+  def create_post_production_job_request(starting_date, ending_date)
     self.post_production_team.each do |project_membership|
       job_request = JobRequest.new 
       job_request.project_id = self.id 
-      job_request.title = "Post Production: #{self.title}"
+      job_request.title = "[#{self.title}] Post Production"
       job_request.starting_date = starting_date
       job_request.ending_date = ending_date 
       job_request.job_request_source =  JOB_REQUEST_SOURCE[:post_production_scheduling]
@@ -529,6 +528,20 @@ class Project < ActiveRecord::Base
        (job_request_source.eq  JOB_REQUEST_SOURCE[:post_production_scheduling]) & 
        (is_canceled.eq false)
     }
+  end
+  
+=begin
+  UTIL
+=end
+  def production_team_job_request_package 
+    job_requests_package = {}
+    self.production_team.each do |project_member|
+      job_requests_package[project_member.user_id] = JobRequest.joins(:project).where(
+            :user_id => project_member.user_id , :is_canceled => false ,
+            :project => {:is_finished => false })
+    end
+    
+    return job_requests_package
   end
   
 end

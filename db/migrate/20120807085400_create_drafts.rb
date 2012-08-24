@@ -5,7 +5,7 @@ class CreateDrafts < ActiveRecord::Migration
       t.integer :number
       t.integer :creator_id # who created this draft? 
       
-      t.date :start_draft_date 
+      t.date :start_draft_date  # pm assign this shit
       t.date :proposed_deadline_date  # when the deadline is ? 
       t.integer :deadline_proposer_id
       

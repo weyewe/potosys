@@ -15,16 +15,9 @@
    :hint => "Judul dari artikel ini, e.g.: The Blossom Heart"%>
    
    
-  <% if @new_draft.proposed_deadline_date.nil? %>
-     <%= f.input :proposed_deadline_date , :input_html => { :rows => 1, 
-         :class => "input-xlarge"}, 
-         :label => "Proposed Deadline Date", :hint => "Proposed Deadline Date (MM/DD/YYYY)", :as => :text, 
-         :input_html => {
-           :rows => 1, 
-           'data-datepicker' => 'datepicker'
-     }
-      %>
-  <% else %>
+   
+    
+  
      <%= f.input :proposed_deadline_date , :input_html => { :rows => 1, 
          :class => "input-xlarge"}, 
          :label => "Proposed Deadline Date", :hint => "Proposed Deadline Date (MM/DD/YYYY)",:as => :text, 
@@ -33,7 +26,6 @@
            :rows => 1, 
            'data-datepicker' => 'datepicker'
      } %>
-  <% end %>
     
   <div class="form-actions">
     <%= f.button :submit , :class => "btn btn-primary", :text=> "Create Draft" %>

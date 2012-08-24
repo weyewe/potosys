@@ -1,7 +1,11 @@
 
 <div class="span9 content">
   <%= create_guide("Assign Deadline", 
-        "Office: <b>#{current_office.name}</b>"   ).html_safe %>
+        "Assign Deadline to the associated production team" + "<br />" + 
+        "Office: <b>#{current_office.name}</b>"  + "<br />" + 
+        "Project: <b>#{@project.title}</b>" + "<br />" + 
+        "Draft: <b>Draft #{@draft.number}</b>"+ "<br />" +  
+        "Task: <b> #{@draft.tasks.count}</b>").html_safe %>
   
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
 
@@ -20,7 +24,7 @@
   
   
   <div class="row-fluid">
-    <div class="span12">
+    <div class="span8">
       
       
       <!-- <button href="#" class="btn"></button> -->
@@ -30,17 +34,17 @@
         :html => {:class => "form-horizontal prevent_double_submit"   }) do |f| %>
         
         
-         
-        <% if @draft.granted_deadline_date.nil? %>
-          <%= f.input :granted_deadline_date , :input_html => { :rows => 1, 
-              :class => "input-xlarge"}, 
-              :label => "Deadline  Date", :hint => "Deadline Date (MM/DD/YYYY)", :as => :text, 
-              :input_html => {
-                :rows => 1, 
-                'data-datepicker' => 'datepicker'
-          }
-           %>
-        <% else %>
+        <%= f.input :start_draft_date , :input_html => { :rows => 1, 
+            :class => "input-xlarge"}, 
+            :label => "Start  Date", :hint => "Start Date (MM/DD/YYYY)",:as => :text, 
+            :input_html => {
+              :value => format_date_from_datetime( @draft.start_draft_date  ), 
+              :rows => 1, 
+              'data-datepicker' => 'datepicker'
+        } %>
+        
+        
+       
           <%= f.input :granted_deadline_date , :input_html => { :rows => 1, 
               :class => "input-xlarge"}, 
               :label => "Deadline  Date", :hint => "Deadline Date (MM/DD/YYYY)",:as => :text, 
@@ -48,8 +52,7 @@
                 :value => format_date_from_datetime( @draft.granted_deadline_date  ), 
                 :rows => 1, 
                 'data-datepicker' => 'datepicker'
-          } %>
-        <% end %>
+          } %> 
         
         <div class="form-actions">
           <%= f.button :submit , :class => "btn btn-primary", :value => "Assign Production Deadline" %>
@@ -62,7 +65,31 @@
     </div> 
       
       
+    <div class='span4'>
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th style="text-align:center;">Production Team</th>
+            
+          </tr>
+        </thead>
+        
       
+          
+          
+        <tbody>
+          <% @project.production_team.joins(:user).each do |project_membership| %>
+          <tr>
+            <td id="project_member-<%= project_membership.user_id %>">
+              <b><%= project_membership.user.email%></b>
+            </td>
+          </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div>
     
   </div><!--/row-->
    <hr />
@@ -80,16 +107,25 @@
 </div><!--/span-->
 
 
-
-<ul id='previous_booking_info' style="display:none;">
-  <% @job_requests.each do |job_request| %>
-    <li>
-      <span class='title'><%= job_request.title %></span>
-      <span class='start_date'><%= job_request.starting_date %></span>
-      <span class='end_date'><%= job_request.ending_date %></span>
-    </li>
-  <% end %>
-</ul>
+ 
+<% @production_team.each do |project_membership| %>
+  <ul id="job_request_wrapper-<%= project_membership.user_id %>" class='previous_booking_info' style="display:none;">
+    <% @job_requests_package[project_membership.user_id].each do |job_request| %>
+      <li>
+        <span class='title'><%= job_request.title %></span>
+        <span class='start_date'><%= job_request.starting_date %></span>
+        <span class='end_date'>
+          <% if job_request.finish_date.nil? and @today_date > job_request.ending_date  %>
+            <%= @today_date %>
+          <% else %>
+            <%= job_request.ending_date %>  
+          <% end %>
+          
+        </span>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
 
 
 
@@ -103,35 +139,44 @@
   <%= javascript_include_tag "fullcalendar.min" %>
   <script type='text/javascript'>
     $(document).ready(function() {
-      var event_array  = [];
-      $("ul#previous_booking_info li").each(function(){
-        var $this = $(this);
-        var title_text = $("span.title", $this).text();
-        var start_date  = $("span.start_date", $this).text();
-        var end_date  = $("span.end_date", $this).text();
+      var event_source = []; 
+      '#378006' 
+      color_array = [ 	'#0000FF',   "#A52A2A",  "#8A2BE2", "#008000"];
+      
+      $("ul.previous_booking_info").each(function(){
+        var $wrapper = $(this);
+        var event_array  = [];
+        var id = $wrapper.attr('id').split('-')[1];
+        $("li", $wrapper).each(function(){
+          var $this = $(this);
+          var title_text = $("span.title", $this).text();
+          var start_date  = $("span.start_date", $this).text();
+          var end_date  = $("span.end_date", $this).text();
+
+          event_array.push({
+            title : title_text, 
+            start : start_date, 
+            end   : end_date 
+          });
+        });
         
-        event_array.push({
-          title : title_text, 
-          start : start_date, 
-          end   : end_date 
-        })
+        color_position  = (event_source.length)%(color_array.length);
+        $("#project_member-" + id).css( 'color' , color_array[color_position]  ) ;
+        event_source.push({
+
+              events: event_array ,
+              color: color_array[color_position],     // an option!
+              textColor: 'white' // an option!
+
+          // closing of $("li", $(this))
+        });
+        //  closing of $("ul.previous_booking_info")
       });
       
+       
+      
       $('#calendar_wrapper').fullCalendar({
-        
-        
-        eventSources: [
-
-                // your event source
-                {
-                    events: event_array ,
-                    color: 'light-blue',     // an option!
-                    textColor: 'white' // an option!
-                }
-
-                // any other event sources...
-
-            ]
+        eventSources: event_source
       });
     
     });

@@ -62,6 +62,7 @@
             <th>Number</th>
             <th>Overall Guideline</th>
             <th>Total Tasks</th>
+            <th>Start Date</th>
             <th>Proposed Deadline</th>
             <th>Assigned Deadline</th>
             <th>Actual Deadline</th>
@@ -78,6 +79,7 @@
               <td><%= link_to "Draft-#{draft.number}", new_draft_task_url( draft  )   %></td>
               <td><%= draft.overall_feedback.html_safe  %></td>
               <td><%= draft.tasks.count  %></td>
+              <td><%= draft.start_draft_date  %></td>
               <td><%= draft.proposed_deadline_date  %></td>
               <td><%= draft.granted_deadline_date  %></td>
               <td><%= draft.actual_deadline_date  %></td>

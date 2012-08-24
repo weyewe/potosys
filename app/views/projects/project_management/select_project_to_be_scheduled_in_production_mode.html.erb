@@ -31,7 +31,7 @@
             <th>Title</th> 
             <th>Package</th>
             <th style='text-align:center;' colspan='2'>Production Progress</th>
-            <th>Start Date</th>
+            <th>Start Draft Date</th>
             <th>Scheduled Deadline Date</th>
             <th>Actual Deadline Date</th>
             <th>Finish Date</th>
@@ -83,7 +83,7 @@
                 <% end %>
                 
                 <td>
-                  <%= project.last_draft.created_at.to_date %>
+                  <%= project.last_draft.start_draft_date  %>
                 </td>
 
                 <td>
