@@ -58,21 +58,22 @@
   </div>
  
 
+  <% @crews.each do |crew| %>
+    <ul id="job_request_wrapper-<%= crew.id %>" class='previous_booking_info' style="display:none;">
+      <% @job_requests_package[crew.id].each do |job_request| %>
+        <li>
+          <span class='title'><%= job_request.title %></span>
+          <span class='start_date'><%= job_request.starting_date %></span>
+          <span class='end_date'><%= job_request.ending_date %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
 </div><!--/span-->
 
 
  
-<% @crews.each do |crew| %>
-  <ul id="job_request_wrapper-<%= crew.id %>" class='previous_booking_info' style="display:none;">
-    <% @job_requests_package[crew.id].each do |job_request| %>
-      <li>
-        <span class='title'><%= job_request.title %></span>
-        <span class='start_date'><%= job_request.starting_date %></span>
-        <span class='end_date'> <%= job_request.ending_date %>   </span>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
 
 
 

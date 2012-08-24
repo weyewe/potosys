@@ -114,14 +114,8 @@
       <li>
         <span class='title'><%= job_request.title %></span>
         <span class='start_date'><%= job_request.starting_date %></span>
-        <span class='end_date'>
-          <% if job_request.finish_date.nil? and @today_date > job_request.ending_date  %>
-            <%= @today_date %>
-          <% else %>
-            <%= job_request.ending_date %>  
-          <% end %>
-          
-        </span>
+        <!-- for full calendar to work, no space inbetween span tag -->
+        <span class='end_date'><%= get_special_date_calendar_for_draft(job_request, @today_date) %></span>
       </li>
     <% end %>
   </ul>
