@@ -1,4 +1,13 @@
 class ContactReportsController < ApplicationController
+  def index
+    @client = Client.find params[:client_id]
+    @contact_reports = @client.contact_reports.order("created_at DESC")
+    
+    add_breadcrumb "Search Client", 'new_client_url'
+    set_breadcrumb_for @client, 'client_contact_reports_url' + "(#{@client.id})", 
+                  "Contact Reports for #{@client.name}"
+  end
+  
   def new
     @new_contact_report = ContactReport.new 
     @client = Client.find_by_id params[:client_id]
@@ -16,7 +25,7 @@ class ContactReportsController < ApplicationController
     @contact_reports = @client.contact_reports.order("created_at DESC").limit(10)
     @total_contact_report = @client.contact_reports.count 
     
-    @new_contact_report = ContactReport.create_by_employee( current_user, @client , params[:contact_report] )
+    @new_contact_report = ContactReport.create_by_employee( current_user, @client , params[:contact_report], params[:contact_hour] )
     
     
     if  @new_contact_report.persisted?

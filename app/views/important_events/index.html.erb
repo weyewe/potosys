@@ -3,8 +3,7 @@
   <%= create_guide("Important Events", 
         "Office: <b>#{current_office.name}</b>"  + "<br />" + 
         "Employee: <b>#{current_user.email}</b>" + "<br />" + 
-        "Client: <b>#{@client.name}</b>"  + "<br />" + 
-        "Total Sales Order: <b>#{@total_important_event_count}</b>"   ).html_safe %>
+        "Client: <b>#{@client.name}</b>"    ).html_safe %>
   
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
   

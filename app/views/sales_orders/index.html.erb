@@ -29,7 +29,11 @@
           <% @sales_orders.each do |sales_order| %>
             <tr>
               <td><%= sales_order.creator.email  %></td>
-              <td><%= sales_order.projects.count  %></td>
+              <td>
+                <% sales_order.projects.each do |project|  %>
+                  <%= project.package.name %>  <br />
+                <% end %>
+              </td>
               <td><%= print_money(sales_order.total_transaction_amount)  %></td>
               <td><%= sales_order.created_at %></td>
             </tr>

@@ -1,14 +1,14 @@
 class ContactReport < ActiveRecord::Base
-  attr_accessible :summary, :description #, :contact_datetime
+  attr_accessible :summary, :description , :contact_datetime#, :contact_datetime
   belongs_to :client 
   belongs_to :user 
   belongs_to :office 
   
   validates_presence_of :summary , :contact_datetime
   
-  def self.create_by_employee( employee, client , contact_report_params)
-    contact_report_params.delete(:contact_datetime)
-    contact_report_params.delete(:contact_hour)
+  def self.create_by_employee( employee, client , contact_report_params, contact_hour)
+    # contact_report_params.delete(:contact_datetime)
+    #  contact_report_params.delete(:contact_hour)
     contact_report = ContactReport.new(contact_report_params)
     
     
@@ -17,7 +17,7 @@ class ContactReport < ActiveRecord::Base
       contact_report.errors.add(  :authentication , "Wrong Role: No marketing role")
       return nil
     end
-    contact_report.contact_datetime = ContactReport.extract_date_time( contact_report_params[:contact_datetime], contact_report_params[:contact_hour])
+    contact_report.contact_datetime = ContactReport.extract_date_time( contact_report_params[:contact_datetime], contact_hour)
     contact_report.save
     
     

@@ -11,6 +11,15 @@ class ImportantEventsController < ApplicationController
   end
   
   
+  def index 
+    @client = Client.find params[:client_id]
+    @important_events = @client.important_events
+    
+    add_breadcrumb "Search Client", 'new_client_url'
+    set_breadcrumb_for @client, 'client_important_events_url' + "(#{@client.id})", 
+                  "Important Events for #{@client.name}"
+  end
+  
   def create 
     @client = Client.find_by_id params[:client_id]
     @important_events = @client.important_events.order("created_at DESC").limit(10)
