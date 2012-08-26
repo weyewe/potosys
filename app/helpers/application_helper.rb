@@ -184,6 +184,10 @@ module ApplicationHelper
       return create_process_nav( SUPPLIER_MANAGEMENT_PROCESS_LIST, params )
     end
     
+    if symbol == :marketing_management
+      return create_process_nav( MARKETING_MANAGEMENT_PROCESS_LIST, params )
+    end
+    
     
     if symbol == :marketing
       return create_process_nav(MARKETING_PROCESS_LIST, params )
@@ -371,7 +375,48 @@ module ApplicationHelper
     ]
   }
 
-
+  
+  
+  MARKETING_MANAGEMENT_PROCESS_LIST = {
+    :header_title => "S&M Management", 
+    :processes => [
+      {
+        :title => "Employee Performance", 
+        :destination_link => "select_employee_to_view_marketing_performance_url",
+        :conditions => [
+          {
+            :controller => 'offices',
+            :action => 'select_employee_to_view_marketing_performance'
+          },
+          {
+            :controller => "offices",
+            :action => 'marketing_performance_for'
+          } 
+        ]
+      },
+      {
+        :title => "Customer Engagement", 
+        :destination_link => "customer_engagements_url",
+        :conditions => [
+          {
+            :controller => 'offices',
+            :action => 'customer_engagements'
+          } 
+        ]
+      },
+      {
+        :title => "Sales Summary", 
+        :destination_link => "sales_summary_url",
+        :conditions => [
+          {
+            :controller => 'offices',
+            :action => 'sales_summary'
+          } 
+        ]
+      }
+      
+    ]
+  }
   
   MARKETING_PROCESS_LIST = {
     :header_title => "Marketing",
@@ -417,6 +462,10 @@ module ApplicationHelper
           {
             :controller => "contact_reports",
             :action => 'create'
+          },
+          {
+            :controller => 'sales_orders',
+             :action => 'show_all_past_purchases_for_client'
           },
           {
             :controller => "important_events",

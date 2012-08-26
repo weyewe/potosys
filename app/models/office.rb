@@ -275,6 +275,12 @@ class Office < ActiveRecord::Base
             order("created_at DESC")
   end
   
+  def marketers
+    self.users.joins(:job_attachments => :assignments ).
+            where(:job_attachments => { :assignments => { :role_id => Role.where(:name => USER_ROLE[:marketing]) }  } ).
+            order("created_at DESC")
+  end
+  
   def project_managers
     self.users.joins(:job_attachments => :assignments ).
             where(:job_attachments => { :assignments => { :role_id => Role.where(:name => USER_ROLE[:project_manager]) }  } ).

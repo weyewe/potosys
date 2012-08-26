@@ -11,7 +11,11 @@
         
       <% end %>
       
-      <% if current_user.has_role?(:marketing) or  current_user.has_role?(:marketing_head)   %> 
+      <% if  current_user.has_role?(:marketing_head)   %> 
+        <%= get_process_nav( :marketing_management , params ).html_safe %>   
+      <% end %>
+      
+      <% if current_user.has_role?(:marketing)   %> 
         <%= get_process_nav( :marketing , params ).html_safe %> 
         <%= get_process_nav( :sales_order_creation , params ).html_safe %> 
       <% end %>

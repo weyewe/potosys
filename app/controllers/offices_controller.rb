@@ -75,4 +75,80 @@ class OfficesController < ApplicationController
     @job_requests_package = current_office.crew_booking_job_request_package
     add_breadcrumb "Current + Future Bookings", show_all_bookings_url
   end
+  
+=begin
+  SALES AND MARKETING MANAGEMENT 
+=end
+
+  def select_employee_to_view_marketing_performance
+    @marketers = current_office.marketers 
+    @starting_date = ''
+    @ending_date = ''
+    today_date = Time.now.to_date
+    
+    if params[:starting_date].nil?  or params[:starting_date].length == 0 
+      @starting_date = Date.new( today_date.year, today_date.month, 1 )
+    else
+      @starting_date = Project.extract_event_date(params[:starting_date])
+    end
+    
+    if params[:ending_date].nil?  or params[:ending_date].length == 0 
+      @ending_date = today_date
+    else
+      @ending_date = Project.extract_event_date(params[:ending_date])
+    end
+    
+    add_breadcrumb "Overall Marketing Performance", select_employee_to_view_marketing_performance_url
+    render :file => 'offices/marketing_management/select_employee_to_view_marketing_performance'
+  end
+  
+  def marketing_performance_for
+  end
+  
+  def customer_engagements
+    # @marketers = current_office.marketers 
+    @starting_date = ''
+    @ending_date = ''
+    today_date = Time.now.to_date
+    
+    if params[:starting_date].nil?  or params[:starting_date].length == 0 
+      @starting_date = Date.new( today_date.year, today_date.month, 1 )
+    else
+      @starting_date = Project.extract_event_date(params[:starting_date])
+    end
+    
+    if params[:ending_date].nil?  or params[:ending_date].length == 0 
+      @ending_date = today_date
+    else
+      @ending_date = Project.extract_event_date(params[:ending_date])
+    end
+    
+    @contact_reports = ContactReport.customer_engagements_between(current_office, @starting_date, @ending_date )
+    
+    add_breadcrumb "Customer Engagements", customer_engagements_url
+    render :file => 'offices/marketing_management/customer_engagements'
+  end
+  
+  def sales_summary
+    @starting_date = ''
+    @ending_date = ''
+    today_date = Time.now.to_date
+    
+    if params[:starting_date].nil?  or params[:starting_date].length == 0 
+      @starting_date = Date.new( today_date.year, today_date.month, 1 )
+    else
+      @starting_date = Project.extract_event_date(params[:starting_date])
+    end
+    
+    if params[:ending_date].nil?  or params[:ending_date].length == 0 
+      @ending_date = today_date
+    else
+      @ending_date = Project.extract_event_date(params[:ending_date])
+    end
+    
+    @sales_orders = SalesOrder.sales_orders_between(current_office, @starting_date, @ending_date )
+    
+    add_breadcrumb "Customer Engagements", customer_engagements_url
+    render :file => 'offices/marketing_management/sales_summary'
+  end
 end

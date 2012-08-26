@@ -1,8 +1,7 @@
 
 <div class="span9 content">
   <%= create_guide("Create Interaction",  
-        "Office: <b>#{@office.name}</b>" + "<br />"    +  
-        "Total Office Clients: <b>#{@office.clients.count}</b> "         ).html_safe %>
+        "Office: <b>#{@office.name}</b>" + "<br />"          ).html_safe %>
   
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
 
@@ -83,7 +82,7 @@
               <td><%= client.bb_pin  %></td>
               <td><%= client.email  %></td>
               <td><%= link_to  client.contact_reports.count, new_client_contact_report_url(client)  %></td>
-              <td><%= link_to client.sales_orders.count , new_client_sales_order_url(client) %></td>
+              <td><%= link_to client.sales_orders.count , show_all_past_purchases_for_client_url(client) %></td>
               <td><%= link_to client.important_events.count , new_client_important_event_url(client)   %></td>
             
               

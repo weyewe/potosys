@@ -25,7 +25,7 @@ class ContactReportsController < ApplicationController
     @contact_reports = @client.contact_reports.order("created_at DESC").limit(10)
     @total_contact_report = @client.contact_reports.count 
     
-    @new_contact_report = ContactReport.create_by_employee( current_user, @client , params[:contact_report], params[:contact_hour] )
+    @new_contact_report = ContactReport.create_by_employee( current_user, @client ,params[:contact_hour], params[:contact_report]   )
     
     
     if  @new_contact_report.persisted?

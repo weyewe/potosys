@@ -55,11 +55,21 @@ CollinsPotosys::Application.routes.draw do
   
   match 'contact_person_info/:supplier_id' => 'suppliers#contact_person_info', :as => :contact_person_info
   
+  
+=begin
+  MARKETING MANAGEMENT 
+=end
+  match 'select_employee_to_view_marketing_performance' => 'offices#select_employee_to_view_marketing_performance', :as => :select_employee_to_view_marketing_performance 
+  match 'marketing_performance_for/:employee_id' => 'offices#marketing_performance_for', :as => :marketing_performance_for
+   
+  match 'customer_engagements' => 'offices#customer_engagements', :as => :customer_engagements 
+  match 'sales_summary' => 'offices#sales_summary', :as => :sales_summary 
+
 =begin
   SEARCH CLIENT TO CREATE CONTACT REPORT, SALES ORDER, or Important Event
 =end
   match 'search_client_for_marketing_interaction' => 'clients#search_client_for_marketing_interaction', :as => :search_client_for_marketing_interaction
-  
+  match 'show_all_past_purchases_for_client/:client_id' => 'sales_orders#show_all_past_purchases_for_client', :as => :show_all_past_purchases_for_client
   
 =begin
   SEE Important Events in the office

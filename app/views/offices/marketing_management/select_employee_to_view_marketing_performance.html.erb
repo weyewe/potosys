@@ -1,0 +1,170 @@
+
+<div class="span9 content">
+  <%= create_guide("Create Employee", 
+        "Office: <b>#{current_office.name}</b>" + "<br />"   +
+        "Total Marketing Staff: <b>#{@marketers.count}</b>"   +   "<br />"  + 
+        "Starting Date: <b>#{@starting_date}</b> " + "<br />"    +  
+        "Ending Date: <b>#{@ending_date}</b> ").html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  <div class="row-fluid">
+    <div class="span8">
+    
+
+          
+      <%= form_tag  select_employee_to_view_marketing_performance_url, 
+      :method => :get, :id => "search_member"  do  %>
+        <table cellpadding="0" cellspacing="0" border="0" 
+          class="table table-striped table-bordered" id="example">
+          <thead>
+            <tr>
+              <th>
+                Starting Date (mm/dd/yyyy)
+              </th>
+              
+              <th>
+                Ending Date (mm/dd/yyyy)
+              </th>
+            </tr>
+          </thead>
+          <tbody> 
+            <tr> 
+              <td>
+                <%= text_field_tag 'starting_date', format_date_from_datetime( @starting_date) , :maxlength => 15, 
+                    :size => 20, :class => "ip-input", 'data-datepicker'=>'datepicker'  %>
+              
+              </td>
+              <td>
+                <%= text_field_tag 'ending_date',format_date_from_datetime( @ending_date), :maxlength => 15, 
+                    :size => 20, :class => "ip-input", 'data-datepicker'=>'datepicker'  %>
+              </td>
+            </tr> 
+            <tr>
+              <td colspan="2" style="text-align:center;">
+                <button href="#" class="btn btn-primary" >
+                  Search Report
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    <% end %>
+      
+    </div> 
+    <div class="span4">
+    </div>
+      
+      
+      
+    
+  </div><!--/row-->
+   <hr />
+  
+  
+  
+  <div class="row-fluid">
+    <div class="span12">
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" >
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Contact Reports</th>
+            <th>Sales Order</th> 
+          </tr>
+        </thead>
+        <tbody>
+          <% @marketers.each do |marketer| %>
+            <tr>
+              <td><%= marketer.email %></td>
+              <td><%= ContactReport.list_contact_reports_created_by(marketer, @starting_date, @ending_date ).count   %></td>
+              <td><%= SalesOrder.list_sales_created_by( marketer, @starting_date, @ending_date ).count   %></td>
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+
+
+
+
+
+
+<div class="modal" id="myModal" style="display:none;">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <div id="modal_notification" style="display:none;">
+    </div>
+    <%= form_tag  root_url,  :method => :put, :id=> "edit_form", 
+          :class => " edit_model", :style =>"display:none;"  do  %>
+          
+          
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr><th colspan="2" style="text-align:center;">Data</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <b>Part Code</b>
+            </td>
+            <td>
+              <div class="input-append">
+                <input class="string  input-xlarge span5"
+                  id="current_part_code" name="part_code" />
+              </div>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td>
+              <b>Price</b>
+            </td>
+            <td>
+              <div class="input-append">
+                <input class="string optional input-xlarge span5"
+                  id="current_price" name="price" />
+              </div>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td colspan="2" style="text-align:center;">
+              <button href="#" class="btn btn-primary" id="pay_backlog_and_save_balance">
+                Update Spare Part
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      
+     
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn modal-closer">Close</a>
+    <!-- <a href="#" class="btn btn-primary">Save changes</a> -->
+  </div>
+</div>
+
+
+
+
+
+
+
+
+

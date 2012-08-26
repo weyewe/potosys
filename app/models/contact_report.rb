@@ -6,7 +6,7 @@ class ContactReport < ActiveRecord::Base
   
   validates_presence_of :summary , :contact_datetime
   
-  def self.create_by_employee( employee, client , contact_report_params, contact_hour)
+  def self.create_by_employee( employee, client ,contact_hour,  contact_report_params )
     # contact_report_params.delete(:contact_datetime)
     #  contact_report_params.delete(:contact_hour)
     contact_report = ContactReport.new(contact_report_params)
@@ -20,7 +20,7 @@ class ContactReport < ActiveRecord::Base
     contact_report.contact_datetime = ContactReport.extract_date_time( contact_report_params[:contact_datetime], contact_hour)
     contact_report.save
     
-    
+    contact_report.office_id =  employee.active_job_attachment.office_id 
     contact_report.user_id = employee.id 
     contact_report.client_id = client.id 
     contact_report.save
@@ -60,5 +60,28 @@ class ContactReport < ActiveRecord::Base
   
   def local_contact_datetime 
     self.contact_datetime + DEFAULT_TIME_OFFSET.hour
+  end
+  
+=begin
+  SALES ORDER, in SALES&MARKETING management 
+=end
+  def self.list_contact_reports_created_by( user, starting_date, ending_date  )
+    starting_datetime = Time.new( starting_date.year, starting_date.month, starting_date.day, 23,59,59)
+    ending_datetime = Time.new( ending_date.year, ending_date.month, ending_date.day, 23,59,59)
+    ContactReport.joins(:user).where{
+      (user_id.eq user.id) & 
+      (contact_datetime.gte starting_datetime) & 
+      (contact_datetime.lte ending_datetime) 
+    }.order("created_at DESC")
+  end
+  
+  def self.customer_engagements_between(office, starting_date, ending_date  )
+    starting_datetime = Time.new( starting_date.year, starting_date.month, starting_date.day, 23,59,59)
+    ending_datetime = Time.new( ending_date.year, ending_date.month, ending_date.day, 23,59,59)
+    
+    office.contact_reports.joins(:user).where{
+      (contact_datetime.gte starting_datetime) & 
+      (contact_datetime.lte ending_datetime) 
+    }.order("created_at DESC")
   end
 end

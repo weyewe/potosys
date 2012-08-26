@@ -45,7 +45,7 @@ end
 
 
 puts "creating user"
-admin_employee = office.create_main_user( [admin_role], 
+admin_employee = office.create_main_user( [admin_role, marketing_head_role], 
                   :email => 'admin@gmail.com',
                   :password => 'willy1234',
                   :password_confirmation => 'willy1234'  ) 
@@ -209,12 +209,13 @@ end
 
 
 
+puts "after creating client: create contact report"
 
                                 
 client_array.each do |client|
   contact_report = ContactReport.create_by_employee( marketing_employee_1 , client , 
+                                  rand(24).to_s, 
                                   :contact_datetime => "8/5/2012" ,
-                                  :contact_hour => 15, 
                                   :summary => "Request for Wedding Shot",
                                   :description => "The client is asking for wedding shot for 12 September 2012. " + 
                                   "However, he thinks that the quoted " + 
@@ -225,19 +226,20 @@ end
 client_1 = client_array[0]
 puts "\n************Creating Contact Report***********"
 
+puts "contact report 1 "
 contact_report_1 = ContactReport.create_by_employee( marketing_employee_1 , client_1 , 
-                                :contact_datetime => "8/5/2012" ,
-                                :contact_hour => 15, 
+                                15.to_s,
+                                :contact_datetime => "8/5/2012" , 
                                 :summary => "Request for Wedding Shot",
                                 :description => "The client is asking for wedding shot for 12 September 2012. " + 
                                 "However, he thinks that the quoted " + 
                                 "price is way too expensive." 
                                 )
                                 
-                        
+puts "contact report 2 "
 contact_report_2 = ContactReport.create_by_employee( marketing_employee_1 , client_1 , 
-                                :contact_datetime => "8/5/2012" ,
-                                :contact_hour => 10, 
+                                10.to_s, 
+                                :contact_datetime => "8/5/2012" , 
                                 :summary => "Follow Up for Wedding Shot request",
                                 :description => "We negotiated for 20% discount. The base price is 30 million, with Beny as the photographer. " + 
                                 "This client's point is agreeable since it is the low season." 

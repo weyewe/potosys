@@ -25,13 +25,14 @@ class ApplicationController < ActionController::Base
     return @office
   end
   
-  def deduce_after_sign_in_url
-    if current_user.has_role?( :manager )
-      return new_employee_creation_url
-    end 
+  def deduce_after_sign_in_url 
     
     if current_user.has_role?(:admin )
       return new_employee_creation_url  
+    end
+    
+    if current_user.has_role?(:marketing_head )
+      return select_employee_to_view_marketing_performance_url   
     end
     
     if current_user.has_role?(:marketing )
