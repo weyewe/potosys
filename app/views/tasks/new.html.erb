@@ -56,8 +56,8 @@
          <tr>
            <th>Date</th>
            <th style="width:50%;">Content</th>
-           <th>Discussions</th>
-           <th>Attachments</th> 
+           <!-- <th>Discussions</th>
+                  <th>Attachments</th>  -->
          </tr>
        </thead>
 
@@ -69,8 +69,8 @@
            <tr>
              <td><%= task.created_at.to_date   %></td>
              <td><%= task.description.html_safe  %></td>
-             <td><%= '--'  %></td>
-             <td><%= '--'  %></td> 
+             <!-- <td><%= '--'  %></td>
+              <td><%= '--'  %></td>  -->
            </tr>
          <% end %>
 

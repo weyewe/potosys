@@ -47,6 +47,10 @@ class ApplicationController < ActionController::Base
       return select_project_to_be_scheduled_in_production_mode_url
     end
     
+    if current_user.has_role?(:graphic_designer)
+      return list_of_assigned_production_project_url 
+    end
+    
     if current_user.has_role?(:account_executive)
       return select_project_to_manage_production_url 
     end

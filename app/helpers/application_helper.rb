@@ -208,6 +208,10 @@ module ApplicationHelper
     if symbol == :account_executive 
       return create_process_nav(ACCOUNT_EXECUTIVE_PROCESS_LIST, params )
     end
+    
+    if symbol == :graphic_designer 
+      return create_process_nav(GRAPHIC_DESIGNER_PROCESS_LIST, params )
+    end
   
     if symbol == :post_production 
       return create_process_nav(POST_PRODUCTION_PROCESS_LIST, params )
@@ -765,6 +769,26 @@ module ApplicationHelper
             :controller =>'',
             :action => ''
           } 
+        ]
+      }
+    ]
+  }
+  
+  GRAPHIC_DESIGNER_PROCESS_LIST = {
+    :header_title => "Production", 
+    :processes => [
+      {
+        :title => "Assigned Projects", 
+        :destination_link => "list_of_assigned_production_project_url",
+        :conditions => [
+          {
+            :controller => 'projects',
+            :action => 'list_of_assigned_production_project'
+          } ,
+          {
+            :controller => 'drafts',
+            :action => 'show_detail_draft_brief'
+          }
         ]
       }
     ]

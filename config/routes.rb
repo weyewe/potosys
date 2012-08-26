@@ -146,6 +146,11 @@ CollinsPotosys::Application.routes.draw do
   match 'cancel_draft_finish/:draft_id' => 'drafts#cancel_draft_finish', :as => :cancel_draft_finish , :method => :post
   
   
+=begin
+  PRODUCTION, see list of assigned projects 
+=end
+  match 'list_of_assigned_production_project' => 'projects#list_of_assigned_production_project', :as => :list_of_assigned_production_project
+  match 'show_detail_draft_brief/:draft_id' => 'drafts#show_detail_draft_brief', :as => :show_detail_draft_brief
   
 =begin
   POST PRODUCTION, ACCOUNT EXECUTIVE 

@@ -71,6 +71,8 @@
             <th>Email</th>
             <th>Contact Reports</th>
             <th>Sales Order</th> 
+            <th>Confirmed Sales</th> 
+            <th>Total Amount</th> 
           </tr>
         </thead>
         <tbody>
@@ -79,6 +81,9 @@
               <td><%= marketer.email %></td>
               <td><%= ContactReport.list_contact_reports_created_by(marketer, @starting_date, @ending_date ).count   %></td>
               <td><%= SalesOrder.list_sales_created_by( marketer, @starting_date, @ending_date ).count   %></td>
+              <td><%= SalesOrder.list_of_confirmed_sales_created_by( marketer, @starting_date, @ending_date ).count   %></td>
+              <td><%= print_money(SalesOrder.list_of_confirmed_sales_created_by( marketer,
+                @starting_date, @ending_date ).sum('total_transaction_amount') )   %></td>
             </tr>
           <% end %>
 

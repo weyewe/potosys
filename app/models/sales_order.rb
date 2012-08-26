@@ -80,6 +80,18 @@ class SalesOrder < ActiveRecord::Base
     }.order("created_at DESC")
   end
   
+  def SalesOrder.list_of_confirmed_sales_created_by( user, starting_date, ending_date  )
+    starting_datetime = Time.new( starting_date.year, starting_date.month, starting_date.day, 23,59,59)
+    ending_datetime = Time.new( ending_date.year, ending_date.month, ending_date.day, 23,59,59)
+    SalesOrder.where{
+      (creator_id.eq user.id) & 
+      (created_at.gte starting_datetime) & 
+      (created_at.lte ending_datetime)  & 
+      (is_confirmed.eq true ) & 
+      (is_canceled.eq false )
+    }.order("created_at DESC")
+  end
+  
   
   def self.sales_orders_between(office, starting_date, ending_date  )
     starting_datetime = Time.new( starting_date.year, starting_date.month, starting_date.day, 23,59,59)

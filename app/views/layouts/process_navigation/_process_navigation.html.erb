@@ -32,6 +32,10 @@
         <%= get_process_nav( :account_executive , params ).html_safe %> 
       <% end %>
       
+      <% if current_user.has_role?(:graphic_designer)   %> 
+        <%= get_process_nav( :graphic_designer , params ).html_safe %> 
+      <% end %>
+      
       <% if current_user.has_role?(:post_production)   %> 
         <%= get_process_nav( :post_production , params ).html_safe %> 
       <% end %>

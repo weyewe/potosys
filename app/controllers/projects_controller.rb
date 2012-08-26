@@ -157,6 +157,17 @@ class ProjectsController < ApplicationController
   end
   
 =begin
+  PRODUCTION
+=end
+
+  def list_of_assigned_production_project
+    @projects = current_user.assigned_projects_for( PROJECT_ROLE[:graphic_designer] )
+    
+    add_breadcrumb "Select Project", 'list_of_assigned_production_project_url'
+    render :file => "projects/list_of_assigned_production_project"
+  end
+  
+=begin
   Account Executive Finalize Production
 =end
   def finalize_production

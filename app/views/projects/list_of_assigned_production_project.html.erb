@@ -1,0 +1,89 @@
+
+<div class="span9 content">
+  <%= create_guide("Production Pending", 
+        "Projects assigned to <b>#{current_user.email}</b>" + "<br />" + 
+        "Office: <b>#{current_office.name}</b>"   ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+ 
+  <div class="row-fluid">
+    <div id="data_list">
+      
+      <table cellpadding="0" cellspacing="0" border="0" 
+            class="table table-striped table-bordered" id="example">
+        <thead>
+          <tr>
+            <th>Title</th> 
+            <th>Production Progress</th>
+            <th>Tasks</th>
+            <th>Assigned Draft Deadline</th>
+            
+            
+          </tr>
+        </thead>
+        
+      
+          
+          
+        <tbody>
+          <% @projects.each do |project| %>
+            <% last_draft= project.last_draft%>
+            <tr id='start_project-<%= project.id %>'>
+              <td>
+                <%=  project.title   %> 
+              </td>
+              
+              <% if project.is_production_finished == true %>
+                <td colspan='3' style="text-align:center;">
+                  <span class="label label-success">Finish</span> 
+                </td>
+              <% else %>
+              
+                <% if last_draft.nil? %>
+                  <td colspan='3'>
+                    <span class="label label-danger">Not Started</span> 
+                  </td>
+                <% else %>
+                  <td>
+                    <span class="label label-warning"><%= "Draft=#{last_draft.number}"%></span>
+                  </td>
+                  <td><%= link_to last_draft.tasks.count , show_detail_draft_brief_url(last_draft)  %></td>
+                  <td><%= last_draft.granted_deadline_date   %></td>
+                <% end %>
+                
+              <% end %>
+                  
+              
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+ 
+
+
+
+
+
+
