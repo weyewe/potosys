@@ -790,6 +790,16 @@ module ApplicationHelper
             :action => 'show_detail_draft_brief'
           }
         ]
+      },
+      {
+        :title => "Production Schedule", 
+        :destination_link => 'show_production_calendar_url',
+        :conditions => [
+          {
+            :controller => 'job_requests',
+            :action => 'show_production_calendar'
+          }
+        ]
       }
     ]
   }

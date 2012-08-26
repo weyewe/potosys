@@ -1,0 +1,95 @@
+
+<div class="span9 content">
+  <%= create_guide("Production Schedule", 
+        "Office: <b>#{current_office.name}</b>"  ).html_safe %>
+  
+  <%= create_breadcrumb(@breadcrumbs).html_safe %>
+  <% if flash[:notice] %>
+    <div class="alert alert-success">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Well done!</strong> <%= flash[:notice].html_safe %>
+    </div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error">
+      <a data-dismiss="alert" class="close">×</a>
+      <strong>Create Failure!</strong> Please fill in all fields.
+    </div>
+  <% end %>
+  
+  
+  
+  <div class="row-fluid">
+    
+    <%#= link_to "Create Booking", root_url , :class => " btn btn-primary "%>
+    <div id="calendar_wrapper">
+   
+    </div><!-- end of #data_list -->
+  </div>
+
+</div><!--/span-->
+
+
+<ul id='previous_booking_info' style="display:none;">
+  <% @job_requests.each do |job_request| %>
+    <li>
+      <span class='title'><%= job_request.title %></span>
+      <span class='start_date'><%= job_request.starting_date %></span>
+      <span class='end_date'><%= job_request.ending_date %></span>
+    </li>
+  <% end %>
+</ul>
+
+<% content_for :additional_css do %>
+  <%= stylesheet_link_tag "fullcalendar"%>
+<% end %>
+
+<% content_for :additional_js do %>
+  <%#= stylesheet_link_tag "uploadifive"%>
+  <%= javascript_include_tag "fullcalendar.min" %>
+  <script type='text/javascript'>
+    $(document).ready(function() {
+      var event_array  = [];
+      $("ul#previous_booking_info li").each(function(){
+        var $this = $(this);
+        var title_text = $("span.title", $this).text();
+        var start_date  = $("span.start_date", $this).text();
+        var end_date  = $("span.end_date", $this).text();
+        
+        event_array.push({
+          title : title_text, 
+          start : start_date, 
+          end   : end_date 
+        })
+      });
+      
+      $('#calendar_wrapper').fullCalendar({
+        
+        
+        eventSources: [
+
+                // your event source
+                {
+                    events: event_array ,
+                    color: 'light-blue',     // an option!
+                    textColor: 'white' // an option!
+                }
+
+                // any other event sources...
+
+            ]
+      });
+    });
+  </script>
+<% end %>
+
+
+
+
+
+
+
+
+
+

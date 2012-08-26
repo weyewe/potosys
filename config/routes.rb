@@ -151,7 +151,7 @@ CollinsPotosys::Application.routes.draw do
 =end
   match 'list_of_assigned_production_project' => 'projects#list_of_assigned_production_project', :as => :list_of_assigned_production_project
   match 'show_detail_draft_brief/:draft_id' => 'drafts#show_detail_draft_brief', :as => :show_detail_draft_brief
-  
+  match 'show_production_calendar' => 'job_requests#show_production_calendar', :as => :show_production_calendar
 =begin
   POST PRODUCTION, ACCOUNT EXECUTIVE 
 =end

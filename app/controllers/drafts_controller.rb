@@ -96,10 +96,13 @@ class DraftsController < ApplicationController
     @draft = Draft.find_by_id params[:draft_id]
     @tasks = @draft.tasks.order("created_at DESC")
     
+    
     add_breadcrumb "Select Project", 'list_of_assigned_production_project_url'
     set_breadcrumb_for @draft, 'show_detail_draft_brief_url' + "(#{@draft.id})", 
           "Draft Details"
   end
+  
+  
   
 =begin
   Account Executive Finish the draft

@@ -38,4 +38,9 @@ class JobRequestsController < ApplicationController
     end
     
   end
+  
+  def show_production_calendar
+    @job_requests = current_user.pending_finalization_job_requests
+    add_breadcrumb "Show Calendar", 'show_production_calendar_url'
+  end
 end

@@ -31,6 +31,7 @@
             <th>Title</th> 
             <th>Production Progress</th>
             <th>Tasks</th>
+            <th>Draft Start</th>
             <th>Assigned Draft Deadline</th>
             
             
@@ -49,13 +50,13 @@
               </td>
               
               <% if project.is_production_finished == true %>
-                <td colspan='3' style="text-align:center;">
+                <td colspan='4' style="text-align:center;">
                   <span class="label label-success">Finish</span> 
                 </td>
               <% else %>
               
                 <% if last_draft.nil? %>
-                  <td colspan='3'>
+                  <td colspan='4'>
                     <span class="label label-danger">Not Started</span> 
                   </td>
                 <% else %>
@@ -63,6 +64,7 @@
                     <span class="label label-warning"><%= "Draft=#{last_draft.number}"%></span>
                   </td>
                   <td><%= link_to last_draft.tasks.count , show_detail_draft_brief_url(last_draft)  %></td>
+                  <td><%= last_draft.start_draft_date   %></td>
                   <td><%= last_draft.granted_deadline_date   %></td>
                 <% end %>
                 

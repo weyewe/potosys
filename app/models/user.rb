@@ -183,6 +183,11 @@ class User < ActiveRecord::Base
   end 
   
   
-
+  def pending_finalization_job_requests
+    JobRequest.joins(:project).where(
+          :user_id => self.id , :is_canceled => false ,
+          :project => {:is_finished => false })
+  end
+  
 
 end
