@@ -704,16 +704,6 @@ module ApplicationHelper
     :header_title => "Account Executive",
     :processes => [
       {
-        :title => "Pre Production Management",
-        :destination_link => "finalize_article_url",
-        :conditions => [
-          {
-            :controller =>'',
-            :action => ''
-          } 
-        ]
-      },
-      {
         :title => "Production Management",
         :destination_link => "select_project_to_manage_production_url",
         :conditions => [
@@ -741,7 +731,7 @@ module ApplicationHelper
         ]
       },
       {
-        :title => "Post Production Management",
+        :title => "Post Production ",
         :destination_link => "select_project_to_monitor_post_production_url",
         :conditions => [
           {
@@ -749,17 +739,7 @@ module ApplicationHelper
             :action => 'select_project_to_monitor_post_production'
           }
         ]
-      },
-      {
-        :title => "Finished Projects",
-        :destination_link => "finalize_article_url",
-        :conditions => [
-          {
-            :controller =>'',
-            :action => ''
-          } 
-        ]
-      }
+      } 
     ]
   }
   
