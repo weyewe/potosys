@@ -118,7 +118,7 @@ class User < ActiveRecord::Base
 =end
   def is_available_for_booking?( request_starting_date, request_ending_date , office)
     
-    job_requests_between( request_starting_date, request_ending_date , office).count == 0  
+    job_requests_between( request_starting_date, request_ending_date , office).count == 0   
             
   end
   
@@ -130,7 +130,25 @@ class User < ActiveRecord::Base
       (starting_date.gte request_starting_date) & 
       (ending_date.lte request_ending_date) 
     }
-  end
+    
+    self.job_requests.where{
+      (job_request_source.eq JOB_REQUEST_SOURCE[:crew_booking]) & 
+      (is_canceled.eq false) & 
+      (office_id.eq office.id ) & 
+      ( (
+        # to capture existing job request between request starting date and request ending date 
+        (starting_date.gte request_starting_date) & 
+        (ending_date.lte request_ending_date)
+      ) | 
+      (
+        # to capture the existing job request encompassing starting date and request ending date
+        (starting_date.lte request_starting_date) & 
+        (ending_date.gte request_ending_date )
+        
+      ) ) 
+      
+    }
+  end 
   
   def booked_job_requests(office)
     request_starting_date = DateTime.now.yesterday.to_date
