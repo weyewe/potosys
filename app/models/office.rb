@@ -348,6 +348,11 @@ class Office < ActiveRecord::Base
     self.sales_orders.joins(:client).where(:is_confirmed => false, :is_canceled => false )
   end
   
+  def confirmed_unfinalized_sales_orders
+    self.sales_orders.joins(:client).where(:is_confirmed => false, :is_canceled => false , 
+    :is_confirmed => true ) .order("created_at DESC") 
+  end
+  
 =begin
   START PROJECT
 =end

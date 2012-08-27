@@ -91,6 +91,7 @@ CollinsPotosys::Application.routes.draw do
   Create Sales Order 
 =end
   match 'pending_confirmation_sales_orders' => 'offices#pending_confirmation_sales_orders', :as => :pending_confirmation_sales_orders
+  match 'confirmed_unfinalized_sales_orders' => 'offices#confirmed_unfinalized_sales_orders', :as => :confirmed_unfinalized_sales_orders # download receipt? 
 
   match 'search_client_for_single_package_sales_order' => 'clients#search_client_for_single_package_sales_order', :as => :search_client_for_single_package_sales_order
   match 'select_package_for_single_package_sales_order/:client_id' => 'packages#select_package_for_single_package_sales_order', :as => :select_package_for_single_package_sales_order

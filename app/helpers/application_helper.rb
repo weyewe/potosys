@@ -561,7 +561,18 @@ module ApplicationHelper
             :action => 'pending_confirmation_sales_orders'
           } 
         ]
-      }, 
+      },
+      # download receipt? yeah right  
+      {
+        :title => "Confirmed Sales Order",
+        :destination_link => "confirmed_unfinalized_sales_orders_url",
+        :conditions => [
+          {
+            :controller =>'offices',
+            :action => 'confirmed_unfinalized_sales_orders'
+          } 
+        ]
+      },
       {
         :title => "Crew Calendar",
         :destination_link => "select_crew_to_view_calendar_url",

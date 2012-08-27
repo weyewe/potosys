@@ -84,6 +84,11 @@ class OfficesController < ApplicationController
     @sales_orders = current_office.pending_confirmation_sales_orders
     add_breadcrumb "Pending Confirmation", pending_confirmation_sales_orders_url
   end
+  
+  def confirmed_unfinalized_sales_orders
+    @sales_orders = current_office.confirmed_unfinalized_sales_orders
+    add_breadcrumb "Pending Confirmation", pending_confirmation_sales_orders_url
+  end
 =begin
   SALES AND MARKETING MANAGEMENT 
 =end
