@@ -340,6 +340,10 @@ class Project < ActiveRecord::Base
     User.find_by_id self.selected_pro_crew_id
   end
   
+  def can_be_closed?
+    self.deliverable_items.where(:is_delivered => true).count == self.deliverable_items.count   
+  end
+  
 =begin
   DRAFTS
 =end
@@ -555,6 +559,26 @@ class Project < ActiveRecord::Base
     end
     
     return job_requests_package
+  end
+  
+=begin
+  CLOSE PROJECT 
+=end
+
+  def close_project(employee)
+    if not employee.has_role?(:project_manager_head)
+      return nil
+    end
+    
+    if not employee.active_job_attachment.office_id == self.office_id 
+      return nil 
+    end
+    
+    self.is_finished = true 
+    self.finish_date = DateTime.now.to_date 
+    self.save 
+    
+    
   end
   
 end

@@ -202,7 +202,14 @@ CollinsPotosys::Application.routes.draw do
   
   
   
+=begin
+  CLOSING THE PROJECT 
+=end
+
+  match 'select_project_to_be_closed' => 'projects#select_project_to_be_closed', :as => :select_project_to_be_closed
+  match 'execute_project_closing' => 'projects#execute_project_closing', :as => :execute_project_closing, :method => :post 
   
+  match 'show_finished_projects' => 'projects#show_finished_projects', :as => :show_finished_projects
   
   
   

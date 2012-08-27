@@ -253,7 +253,11 @@ class Office < ActiveRecord::Base
   BEGINNING OF BACKOFFICE WORK , PROJECT MANAGEMENT HEAD
 =end
   def active_projects
-    self.projects.where(:is_canceled => false)
+    self.projects.where(:is_canceled => false, :is_finished => false )
+  end
+  
+  def finished_projects
+    self.projects.where(:is_canceled => false, :is_finished => true).order("finish_date DESC")
   end
   
   def Office.all_crew_role_id_list

@@ -1,7 +1,12 @@
 
 <div class="span9 content">
   <%= create_guide("Assign Role", 
-        "Office: <b>#{current_office.name}</b>"   ).html_safe %>
+        "Office: <b>#{current_office.name}</b>" + "<br />" + 
+        "Project: <b>#{@project.title}</b>"  + "<br />" + 
+        "Package: <b>#{@package.name}</b>"  + "<br />" + 
+        "Deliverables: <b>#{@project.deliverable_items.count}</b>"  + "<br />" + 
+        "Client: <b>#{@client.name}</b>"  + "<br />" + 
+        "Role: <b>#{@project_role.name}</b>"  ).html_safe %>
   
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
  

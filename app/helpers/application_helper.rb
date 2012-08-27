@@ -640,33 +640,21 @@ module ApplicationHelper
       } ,
       {
         :title => "Monitor Projects + Close",
-        :destination_link => "finalize_article_url",
+        :destination_link => "select_project_to_be_closed_url",
         :conditions => [
           {
-            :controller =>'articles',
-            :action => 'finalize_article'
-          },
-          {
-            :controller => "articles",
-            :action => 'edit_article_content'
-          },
-          {
-            :controller => "articles",
-            :action => "edit_image_ordering"
-          },
-          {
-            :controller => 'articles',
-            :action => 'edit_publication'
-          }
+            :controller =>'projects',
+            :action => 'select_project_to_be_closed'
+          } 
         ]
       },
       {
         :title => "Finished Project",
-        :destination_link => "select_project_to_be_started_url",
+        :destination_link => "show_finished_projects_url",
         :conditions => [
           {
-            :controller =>'',
-            :action => ''
+            :controller =>'projects',
+            :action => 'show_finished_projects'
           } 
         ]
       }

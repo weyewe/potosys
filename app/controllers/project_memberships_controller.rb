@@ -1,6 +1,8 @@
 class ProjectMembershipsController < ApplicationController
   def assign_member_with_selected_project_role_to_project
     @project = Project.find_by_id params[:project_id]
+    @client = @project.sales_order.client
+    @package = @project.package
     @project_role = ProjectRole.find_by_id params[:project_role_id]
     @employees = current_office.elligible_employees_for_project_role(@project_role)
     

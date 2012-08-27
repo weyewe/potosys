@@ -101,7 +101,7 @@ class ProjectsController < ApplicationController
   BEGINNING OF BACKOFFICE WORK , PROJECT MANAGEMENT HEAD
 =end
   def select_project_for_project_membership_assignment
-    @projects = current_office.active_projects
+    @projects = current_office.active_projects.order("shoot_date ASC")
     
     add_breadcrumb "Select Project", 'select_project_for_project_membership_assignment_url'
     render :file => "projects/project_memberships/select_project_for_project_membership_assignment"
@@ -111,6 +111,7 @@ class ProjectsController < ApplicationController
     @project = Project.find_by_id params[:project_id]
     @package = @project.package
     @project_roles = ProjectRole.order("created_at DESC")
+    @client = @project.sales_order.client 
     
     add_breadcrumb "Select Project", 'select_project_for_project_membership_assignment_url'
     set_breadcrumb_for @project, 'select_role_to_assign_employee_url' + "(#{@project.id})", 
@@ -238,6 +239,24 @@ class ProjectsController < ApplicationController
     add_breadcrumb "Select Project", 'select_project_to_update_production_progress_url'
     
     render :file => "projects/project_management/select_project_to_update_production_progress"
+  end
+  
+=begin
+  CLOSE FINISHED PROJECT
+=end
+  def select_project_to_be_closed
+    @projects= current_office.active_projects.order("shoot_date ASC")
+    add_breadcrumb "Select Project", 'select_project_to_be_closed_url'
+  end
+  
+  def execute_project_closing
+    @project = Project.find_by_id params[:entity_id]
+    @project.close_project( current_user )
+  end
+  
+  def show_finished_projects
+    @projects = current_office.finished_projects 
+    add_breadcrumb "Finished Projects", 'show_finished_projects_url'
   end
   
 end

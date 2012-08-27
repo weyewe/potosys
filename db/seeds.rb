@@ -70,6 +70,22 @@ project_manager  = office.create_user( [project_management_role],
                     :password => 'willy1234',
                     :password_confirmation => 'willy1234'  )
                     
+                    
+pm2  = office.create_user( [project_management_role], 
+                    :email => 'pm2@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+                    
+pm3  = office.create_user( [project_management_role], 
+                    :email => 'pm3@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+ 
+pm4  = office.create_user( [project_management_role], 
+                    :email => 'pm4@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+                    
 graphic_designer_head = office.create_user( [graphic_designer_head_role], 
                     :email => 'graphic_designer_head@gmail.com',
                     :password => 'willy1234',
@@ -105,8 +121,33 @@ post_production = office.create_user( [post_production_role],
                     :password => 'willy1234',
                     :password_confirmation => 'willy1234'  )
                     
-account_executive =   office.create_user( [account_executive_role,graphic_designer_role], 
+pp2 = office.create_user( [post_production_role], 
+                    :email => 'pp2@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+    
+pp3 = office.create_user( [post_production_role], 
+                    :email => 'pp3@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+ 
+pp4 = office.create_user( [post_production_role], 
+                    :email => 'pp4@gmail.com',
+                    :password => 'willy1234',
+                    :password_confirmation => 'willy1234'  )
+
+account_executive =   office.create_user( [account_executive_role], 
                       :email => 'ae@gmail.com',
+                      :password => 'willy1234',
+                      :password_confirmation => 'willy1234'  )
+ 
+ae2 =   office.create_user( [account_executive_role], 
+                      :email => 'ae2@gmail.com',
+                      :password => 'willy1234',
+                      :password_confirmation => 'willy1234'  )
+        
+ae3 =   office.create_user( [account_executive_role], 
+                      :email => 'ae3@gmail.com',
                       :password => 'willy1234',
                       :password_confirmation => 'willy1234'  )
 
@@ -385,7 +426,12 @@ puts "gonna create 7 past projects, and finish it before Date.now"
   project.create_corresponding_job_request_for_crew_specific_pricing
   sales_order = project.sales_order # after_create project, sales order creation 
   #  confirm sales order 
-  sales_order.confirm_sales_order(marketing_employee_1, :total_transaction_amount => '15000000')
+  
+  price = project.project_price 
+ 
+  price =   ( ( 80.0 +  rand(21) )/100  )* price  
+  puts "The final price(string): #{price.to_s}"
+  sales_order.confirm_sales_order(marketing_employee_1, :total_transaction_amount => price.to_s )
   
   # add project membership : must have account executive, graphic designer, post_production, project_manager 
   project.add_project_membership( project_manager_head, account_executive,  account_executive_project_role , false )

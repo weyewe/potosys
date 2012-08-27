@@ -69,6 +69,8 @@
         <thead>
           <tr>
             <th>Creator</th>
+            <th>Client</th>
+            <th>Title</th>
             <th>Package</th>
             <th>Total Amount</th> 
             <th>Status</th> 
@@ -79,6 +81,13 @@
           <% @sales_orders.each do |sales_order| %>
             <tr>
               <td><%= sales_order.creator.email %></td>
+              <td><%= sales_order.client.name %></td>
+              
+              <td>
+                <% sales_order.projects.each do |project| %>
+                  <%= project.title %> <br />
+                <% end %>
+              </td>
               <td> 
                 <% sales_order.projects.each do |project|   %>
                   <%= project.package.name %>  <br />

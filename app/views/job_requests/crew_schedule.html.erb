@@ -1,7 +1,8 @@
 
 <div class="span9 content">
   <%= create_guide("Crew Schedule", 
-        "Office: <b>#{current_office.name}</b>"  ).html_safe %>
+        "Office: <b>#{current_office.name}</b>" + "<br />" + 
+        "Crew: <b>#{@user.email}</b>"  ).html_safe %>
   
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
   <% if flash[:notice] %>

@@ -69,6 +69,7 @@
         <thead>
           <tr>
             <th>Employee</th>
+            <th>Client</th>
             <th>Summary</th>
             <th>Description</th> 
             <th>Contact Date</th> 
@@ -78,6 +79,7 @@
           <% @contact_reports.each do |contact_report| %>
             <tr>
               <td><%= contact_report.user.email %></td>
+              <td><%= contact_report.client.name %></td>
               <td><%= contact_report.summary   %></td>
               <td><%= contact_report.description   %></td>
               <td><%= format_date_from_datetime( contact_report.contact_datetime)   %></td>

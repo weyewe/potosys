@@ -1,0 +1,5 @@
+$(document).ready(function(){
+  <% if @project.is_finished == true %>
+    $("#close_project-<%= @project.id %>").remove();
+  <% end %>
+});

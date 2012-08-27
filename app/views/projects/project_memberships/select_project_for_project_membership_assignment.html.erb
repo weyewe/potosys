@@ -1,7 +1,7 @@
 
 <div class="span9 content">
   <%= create_guide("Project Assignment", 
-        "Select project to <b>assign employee</b>" + "<br />" + 
+        "Select active project to <b>assign employee</b>" + "<br />" + 
         "Office: <b>#{current_office.name}</b>"   ).html_safe %>
   
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
@@ -46,7 +46,26 @@
         <tbody>
           <% @projects.each do |project| %>
             <tr>
-              <td><%= link_to project.title, select_role_to_assign_employee_url(project)  %></td>
+              <td>
+                
+                <%= link_to project.title, select_role_to_assign_employee_url(project)  %>
+                
+                
+                
+                <% if project.is_started == false %>
+                  <span class="label">Not Started</span>
+                <% end %> 
+                 
+                
+                <% if project.is_started == true  and project.can_be_closed? == false %>
+                  <span class="label label-success">Started</span>
+                <% elsif project.is_started == true  and project.can_be_closed? == true %>
+                  <span class="label label-success">Finish. Pending Closing.</span>
+                <% end %>
+                
+                  
+                  
+              </td>
               <td><%= project.shoot_location  %></td>
               <td><%= project.package.name  %></td>
               <td><%= project.deliverables.count  %></td>
