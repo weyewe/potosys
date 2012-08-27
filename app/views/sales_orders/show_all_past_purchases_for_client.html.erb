@@ -6,6 +6,14 @@
         "Client: <b>#{@client.name}</b>"  + "<br />" + 
         "Total Sales Order: <b>#{@total_sales_order_count}</b>"   ).html_safe %>
   
+  <ul class="pager">
+    <li class="previous">
+      <%= link_to " ← Back to Search Result for #{params[:client_name]}",  
+        search_client_for_marketing_interaction_url( :client_name => params[:client_name] ) %>
+    </li>
+  </ul>
+  
+  
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
   
   <div class="row-fluid">

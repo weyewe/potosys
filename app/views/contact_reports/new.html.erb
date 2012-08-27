@@ -6,6 +6,16 @@
         "Client: <b>#{@client.name}</b>"  + "<br />" + 
         "Total Contact Report: <b>#{@total_contact_report}</b>"   ).html_safe %>
   
+  
+  
+  
+  
+  <ul class="pager">
+    <li class="previous">
+      <%= link_to " ← Back to Search Result for #{params[:client_name]}",  
+        search_client_for_marketing_interaction_url( :client_name => params[:client_name] ) %>
+    </li>
+  </ul>
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
   
   

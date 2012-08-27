@@ -129,6 +129,15 @@ class DeliverableItemsController < ApplicationController
     end
   end
   
+  
+  def execute_destroy_deliverable_item_single_package_sales_order
+    @deliverable_item =   DeliverableItem.find params[:entity_id]
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    # special for single package sales order -> single project
+    @project = @sales_order.projects.first 
+    @project.remove_deliverable_item(current_user, @deliverable_item) 
+  end
+  
 =begin
   Just listing the deliverable items based on 3 status: pending start,pending finish, pending delivery
 =end

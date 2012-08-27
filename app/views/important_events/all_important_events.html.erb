@@ -58,6 +58,8 @@
         <thead>
           <tr>
             <th>Creator</th>
+            <th>Client</th>
+            <th>Last Contact Date</th>
             <th>Title</th>
             <th>Description</th>
             <th>Event Date (MM/DD/YYYY)</th>
@@ -72,6 +74,8 @@
           <% @important_events.each do |important_event| %>
             <tr>
               <td><%= important_event.creator.email  %></td>
+              <td><%= important_event.client.name %></td>
+              <td><%= format_date_from_datetime( important_event.client.last_contact_report.contact_datetime )  %></td>
               <td><%= important_event.title  %></td>
               <td><%= important_event.description  %></td>
               <td><%= format_date_from_datetime( important_event.event_date)   %></td>

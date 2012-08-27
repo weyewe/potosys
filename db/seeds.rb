@@ -173,7 +173,7 @@ puts "Assign deliverable to Package"
 # puts "\n creating package"
 puts "create package"
 package_1 = office.create_package( admin_employee, :name => "Junia Candid Photo Sessions", 
-              :base_price => "5000000",
+              :base_price => "1000000",
               :number_of_crew => 2,  
               :is_crew_specific_pricing => true ) # if it is crew specific, the client can choose the main crew 
               
@@ -181,7 +181,7 @@ package_1.assign_deliverable(admin_employee, :deliverable_id => cd_high_res_pics
 package_1.assign_deliverable(admin_employee, :deliverable_id => framed_canvas_60_x_40_deliverable.id, :package_specific_sub_item_quantity => '15' )
 
 package_1.assign_crew_to_package( benny , admin_employee )
-package_1.edit_crew_specific_pricing(benny, admin_employee, '15000000' )
+package_1.edit_crew_specific_pricing(benny, admin_employee, '20000000' )
 
 package_1.assign_crew_to_package( max , admin_employee )
 package_1.edit_crew_specific_pricing(max, admin_employee, '15000000' )
@@ -189,6 +189,51 @@ package_1.edit_crew_specific_pricing(max, admin_employee, '15000000' )
 
 package_1.assign_crew_to_package( rere , admin_employee )
 package_1.edit_crew_specific_pricing(rere, admin_employee, '10000000' )
+
+puts "create package 2: nomina baby wash"
+
+package_2 = office.create_package( admin_employee, :name => "Junia Maternity Sessions", 
+              :base_price => "2000000",
+              :number_of_crew => 1,  
+              :is_crew_specific_pricing => true ) # if it is crew specific, the client can choose the main crew 
+              
+package_2.assign_deliverable(admin_employee, :deliverable_id => cd_high_res_pics_deliverable.id, :package_specific_sub_item_quantity => '15' )
+package_2.assign_deliverable(admin_employee, :deliverable_id => framed_canvas_60_x_40_deliverable.id, :package_specific_sub_item_quantity => '15' )
+
+package_2.assign_crew_to_package( benny , admin_employee )
+package_2.edit_crew_specific_pricing(benny, admin_employee, '25000000' )
+
+package_2.assign_crew_to_package( max , admin_employee )
+package_2.edit_crew_specific_pricing(max, admin_employee, '17500000' )
+
+
+package_2.assign_crew_to_package( rere , admin_employee )
+package_2.edit_crew_specific_pricing(rere, admin_employee, '15000000' )
+
+
+puts "create package 3: nomina mommy and child"
+
+package_3 = office.create_package( admin_employee, :name => "Junia Mommy and Child", 
+              :base_price => "2000000",
+              :number_of_crew => 1,  
+              :is_crew_specific_pricing => true ) # if it is crew specific, the client can choose the main crew 
+              
+package_3.assign_deliverable(admin_employee, :deliverable_id => cd_high_res_pics_deliverable.id, :package_specific_sub_item_quantity => '15' )
+package_3.assign_deliverable(admin_employee, :deliverable_id => framed_canvas_60_x_40_deliverable.id, :package_specific_sub_item_quantity => '15' )
+
+package_3.assign_crew_to_package( benny , admin_employee )
+package_3.edit_crew_specific_pricing(benny, admin_employee, '30000000' )
+
+package_3.assign_crew_to_package( max , admin_employee )
+package_3.edit_crew_specific_pricing(max, admin_employee, '20500000' )
+
+
+package_3.assign_crew_to_package( rere , admin_employee )
+package_3.edit_crew_specific_pricing(rere, admin_employee, '17000000' )
+
+
+
+
 
 puts "\n************Creating Client***********"
 client_array = [] 
@@ -226,6 +271,24 @@ end
 client_1 = client_array[0]
 puts "\n************Creating Contact Report***********"
 
+today_date = DateTime.now.yesterday.to_date
+last_month_date = today_date - 45.days
+summary_array = ["Request for Wedding Shot", "Negotiating the final price", "Follow up POST-EVENT", 
+        "Follow up for potential sales closing on important events"]
+
+(1..100).each do |day_count|
+  date = today_date - day_count.days 
+  contact_report_1 = ContactReport.create_by_employee( marketing_employee_1 , client_array[ rand( client_array.length ) ] , 
+                                  15.to_s,
+                                  :contact_datetime => "#{date.month}/#{date.day}/#{date.year}", 
+                                  :summary => summary_array[rand(summary_array.length)],
+                                  :description => "The client is asking for wedding shot for 12 September 2012. " + 
+                                  "However, he thinks that the quoted " + 
+                                  "price is way too expensive." 
+                                  )
+  
+end
+
 puts "contact report 1 "
 contact_report_1 = ContactReport.create_by_employee( marketing_employee_1 , client_1 , 
                                 15.to_s,
@@ -245,7 +308,19 @@ contact_report_2 = ContactReport.create_by_employee( marketing_employee_1 , clie
                                 "This client's point is agreeable since it is the low season." 
                                 )
                                 
-puts "creating important event"                
+puts "creating important event" 
+important_event_title_array= ["Wedding Day", "Son's Bday", "Wife's Bday", "Client's Bday", "Baby Birth"]               
+(1..100).each do |day_count|
+  if rand(2) == 1 
+    date = today_date + ( rand(4)*(day_count%100)).days 
+  else
+    date = today_date - ( rand(4)*(day_count%100)).days 
+  end
+  important_event = ImportantEvent.create_by_employee( marketing_employee_1, client_array[ rand( client_array.length ) ],  
+                                        :event_date => "#{date.month}/#{date.day}/#{date.year}",
+                                        :is_repeating_annually => true,
+                                        :title => important_event_title_array[ rand(important_event_title_array.length)])
+end
 
 important_event_1 = ImportantEvent.create_by_employee( marketing_employee_1, client_1,  
                                       :event_date => '9/20/2012',
@@ -261,11 +336,11 @@ puts "\n****************Create Project***************\n"
 
 pro_crew_array = [benny, max,rere]
 gd_array = [graphic_designer_1, graphic_designer_2, graphic_designer_3]
+package_array = [package_1,package_2 ,package_3 ]
 finished_project_array = [] 
 finished_production_array = [] 
 puts "gonna create 7 past projects, and finish it before Date.now"
-today_date = DateTime.now.yesterday.to_date
-last_month_date = today_date - 45.days
+
 (1..7).each do |count|
   pro_crew = pro_crew_array[ rand(pro_crew_array.length) ] 
   project_shoot_date   = last_month_date + (count*5).days 
@@ -301,7 +376,7 @@ last_month_date = today_date - 45.days
 
   project.selected_pro_crew_id =  pro_crew.id
   project.client_id = client.id 
-  project.package_id = package_1.id 
+  project.package_id = package_array[rand(package_array.length)].id 
   project.creator_id = marketing_employee_1.id 
   project.office_id = office.id 
   project.save

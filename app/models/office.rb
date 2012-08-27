@@ -342,6 +342,13 @@ class Office < ActiveRecord::Base
   end
   
 =begin
+  Sales Order Finalization 
+=end
+  def pending_confirmation_sales_orders
+    self.sales_orders.joins(:client).where(:is_confirmed => false, :is_canceled => false )
+  end
+  
+=begin
   START PROJECT
 =end
   def pending_start_projects

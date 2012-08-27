@@ -554,24 +554,14 @@ module ApplicationHelper
       },
       {
         :title => "Pending Confirmation",
-        :destination_link => "select_crew_to_view_calendar_url",
+        :destination_link => "pending_confirmation_sales_orders_url",
         :conditions => [
           {
-            :controller =>'',
-            :action => ''
+            :controller =>'offices',
+            :action => 'pending_confirmation_sales_orders'
           } 
         ]
-      },
-      {
-        :title => "Confirmed",
-        :destination_link => "select_crew_to_view_calendar_url",
-        :conditions => [
-          {
-            :controller =>'',
-            :action => ''
-          } 
-        ]
-      },
+      }, 
       {
         :title => "Crew Calendar",
         :destination_link => "select_crew_to_view_calendar_url",

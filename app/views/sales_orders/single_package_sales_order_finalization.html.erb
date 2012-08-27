@@ -107,31 +107,9 @@
           
         <tbody>
           <% @deliverable_items.each do |deliverable_item| %>
-            <tr>
-              <td><%= deliverable_item.deliverable.name   %></td>
-              <td><%= deliverable_item.project_specific_description  %></td>
-              <td><%= print_money( deliverable_item.deliverable.independent_price ) %></td>
-              
-              <% if deliverable_item.deliverable.has_sub_item == true %>
-                <td><%= deliverable_item.deliverable.sub_item_name  %></td>
-                <td><%= deliverable_item.sub_item_quantity  %></td>
-                <td><%= deliverable_item.deliverable.sub_item_quantity  %></td>
-                <td><%= print_money( deliverable_item.deliverable.independent_sub_item_price ) %></td>
-                
-              <% else %>
-                <td colspan='4' style='text-align:center;'><span class="label label-important">No Sub Item</span> </td>
-              <% end %>
-              
-              
-                <td>
-                  Edit
-                </td>
-                <td>
-                  <a href="#" class="btn propose action"
-                      id="finalize-<%= deliverable_item.id %>">Remove</a> 
-                </td>
-              
-            </tr>
+            <%= render :partial => "sales_orders/sales_order_finalization/deliverable_item_entry", :locals => {
+              :deliverable_item => deliverable_item 
+            } %> 
           <% end %>
 
         </tbody>
@@ -192,7 +170,7 @@
 
 
 <div class=" hidden" id="approve_propose_form_wrapper">
-  <%= form_for DeliverableItem.new, :url => execute_destroy_deliverable_item_single_package_sales_order_url    do |f| %>
+  <%= form_for DeliverableItem.new, :url => execute_destroy_deliverable_item_single_package_sales_order_url(@sales_order)    do |f| %>
     <%= hidden_field_tag 'entity_id' , ''  %>
     <%= hidden_field_tag 'action_role', '' %>
     <%= hidden_field_tag 'action_value', '' %>

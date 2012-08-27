@@ -81,9 +81,12 @@
               <td><%= client.home_phone  %></td>
               <td><%= client.bb_pin  %></td>
               <td><%= client.email  %></td>
-              <td><%= link_to  client.contact_reports.count, new_client_contact_report_url(client)  %></td>
-              <td><%= link_to client.sales_orders.count , show_all_past_purchases_for_client_url(client) %></td>
-              <td><%= link_to client.important_events.count , new_client_important_event_url(client)   %></td>
+              <td><%= link_to  client.contact_reports.count, 
+                new_client_contact_report_url(client, :client_name => params[:client_name] )  %></td>
+              <td><%= link_to client.sales_orders.count , 
+                show_all_past_purchases_for_client_url(client, :client_name => params[:client_name]) %></td>
+              <td><%= link_to client.important_events.count , 
+                new_client_important_event_url(client, :client_name => params[:client_name])   %></td>
             
               
               

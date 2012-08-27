@@ -263,7 +263,20 @@ class Project < ActiveRecord::Base
   end
   
   
-  
+=begin
+  CONFIRMING THE SALES ORDER : adjusting the deliverables 
+=end  
+  def remove_deliverable_item(employee, deliverable_item)
+    if not employee.has_role?(:marketing)
+      return nil
+    end
+    
+    if self.deliverable_items.where(:id => deliverable_item.id ).count == 0 
+      return nil 
+    end
+    
+    deliverable_item.destroy 
+  end
 
 
 =begin

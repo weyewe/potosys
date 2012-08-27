@@ -1,0 +1,25 @@
+<tr id='deliverable_item-<%= deliverable_item.id %>'>
+  <td><%= deliverable_item.deliverable.name   %></td>
+  <td><%= deliverable_item.project_specific_description  %></td>
+  <td><%= print_money( deliverable_item.deliverable.independent_price ) %></td>
+  
+  <% if deliverable_item.deliverable.has_sub_item == true %>
+    <td><%= deliverable_item.deliverable.sub_item_name  %></td>
+    <td><%= deliverable_item.sub_item_quantity  %></td>
+    <td><%= deliverable_item.deliverable.sub_item_quantity  %></td>
+    <td><%= print_money( deliverable_item.deliverable.independent_sub_item_price ) %></td>
+    
+  <% else %>
+    <td colspan='4' style='text-align:center;'><span class="label label-important">No Sub Item</span> </td>
+  <% end %>
+  
+  
+    <td>
+      Edit
+    </td>
+    <td>
+      <a href="#" class="btn propose action"
+          id="finalize-<%= deliverable_item.id %>">Remove</a> 
+    </td>
+  
+</tr>

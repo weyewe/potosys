@@ -6,6 +6,15 @@
         "Client: <b>#{@client.name}</b>"  + "<br />" + 
         "Total Important Event: <b>#{@total_important_event_count}</b>"   ).html_safe %>
   
+  
+  <ul class="pager">
+    <li class="previous">
+      <%= link_to " ← Back to Search Result for #{params[:client_name]}",  
+        search_client_for_marketing_interaction_url( :client_name => params[:client_name] ) %>
+    </li>
+  </ul>
+  
+  
   <%= create_breadcrumb(@breadcrumbs).html_safe %>
   
   
@@ -30,16 +39,7 @@
           
           <!-- http://stackoverflow.com/questions/7102020/use-active-record-to-find-a-record-by-month-and-day-ignoring-year-and-time?rq=1 -->
           
-        <% if @new_important_event.event_date.nil? %>
-          <%= f.input :event_date , :input_html => { :rows => 1, 
-              :class => "input-xlarge"}, 
-              :label => "Event  Date", :hint => "Event Date (MM/DD/YYYY)", :as => :text, 
-              :input_html => {
-                :rows => 1, 
-                'data-datepicker' => 'datepicker'
-          }
-           %>
-        <% else %>
+    
           <%= f.input :event_date , :input_html => { :rows => 1, 
               :class => "input-xlarge"}, 
               :label => "Event  Date", :hint => "Event Date (MM/DD/YYYY)", :as => :text, 
@@ -47,8 +47,7 @@
                 :value => format_date_from_datetime( @new_important_event.event_date  ), 
                 :rows => 1, 
                 'data-datepicker' => 'datepicker'
-          } %>
-        <% end %>
+          } %> 
         
         <%= f.input :is_repeating_annually , 
           :label => "Is Annual Event?", :hint => "Check if yes, leave blank if it is one-time event." %>

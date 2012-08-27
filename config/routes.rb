@@ -90,6 +90,7 @@ CollinsPotosys::Application.routes.draw do
 =begin
   Create Sales Order 
 =end
+  match 'pending_confirmation_sales_orders' => 'offices#pending_confirmation_sales_orders', :as => :pending_confirmation_sales_orders
 
   match 'search_client_for_single_package_sales_order' => 'clients#search_client_for_single_package_sales_order', :as => :search_client_for_single_package_sales_order
   match 'select_package_for_single_package_sales_order/:client_id' => 'packages#select_package_for_single_package_sales_order', :as => :select_package_for_single_package_sales_order
@@ -100,10 +101,12 @@ CollinsPotosys::Application.routes.draw do
   
   # for non-crew-specific-pricing, just Finalize the project / sales order 
   
+  
+  
   # then, confirm the sales order. By confirming, it means we can't reduce the number of deliverable items. adding is fine. 
   match 'single_package_sales_order_finalization/:sales_order_id' => 'sales_orders#single_package_sales_order_finalization', :as => :single_package_sales_order_finalization  
   match 'create_new_deliverable_item_from_single_package_sales_order_finalization/:sales_order_id' => 'sales_orders#create_new_deliverable_item_from_single_package_sales_order_finalization', :as => :create_new_deliverable_item_from_single_package_sales_order_finalization, :method => :post
-  match 'execute_destroy_deliverable_item_single_package_sales_order' => 'deliverable_items#execute_destroy_deliverable_item_single_package_sales_order' , :as => :execute_destroy_deliverable_item_single_package_sales_order, :method => :post 
+  match 'execute_destroy_deliverable_item_single_package_sales_order/:sales_order_id' => 'deliverable_items#execute_destroy_deliverable_item_single_package_sales_order' , :as => :execute_destroy_deliverable_item_single_package_sales_order, :method => :post 
   match 'finalize_sales_order_single_package/:sales_order_id' => 'sales_orders#finalize_sales_order_single_package' , :as => :finalize_sales_order_single_package, :method => :post 
   match 'single_package_sales_order_finalized/:sales_order_id' => 'sales_orders#single_package_sales_order_finalized' , :as => :single_package_sales_order_finalized 
   match 'cancel_single_package_sales_order/:sales_order_id' => 'sales_orders#cancel_single_package_sales_order' , :as => :cancel_single_package_sales_order, :method => :post 

@@ -15,7 +15,7 @@ class ClientsController < ApplicationController
       @clients = @office.clients.where{ (name =~ name_query)  }
     end
     
-    add_breadcrumb "Search Client", 'search_client_for_marketing_interaction_url'
+    add_breadcrumb "Search Client", 'search_client_for_marketing_interaction_url' 
   end
   
   def create

@@ -111,6 +111,9 @@ class ApplicationController < ActionController::Base
   
 
   protected
+  def add_breadcrumb_with_params name, url='', params 
+  end
+  
   def add_breadcrumb name, url = ''
     @breadcrumbs ||= []
     url = eval(url) if url =~ /_path|_url|@/

@@ -1,0 +1,5 @@
+$(document).ready(function(){
+  <% if @project.deliverable_items.where(:id => params[:entity_id] ).count == 0  %>
+    $("#deliverable_item-<%= params[:entity_id] %>").remove();
+  <% end %>
+});

@@ -16,7 +16,7 @@ class Client < ActiveRecord::Base
   
   
   def unconfirmed_sales_orders( office ) 
-    SalesOrder.where(:office_id => office.id, :is_confirmed => false, :is_canceled => false  )
+    SalesOrder.where(:office_id => office.id, :is_confirmed => false, :is_canceled => false  , :client_id => self.id)
   end
   
   def cancelled_sales_orders(office)
@@ -34,6 +34,10 @@ class Client < ActiveRecord::Base
   
   def pending_sales_order_confirmation(office)
     unconfirmed_sales_orders( office ).first 
+  end
+  
+  def last_contact_report
+    self.contact_reports.order("contact_datetime DESC").first 
   end
   
 end
